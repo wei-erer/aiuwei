@@ -1,0 +1,265 @@
+---
+---
+
+<div class="observatory-console" data-console aria-hidden="true">
+  <div class="observatory-console__backdrop" data-console-close aria-hidden="true"></div>
+
+  <section class="observatory-console__panel" role="dialog" aria-modal="true" aria-labelledby="console-title" tabindex="-1">
+    <header class="observatory-console__head">
+      <div>
+        <span class="label">AIUWEI / OBSERVATORY TERMINAL</span>
+        <h2 id="console-title">观测终端</h2>
+      </div>
+      <button type="button" class="observatory-console__close" data-console-close aria-label="关闭终端">ESC</button>
+    </header>
+
+    <div class="observatory-console__log" data-console-log aria-live="polite">
+      <p class="console-line console-line--dim">AIUWEI terminal v0.4 / deck 07</p>
+      <p class="console-line">输入 <strong>help</strong> 查看可用命令。这不是装饰，真的可以操作。</p>
+    </div>
+
+    <form class="observatory-console__form" data-console-form>
+      <label class="sr-only" for="console-input">终端命令</label>
+      <span class="observatory-console__prompt" aria-hidden="true">wei_er@aiuwei:~$</span>
+      <input id="console-input" data-console-input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" />
+    </form>
+
+    <footer class="observatory-console__foot">
+      <span><b>help</b> 命令</span>
+      <span><b>Esc</b> 关闭</span>
+      <span><b>↑ ↓</b> 历史</span>
+      <span><b>Ctrl K</b> 打开</span>
+    </footer>
+  </section>
+</div>
+
+<script>
+  import '../scripts/console.js';
+</script>
+
+<style>
+  .observatory-console {
+    position: fixed;
+    inset: 0;
+    z-index: 950;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease, visibility 0.25s;
+  }
+
+  .observatory-console.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .observatory-console__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 4, 9, 0.74);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .observatory-console__panel {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    width: min(780px, 100%);
+    max-height: min(680px, 76vh);
+    flex-direction: column;
+    border: 1px solid var(--line-strong);
+    background:
+      radial-gradient(ellipse 80% 60% at 80% 0%, rgba(20, 70, 108, 0.22), transparent 65%),
+      #030b14;
+    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.7);
+    transform: translateY(12px) scale(0.99);
+    transition: transform 0.3s var(--ease);
+  }
+
+  .observatory-console.is-open .observatory-console__panel {
+    transform: none;
+  }
+
+  .observatory-console__panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.14;
+    background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(160, 225, 255, 0.08) 4px);
+    mix-blend-mode: screen;
+  }
+
+  .observatory-console__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 22px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .observatory-console__head h2 {
+    margin-top: 6px;
+    color: var(--ice);
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 0.06em;
+  }
+
+  .observatory-console__close {
+    flex: 0 0 auto;
+    padding: 5px 8px;
+    border: 1px solid var(--line);
+    color: var(--faint);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .observatory-console__close:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+
+  .observatory-console__log {
+    flex: 1;
+    min-height: 220px;
+    overflow: auto;
+    padding: 18px 22px;
+    color: var(--text-2);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .console-line {
+    margin: 0 0 7px;
+    overflow-wrap: anywhere;
+  }
+
+  .console-line--dim {
+    color: var(--faint);
+  }
+
+  .console-line--cmd {
+    color: var(--cyan);
+  }
+
+  .console-line--ok {
+    color: #9fffd2;
+  }
+
+  .console-line--error {
+    color: #ff9f88;
+  }
+
+  .console-line strong {
+    color: var(--ice);
+    font-weight: 500;
+  }
+
+  .observatory-console__form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: rgba(4, 18, 30, 0.55);
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  .observatory-console__prompt {
+    flex: 0 0 auto;
+    color: var(--cyan);
+    white-space: nowrap;
+  }
+
+  .observatory-console__form input {
+    width: 100%;
+    min-width: 0;
+    padding: 3px 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--ice);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    caret-color: var(--cyan);
+  }
+
+  .observatory-console__foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    padding: 10px 22px 12px;
+    color: var(--faint);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.04em;
+  }
+
+  .observatory-console__foot b {
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .header__console {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    color: var(--muted);
+    transition: color 0.2s ease;
+  }
+
+  .header__console:hover {
+    color: var(--cyan);
+  }
+
+  .header__console svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  @media (max-width: 700px) {
+    .observatory-console {
+      align-items: flex-end;
+      padding: 0;
+    }
+
+    .observatory-console__panel {
+      width: 100%;
+      max-height: 82vh;
+      border-right: 0;
+      border-bottom: 0;
+      border-left: 0;
+    }
+
+    .observatory-console__head {
+      padding: 16px 18px 12px;
+    }
+
+    .observatory-console__log {
+      padding: 14px 18px;
+      font-size: 12px;
+    }
+
+    .observatory-console__form {
+      padding: 10px 18px;
+    }
+
+    .observatory-console__foot {
+      padding: 8px 18px 12px;
+    }
+  }
+</style>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleActions from '../../components/ArticleActions.astro';
 import { getPosts, formatDate, readingTime } from '../../lib/content';
 import { href } from '../../data/site';
 
@@ -29,7 +30,7 @@ const readTime = readingTime(post.raw ?? '');
       <div class="container">
         <div class="article__top">
           <a class="article__back" href={href('writing/')}>← 返回观测记录</a>
-          <span class="label">TRANSMISSION / {String(index + 1).padStart(3, '0')}</span>
+          <span class="label">记录 / {String(index + 1).padStart(3, '0')}</span>
         </div>
 
         <p class="kicker">{date} / {readTime}</p>
@@ -46,7 +47,7 @@ const readTime = readingTime(post.raw ?? '');
     <div class="container article__layout">
       {toc.length > 1 ? (
         <aside class="article__toc" aria-label="文章目录">
-          <p class="label">ON THIS PAGE</p>
+          <p class="label">本页目录</p>
           <nav>
             {toc.map((heading) => (
               <a class:list={['article__toc-link', `article__toc-link--${heading.depth}`]} href={`#${heading.slug}`}>
@@ -58,8 +59,8 @@ const readTime = readingTime(post.raw ?? '');
         </aside>
       ) : (
         <div class="article__toc article__toc--empty" aria-hidden="true">
-          <p class="label">TRANSMISSION</p>
-          <span>DEEP SPACE / 2026</span>
+          <p class="label">记录</p>
+          <span>WEI_ER / 2026</span>
         </div>
       )}
 
@@ -67,23 +68,27 @@ const readTime = readingTime(post.raw ?? '');
         <Content />
 
         <div class="article__end">
-          <span class="label">END OF TRANSMISSION / 记录结束</span>
+          <span class="label">记录结束 / END OF TRANSMISSION</span>
           <a class="link" href={href('writing/')}>返回全部记录 ↗</a>
         </div>
       </div>
+    </div>
+
+    <div class="container">
+      <ArticleActions slug={post.slug} />
     </div>
 
     {(newer || older) && (
       <nav class="container article__nav" aria-label="前后文章">
         {older ? (
           <a class="article__nav-item" href={href(`writing/${older.slug}/`)}>
-            <span class="label">← OLDER</span>
+            <span class="label">← 上一篇</span>
             <strong>{older.data.title}</strong>
           </a>
         ) : <span />}
         {newer ? (
           <a class="article__nav-item article__nav-item--next" href={href(`writing/${newer.slug}/`)}>
-            <span class="label">NEWER →</span>
+            <span class="label">下一篇 →</span>
             <strong>{newer.data.title}</strong>
           </a>
         ) : <span />}

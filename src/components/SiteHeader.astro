@@ -45,6 +45,12 @@ function isActive(path) {
           <path d="M12 .7a11.3 11.3 0 0 0-3.57 22.02c.57.1.78-.25.78-.55v-2.13c-3.17.69-3.84-1.34-3.84-1.34-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.75 2.68 1.25 3.33.95.1-.74.4-1.25.73-1.54-2.53-.29-5.2-1.27-5.2-5.63 0-1.24.44-2.26 1.17-3.06-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.14 1.17a10.9 10.9 0 0 1 5.72 0c2.18-1.48 3.14-1.17 3.14-1.17.62 1.57.23 2.73.11 3.02.73.8 1.17 1.82 1.17 3.06 0 4.37-2.68 5.34-5.22 5.62.41.36.78 1.06.78 2.14v3.17c0 .3.21.66.79.55A11.3 11.3 0 0 0 12 .7Z" />
         </svg>
       </a>
+      <button class="header__console" type="button" data-console-open aria-label="打开观测终端（Ctrl+K）" title="观测终端 / Ctrl+K">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="16" rx="1" stroke="currentColor" stroke-width="1.2" />
+          <path d="m7 9 3 3-3 3M13 15h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
       <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu">
         <span class="sr-only">打开导航</span>
         <span></span><span></span>
@@ -225,6 +231,24 @@ function isActive(path) {
   }
 
   .header__github svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .header__console {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    color: var(--muted);
+    transition: color 0.2s ease;
+  }
+
+  .header__console:hover {
+    color: var(--cyan);
+  }
+
+  .header__console svg {
     width: 15px;
     height: 15px;
   }

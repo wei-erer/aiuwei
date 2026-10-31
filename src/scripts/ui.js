@@ -85,3 +85,37 @@ if (yearTargets.length) {
     target.textContent = year;
   });
 }
+
+const hero = document.querySelector('[data-hero-parallax]');
+if (hero && !prefersReduced && window.matchMedia('(pointer: fine)').matches) {
+  const cursor = hero.querySelector('[data-hero-cursor]');
+  let frame = 0;
+  let mx = 0;
+  let my = 0;
+
+  const update = () => {
+    frame = 0;
+    hero.style.setProperty('--mx', mx.toFixed(3));
+    hero.style.setProperty('--my', my.toFixed(3));
+  };
+
+  hero.addEventListener('pointermove', (event) => {
+    const rect = hero.getBoundingClientRect();
+    mx = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    my = ((event.clientY - rect.top) / rect.height) * 2 - 1;
+    hero.classList.add('is-pointer');
+    if (cursor) {
+      cursor.style.left = `${event.clientX - rect.left}px`;
+      cursor.style.top = `${event.clientY - rect.top}px`;
+    }
+    if (!frame) frame = requestAnimationFrame(update);
+  }, { passive: true });
+
+  hero.addEventListener('pointerleave', () => {
+    mx = 0;
+    my = 0;
+    hero.classList.remove('is-pointer');
+    if (!frame) frame = requestAnimationFrame(update);
+  });
+}
+

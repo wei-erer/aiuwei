@@ -7,6 +7,7 @@ import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import OrbitalIntro from '../components/OrbitalIntro.astro';
+import OrbitalConsole from '../components/OrbitalConsole.astro';
 import { site, href } from '../data/site';
 
 interface Props {
@@ -97,6 +98,7 @@ const jsonLd = {
       <slot />
     </main>
     <SiteFooter />
+    <OrbitalConsole />
     {intro && <OrbitalIntro />}
 
     <script>

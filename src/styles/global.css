@@ -76,7 +76,8 @@ body {
 }
 
 body.intro-open,
-body.menu-open {
+body.menu-open,
+body.console-open {
   overflow: hidden;
 }
 

@@ -1,0 +1,271 @@
+---
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<section class="article-actions" data-article-actions data-slug={slug} aria-labelledby="article-actions-title">
+  <div>
+    <p class="kicker">SIGNAL RECEIPT / 回执</p>
+    <h2 id="article-actions-title">这篇记录，<br />对你有用吗？</h2>
+    <p class="article-actions__note">回执只记录在这台设备，不上传，也不做假数据。以后有评论系统再接入真实讨论。</p>
+  </div>
+
+  <div class="article-actions__controls">
+    <div class="reactions" role="group" aria-label="阅读回执">
+      <button type="button" data-reaction="useful" aria-pressed="false"><span aria-hidden="true">◎</span>有用</button>
+      <button type="button" data-reaction="inspired" aria-pressed="false"><span aria-hidden="true">✦</span>有启发</button>
+      <button type="button" data-reaction="lost" aria-pressed="false"><span aria-hidden="true">?</span>没看懂</button>
+    </div>
+    <div class="article-actions__links">
+      <button type="button" class="article-actions__copy" data-copy-link>复制本页链接</button>
+      <span class="label">LOCAL ONLY / 本地</span>
+    </div>
+    <p class="article-actions__status" data-reaction-status aria-live="polite"></p>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector('[data-article-actions]');
+  if (root) {
+    const slug = root.dataset.slug ?? '';
+    const key = `aiuwei:receipt:${slug}`;
+    const buttons = [...root.querySelectorAll('[data-reaction]')];
+    const status = root.querySelector('[data-reaction-status]');
+    const copyButton = root.querySelector('[data-copy-link]');
+
+    const setStatus = (message) => {
+      if (status) status.textContent = message;
+    };
+
+    const apply = (value) => {
+      buttons.forEach((button) => {
+        const active = button.dataset.reaction === value;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+    };
+
+    try {
+      const saved = localStorage.getItem(key);
+      if (saved) {
+        apply(saved);
+        setStatus('已读取这台设备上的上一条回执。');
+      }
+    } catch (_) {
+      /* localStorage may be unavailable. */
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const value = button.dataset.reaction ?? '';
+        const labels = { useful: '有用', inspired: '有启发', lost: '没看懂' };
+        try {
+          if (button.classList.contains('is-active')) {
+            localStorage.removeItem(key);
+            apply('');
+            setStatus('回执已清除。');
+          } else {
+            localStorage.setItem(key, value);
+            apply(value);
+            setStatus(`已记录：${labels[value] ?? value}。只保存在这台设备。`);
+          }
+        } catch (_) {
+          setStatus('浏览器不允许本地记录，但你的点击已经被接住了。');
+        }
+      });
+    });
+
+    copyButton?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        setStatus('链接已复制。');
+      } catch (_) {
+        setStatus('复制失败，请手动复制地址栏。');
+      }
+    });
+
+    document.querySelectorAll('[data-article-body] pre').forEach((pre) => {
+      if (pre.querySelector('.copy-code')) return;
+      pre.classList.add('has-copy');
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'copy-code';
+      button.textContent = '复制代码';
+      button.addEventListener('click', async () => {
+        const code = pre.querySelector('code')?.textContent ?? pre.textContent ?? '';
+        try {
+          await navigator.clipboard.writeText(code);
+          button.textContent = '已复制';
+          window.setTimeout(() => { button.textContent = '复制代码'; }, 1600);
+        } catch (_) {
+          button.textContent = '复制失败';
+          window.setTimeout(() => { button.textContent = '复制代码'; }, 1600);
+        }
+      });
+      pre.appendChild(button);
+    });
+
+    const links = [...document.querySelectorAll('.article__toc-link')];
+    const headings = [...document.querySelectorAll('[data-article-body] h2[id], [data-article-body] h3[id]')];
+    if (links.length && headings.length && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (!visible) return;
+        const id = visible.target.id;
+        links.forEach((link) => {
+          const active = link.getAttribute('href') === `#${id}`;
+          link.classList.toggle('is-active', active);
+        });
+      }, { rootMargin: '-18% 0px -62% 0px', threshold: 0 });
+      headings.forEach((heading) => observer.observe(heading));
+    }
+  }
+</script>
+
+<style>
+  .article-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(300px, 1.1fr);
+    gap: clamp(28px, 5vw, 72px);
+    align-items: start;
+    margin-top: 52px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+
+  .article-actions h2 {
+    margin-top: 12px;
+    color: var(--ice);
+    font-size: clamp(30px, 3.4vw, 44px);
+    font-weight: 300;
+    line-height: 1.3;
+  }
+
+  .article-actions__note {
+    max-width: 34em;
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .article-actions__controls {
+    padding-top: 2px;
+  }
+
+  .reactions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .reactions button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 38px;
+    padding: 7px 12px;
+    border: 1px solid var(--line);
+    color: var(--text-2);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .reactions button span {
+    color: var(--faint);
+    font-size: 13px;
+  }
+
+  .reactions button:hover {
+    border-color: var(--cyan);
+    color: var(--ice);
+  }
+
+  .reactions button.is-active {
+    border-color: var(--cyan);
+    background: rgba(123, 220, 255, 0.1);
+    color: var(--ice);
+  }
+
+  .reactions button.is-active span {
+    color: var(--cyan);
+  }
+
+  .article-actions__links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  .article-actions__copy {
+    padding: 0 0 3px;
+    border-bottom: 1px solid var(--line-strong);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+  }
+
+  .article-actions__copy:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+
+  .article-actions__status {
+    min-height: 20px;
+    margin-top: 14px;
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.6;
+  }
+
+  :global(.prose pre.has-copy) {
+    position: relative;
+    padding-top: 38px;
+  }
+
+  :global(.prose pre .copy-code) {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    padding: 4px 7px;
+    border: 1px solid var(--line);
+    background: #04111d;
+    color: var(--faint);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  :global(.prose pre .copy-code:hover) {
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+
+  :global(.article__toc-link.is-active) {
+    border-left-color: var(--cyan);
+    color: var(--ice);
+  }
+
+  @media (max-width: 760px) {
+    .article-actions {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .article-actions h2 {
+      font-size: 34px;
+    }
+  }
+</style>

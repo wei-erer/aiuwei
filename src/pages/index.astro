@@ -14,7 +14,7 @@ const projectCount = String(allProjects.length).padStart(2, '0');
 ---
 
 <BaseLayout intro={true}>
-  <section class="orbital-hero" aria-labelledby="hero-title">
+  <section class="orbital-hero" aria-labelledby="hero-title" data-hero-parallax>
     <div class="orbital-hero__scene" aria-hidden="true">
       <div class="orbital-hero__stars"></div>
       <div class="orbital-hero__sun"></div>
@@ -98,6 +98,7 @@ const projectCount = String(allProjects.length).padStart(2, '0');
       <div class="orbital-hero__grid" aria-hidden="true"></div>
     </div>
     <div class="orbital-hero__shade" aria-hidden="true"></div>
+    <div class="orbital-hero__cursor" data-hero-cursor aria-hidden="true"></div>
 
     <div class="orbital-hero__inner container">
       <div class="orbital-hero__top" data-hero>
@@ -119,6 +120,9 @@ const projectCount = String(allProjects.length).padStart(2, '0');
           <div class="orbital-hero__actions" data-hero style="--delay: 0.22s">
             <a class="btn btn--solid" href="#logs"><span>进入观测站</span><span class="btn__arrow" aria-hidden="true">↓</span></a>
             <a class="link" href={href('about/')}>关于记录者 ↗</a>
+            <button class="orbital-hero__console" type="button" data-console-open>
+              观测终端 <span class="console-key">Ctrl K</span>
+            </button>
           </div>
         </div>
 
@@ -285,6 +289,37 @@ const projectCount = String(allProjects.length).padStart(2, '0');
     min-height: 100svh;
     overflow: hidden;
     background: #02060d;
+    --mx: 0;
+    --my: 0;
+  }
+
+  .orbital-hero__stars,
+  .orbital-hero__planet,
+  .orbital-hero__atmosphere,
+  .orbital-hero__station {
+    translate: calc(var(--mx, 0) * 14px) calc(var(--my, 0) * 10px);
+    transition: translate 0.65s var(--ease);
+    will-change: translate;
+  }
+
+  .orbital-hero__cursor {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(123, 220, 255, 0.12), rgba(123, 220, 255, 0.035) 35%, transparent 68%);
+    mix-blend-mode: screen;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.35s ease;
+  }
+
+  .orbital-hero.is-pointer .orbital-hero__cursor {
+    opacity: 1;
   }
 
   .orbital-hero__scene {
@@ -498,6 +533,30 @@ const projectCount = String(allProjects.length).padStart(2, '0');
     align-items: center;
     gap: 26px;
     margin-top: 28px;
+  }
+
+  .orbital-hero__console {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    transition: color 0.2s ease;
+  }
+
+  .orbital-hero__console:hover {
+    color: var(--cyan);
+  }
+
+  .console-key {
+    padding: 2px 5px;
+    border: 1px solid var(--line);
+    color: var(--faint);
+    font-size: 9px;
+    line-height: 1.2;
   }
 
   .orbital-hero__crew {
