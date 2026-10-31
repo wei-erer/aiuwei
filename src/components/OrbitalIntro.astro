@@ -1,0 +1,296 @@
+<div class="orbital-intro" data-intro role="dialog" aria-modal="true" aria-label="AIUWEI 开场">
+  <canvas class="orbital-intro__canvas" data-intro-canvas aria-hidden="true"></canvas>
+  <div class="orbital-intro__vignette" aria-hidden="true"></div>
+  <div class="orbital-intro__grain" aria-hidden="true"></div>
+
+  <div class="orbital-intro__top">
+    <span class="label">DEEP SPACE OBSERVATORY / 2026</span>
+    <div class="orbital-intro__tools">
+      <button type="button" class="intro-tool" data-intro-sound aria-pressed="true">声音：开</button>
+      <button type="button" class="intro-tool" data-intro-skip>跳过 ↗</button>
+    </div>
+  </div>
+
+  <div class="orbital-intro__idle" data-intro-idle>
+    <p class="kicker">SIGNAL LOCKED / DECK 07</p>
+    <h1 class="orbital-intro__title">AIUWEI</h1>
+    <p class="orbital-intro__cn">在深空里，<br /><span>记录智能的微光。</span></p>
+    <button type="button" class="orbital-intro__start" data-intro-start>
+      <span class="orbital-intro__start-ring" aria-hidden="true"></span>
+      <span>点击启动</span>
+      <span aria-hidden="true">↗</span>
+    </button>
+    <p class="orbital-intro__note">建议佩戴耳机 · 约 8 秒 · 可跳过</p>
+  </div>
+
+  <p class="orbital-intro__caption" data-intro-caption aria-live="polite"></p>
+  <div class="orbital-intro__progress" aria-hidden="true"><span data-intro-progress></span></div>
+</div>
+
+<script>
+  import '../scripts/orbital-intro.js';
+</script>
+
+<style>
+  .orbital-intro {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-intro);
+    overflow: hidden;
+    background: #02050a;
+    color: var(--ice);
+    transition: opacity 0.7s ease;
+  }
+
+  .orbital-intro.is-leaving {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .orbital-intro.is-done {
+    display: none;
+  }
+
+  .orbital-intro__canvas,
+  .orbital-intro__vignette,
+  .orbital-intro__grain {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .orbital-intro__canvas {
+    z-index: 0;
+  }
+
+  .orbital-intro__vignette {
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse at 64% 42%, transparent 24%, rgba(0, 3, 8, 0.48) 74%, rgba(0, 2, 6, 0.86) 100%),
+      linear-gradient(to bottom, rgba(0, 3, 8, 0.55), transparent 24%, transparent 64%, rgba(0, 2, 6, 0.9));
+  }
+
+  .orbital-intro__grain {
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.16;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+    mix-blend-mode: screen;
+  }
+
+  .orbital-intro__top {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 24px var(--gutter);
+  }
+
+  .orbital-intro__tools {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .intro-tool {
+    padding: 0;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    transition: color 0.2s ease;
+  }
+
+  .intro-tool:hover {
+    color: var(--cyan);
+  }
+
+  .orbital-intro__idle {
+    position: absolute;
+    z-index: 4;
+    left: var(--gutter);
+    bottom: clamp(80px, 13vh, 150px);
+    width: min(680px, calc(100% - var(--gutter) * 2));
+    transition: opacity 0.45s ease, transform 0.45s var(--ease);
+  }
+
+  .orbital-intro.is-started .orbital-intro__idle {
+    opacity: 0;
+    transform: translateY(-12px);
+    pointer-events: none;
+  }
+
+  .orbital-intro__title {
+    margin-top: 20px;
+    font-size: clamp(72px, 11vw, 152px);
+    font-weight: 300;
+    line-height: 0.82;
+    letter-spacing: 0.12em;
+    color: var(--ice);
+  }
+
+  .orbital-intro__cn {
+    margin-top: 28px;
+    font-size: clamp(24px, 2.4vw, 34px);
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .orbital-intro__cn span {
+    color: var(--ice);
+  }
+
+  .orbital-intro__start {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 22px;
+    min-height: 58px;
+    margin-top: 34px;
+    padding: 0 24px;
+    border: 1px solid var(--line-strong);
+    background: rgba(4, 15, 26, 0.42);
+    color: var(--ice);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    transition: border-color 0.25s ease, background-color 0.25s ease;
+  }
+
+  .orbital-intro__start:hover {
+    border-color: var(--cyan);
+    background: rgba(123, 220, 255, 0.09);
+  }
+
+  .orbital-intro__start-ring {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 0 0 rgba(123, 220, 255, 0.5), 0 0 16px var(--cyan);
+    animation: intro-pulse 2.4s ease-out infinite;
+  }
+
+  .orbital-intro__note {
+    margin-top: 16px;
+    color: var(--faint);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+
+  .orbital-intro__caption {
+    position: absolute;
+    z-index: 5;
+    left: var(--gutter);
+    bottom: 54px;
+    min-height: 20px;
+    color: var(--text-2);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .orbital-intro__caption.is-visible {
+    opacity: 1;
+  }
+
+  .orbital-intro__progress {
+    position: absolute;
+    z-index: 5;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: 28px;
+    height: 1px;
+    background: rgba(150, 210, 240, 0.14);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .orbital-intro.is-started .orbital-intro__progress {
+    opacity: 1;
+  }
+
+  .orbital-intro__progress span {
+    display: block;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--blue), var(--cyan));
+  }
+
+  @keyframes intro-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(123, 220, 255, 0.45), 0 0 14px var(--cyan);
+    }
+    70% {
+      box-shadow: 0 0 0 12px rgba(123, 220, 255, 0), 0 0 20px var(--cyan);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(123, 220, 255, 0), 0 0 14px var(--cyan);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .orbital-intro__top {
+      align-items: flex-start;
+      padding-top: 20px;
+    }
+
+    .orbital-intro__top > .label {
+      max-width: 150px;
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .orbital-intro__tools {
+      gap: 14px;
+    }
+
+    .orbital-intro__idle {
+      bottom: 84px;
+    }
+
+    .orbital-intro__title {
+      font-size: clamp(60px, 18vw, 92px);
+      letter-spacing: 0.08em;
+    }
+
+    .orbital-intro__cn {
+      margin-top: 20px;
+      font-size: 22px;
+    }
+
+    .orbital-intro__start {
+      width: 100%;
+      justify-content: space-between;
+      margin-top: 26px;
+    }
+
+    .orbital-intro__note {
+      font-size: 10px;
+    }
+
+    .orbital-intro__caption {
+      bottom: 48px;
+      font-size: 10px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orbital-intro__start-ring {
+      animation: none;
+    }
+  }
+</style>

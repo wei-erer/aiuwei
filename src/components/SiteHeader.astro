@@ -17,24 +17,29 @@ function isActive(path) {
 <header class="site-header" data-header>
   <div class="site-header__inner container">
     <a class="brand" href={href('')} aria-label="AIUWEI 首页">
-      <span class="brand__mark" aria-hidden="true">A</span>
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="2.2" fill="currentColor" />
+          <ellipse cx="16" cy="16" rx="12" ry="4.6" transform="rotate(-28 16 16)" stroke="currentColor" stroke-width="1" />
+          <ellipse cx="16" cy="16" rx="12" ry="4.6" transform="rotate(32 16 16)" stroke="currentColor" stroke-width="1" opacity=".55" />
+        </svg>
+      </span>
       <span class="brand__type">
         <span class="brand__name">AIUWEI</span>
-        <span class="brand__sub">AI OBSERVATORY / ISSUE 001</span>
+        <span class="brand__sub">DEEP SPACE OBSERVATORY</span>
       </span>
     </a>
 
     <nav class="nav" aria-label="主导航">
       {nav.map((item) => (
         <a class:list={['nav__link', { 'is-active': isActive(item.path) }]} href={href(item.path)}>
-          <span class="nav__index">{item.index}</span>
           <span class="nav__label">{item.label}</span>
         </a>
       ))}
     </nav>
 
     <div class="header__meta">
-      <span class="header__issue">ISSUE 001 / {site.established}</span>
+      <span class="header__year">OBSERVATORY / {site.established}</span>
       <a class="header__github" href={site.github} target="_blank" rel="noreferrer" aria-label="GitHub（新窗口打开）">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M12 .7a11.3 11.3 0 0 0-3.57 22.02c.57.1.78-.25.78-.55v-2.13c-3.17.69-3.84-1.34-3.84-1.34-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.75 2.68 1.25 3.33.95.1-.74.4-1.25.73-1.54-2.53-.29-5.2-1.27-5.2-5.63 0-1.24.44-2.26 1.17-3.06-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.14 1.17a10.9 10.9 0 0 1 5.72 0c2.18-1.48 3.14-1.17 3.14-1.17.62 1.57.23 2.73.11 3.02.73.8 1.17 1.82 1.17 3.06 0 4.37-2.68 5.34-5.22 5.62.41.36.78 1.06.78 2.14v3.17c0 .3.21.66.79.55A11.3 11.3 0 0 0 12 .7Z" />
@@ -50,7 +55,7 @@ function isActive(path) {
 
 <div class="mobile-menu" id="mobile-menu" data-mobile-menu aria-hidden="true">
   <div class="mobile-menu__top container">
-    <span class="kicker">AIUWEI / INDEX</span>
+    <span class="label">AIUWEI / DEEP SPACE</span>
     <button class="mobile-menu__close" type="button" data-menu-close aria-label="关闭导航">
       <span></span><span></span>
     </button>
@@ -59,15 +64,13 @@ function isActive(path) {
   <nav class="mobile-menu__nav container" aria-label="移动端主导航">
     {nav.map((item) => (
       <a class:list={['mobile-menu__link', { 'is-active': isActive(item.path) }]} href={href(item.path)}>
-        <span class="mobile-menu__index">{item.index}</span>
         <span class="mobile-menu__label">{item.label}</span>
-        <span class="mobile-menu__en">{item.en}</span>
       </a>
     ))}
   </nav>
 
   <div class="mobile-menu__bottom container">
-    <p class="label">AIUWEI OBSERVATORY<br />记录者 / WEI_ER</p>
+    <p class="label">记录者 / WEI_ER<br />DEEP SPACE OBSERVATORY</p>
     <a class="link" href={site.github} target="_blank" rel="noreferrer">GITHUB ↗</a>
   </div>
 </div>
@@ -80,10 +83,19 @@ function isActive(path) {
     right: 0;
     z-index: var(--z-header);
     height: var(--nav-h);
-    border-bottom: 1px solid var(--ink);
-    background: rgba(242, 238, 228, 0.93);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent;
+    background: linear-gradient(to bottom, rgba(2, 5, 10, 0.72), rgba(2, 5, 10, 0));
+    transition:
+      background-color 0.35s ease,
+      border-color 0.35s ease,
+      backdrop-filter 0.35s ease;
+  }
+
+  .site-header.is-scrolled {
+    border-color: var(--line);
+    background: rgba(2, 7, 13, 0.84);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
   }
 
   .site-header__inner {
@@ -103,23 +115,21 @@ function isActive(path) {
 
   .brand__mark {
     display: grid;
-    width: 31px;
-    height: 31px;
+    width: 32px;
+    height: 32px;
     place-items: center;
-    border: 1px solid var(--ink);
-    background: var(--acid);
-    color: var(--ink);
-    font-family: var(--font-serif);
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 1;
-    transition: background-color 0.25s ease, transform 0.25s ease;
+    color: var(--cyan);
+    transition: transform 0.6s var(--ease), color 0.25s ease;
   }
 
   .brand:hover .brand__mark {
-    background: var(--blue);
-    color: #fff;
-    transform: rotate(-6deg);
+    color: var(--ice);
+    transform: rotate(120deg);
+  }
+
+  .brand__mark svg {
+    width: 28px;
+    height: 28px;
   }
 
   .brand__type {
@@ -130,14 +140,15 @@ function isActive(path) {
 
   .brand__name {
     font-family: var(--font-sans);
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: 0.13em;
     line-height: 1;
+    color: var(--ice);
   }
 
   .brand__sub {
-    color: var(--muted);
+    color: var(--faint);
     font-family: var(--font-mono);
     font-size: 8px;
     letter-spacing: 0.1em;
@@ -148,38 +159,41 @@ function isActive(path) {
   .nav {
     display: flex;
     align-items: center;
-    gap: clamp(14px, 2.2vw, 32px);
+    gap: clamp(18px, 2.8vw, 40px);
   }
 
   .nav__link {
     display: inline-flex;
     align-items: baseline;
-    gap: 6px;
-    padding: 7px 0;
-    border-bottom: 2px solid transparent;
-    color: var(--ink-2);
-    transition: border-color 0.25s ease, background-color 0.25s ease;
+    gap: 7px;
+    padding: 6px 0;
+    color: var(--muted);
+    transition: color 0.2s ease;
   }
 
   .nav__link:hover,
   .nav__link.is-active {
-    border-color: var(--ink);
-    background: var(--acid);
+    color: var(--ice);
   }
 
-  .nav__index {
-    color: var(--faint);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    line-height: 1;
+  .nav__link.is-active {
+    border-bottom: 1px solid var(--cyan);
   }
 
   .nav__label {
-    font-family: var(--font-sans);
     font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    line-height: 1.2;
+    letter-spacing: 0.05em;
+  }
+
+  .nav__en {
+    color: var(--faint);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.06em;
+  }
+
+  .nav__link.is-active .nav__en {
+    color: var(--cyan);
   }
 
   .header__meta {
@@ -189,8 +203,8 @@ function isActive(path) {
     flex: 0 0 auto;
   }
 
-  .header__issue {
-    color: var(--muted);
+  .header__year {
+    color: var(--faint);
     font-family: var(--font-mono);
     font-size: 9px;
     letter-spacing: 0.08em;
@@ -202,19 +216,17 @@ function isActive(path) {
     width: 28px;
     height: 28px;
     place-items: center;
-    border: 1px solid transparent;
-    color: var(--ink);
-    transition: border-color 0.25s ease, background-color 0.25s ease;
+    color: var(--muted);
+    transition: color 0.2s ease;
   }
 
   .header__github:hover {
-    border-color: var(--ink);
-    background: var(--acid);
+    color: var(--cyan);
   }
 
   .header__github svg {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
   }
 
   .menu-toggle {
@@ -225,42 +237,41 @@ function isActive(path) {
     align-items: center;
     justify-content: center;
     gap: 5px;
-    border: 1px solid var(--ink);
-    background: var(--paper-3);
+    border: 1px solid var(--line);
   }
 
   .menu-toggle span:not(.sr-only) {
     display: block;
-    width: 17px;
+    width: 16px;
     height: 1px;
-    background: var(--ink);
+    background: var(--text);
     transition: width 0.25s ease;
   }
 
   .menu-toggle span:nth-of-type(3) {
-    width: 11px;
+    width: 10px;
     margin-left: 6px;
   }
 
   .menu-toggle:hover span:nth-of-type(3) {
-    width: 17px;
+    width: 16px;
     margin-left: 0;
   }
 
   .mobile-menu {
     position: fixed;
     inset: 0;
-    z-index: 90;
+    z-index: var(--z-menu);
     display: flex;
     flex-direction: column;
     padding: 18px 0 28px;
-    background: var(--paper);
-    background-image: radial-gradient(rgba(16, 16, 14, 0.13) 0.65px, transparent 0.65px);
-    background-size: 16px 16px;
+    background:
+      radial-gradient(ellipse 80% 50% at 72% 18%, rgba(20, 70, 110, 0.35), transparent 70%),
+      #02060d;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-8px);
-    transition: opacity 0.3s var(--ease), visibility 0.3s, transform 0.3s var(--ease);
+    transition: opacity 0.35s ease, visibility 0.35s, transform 0.35s var(--ease);
   }
 
   .mobile-menu.is-open {
@@ -274,15 +285,14 @@ function isActive(path) {
     align-items: center;
     justify-content: space-between;
     height: var(--nav-h);
-    border-bottom: 1px solid var(--ink);
+    border-bottom: 1px solid var(--line);
   }
 
   .mobile-menu__close {
     position: relative;
     width: 38px;
     height: 38px;
-    border: 1px solid var(--ink);
-    background: var(--acid);
+    border: 1px solid var(--line-strong);
   }
 
   .mobile-menu__close span {
@@ -291,7 +301,7 @@ function isActive(path) {
     left: 50%;
     width: 18px;
     height: 1px;
-    background: var(--ink);
+    background: var(--text);
   }
 
   .mobile-menu__close span:first-child {
@@ -309,39 +319,31 @@ function isActive(path) {
   }
 
   .mobile-menu__link {
-    display: grid;
-    grid-template-columns: 34px 1fr auto;
+    display: flex;
     align-items: baseline;
-    gap: 10px;
-    padding: 14px 0;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 18px 0;
     border-bottom: 1px solid var(--line);
-    color: var(--ink-2);
-    transition: background-color 0.25s ease, padding-left 0.3s var(--ease);
+    color: var(--text);
+    transition: color 0.2s ease, padding-left 0.25s var(--ease);
   }
 
   .mobile-menu__link:hover,
   .mobile-menu__link.is-active {
-    padding-left: 8px;
-    background: var(--acid);
-    color: var(--ink);
-  }
-
-  .mobile-menu__index {
-    color: var(--faint);
-    font-family: var(--font-mono);
-    font-size: 9px;
+    padding-left: 10px;
+    color: var(--cyan);
   }
 
   .mobile-menu__label {
-    font-family: var(--font-serif);
-    font-size: clamp(38px, 11vw, 58px);
-    font-weight: 600;
-    letter-spacing: -0.04em;
+    font-size: clamp(34px, 9vw, 48px);
+    font-weight: 300;
+    letter-spacing: 0.06em;
     line-height: 1;
   }
 
   .mobile-menu__en {
-    color: var(--muted);
+    color: var(--faint);
     font-family: var(--font-mono);
     font-size: 9px;
     letter-spacing: 0.08em;
@@ -353,11 +355,7 @@ function isActive(path) {
     justify-content: space-between;
     gap: 20px;
     padding-top: 18px;
-    border-top: 1px solid var(--ink);
-  }
-
-  .mobile-menu__bottom p {
-    line-height: 1.7;
+    border-top: 1px solid var(--line);
   }
 
   @media (max-width: 1080px) {
@@ -371,7 +369,7 @@ function isActive(path) {
   }
 
   @media (max-width: 640px) {
-    .header__issue {
+    .header__year {
       display: none;
     }
 
@@ -380,7 +378,7 @@ function isActive(path) {
     }
 
     .brand__name {
-      font-size: 18px;
+      font-size: 17px;
     }
   }
 </style>

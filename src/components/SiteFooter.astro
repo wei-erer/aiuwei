@@ -4,46 +4,42 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-  <div class="site-footer__marquee marquee" aria-hidden="true">
-    <div class="marquee__inner">
-      <div class="marquee__group">
-        <span>AIUWEI OBSERVATORY</span><span>ISSUE 001</span><span>AI / AGENT / ALIGNMENT</span><span>记录智能的微光</span>
-      </div>
-      <div class="marquee__group">
-        <span>AIUWEI OBSERVATORY</span><span>ISSUE 001</span><span>AI / AGENT / ALIGNMENT</span><span>记录智能的微光</span>
-      </div>
-    </div>
+  <div class="site-footer__signal" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
   </div>
 
   <div class="site-footer__main container">
     <div class="site-footer__brand">
-      <p class="label">OBSERVATORY / {site.established}</p>
+      <p class="label">DEEP SPACE OBSERVATORY / {site.established}</p>
       <p class="site-footer__name">AIUWEI</p>
       <p class="site-footer__tagline">{site.tagline}</p>
-      <p class="site-footer__author">记录者 / <strong>WEI_ER</strong></p>
+      <div class="site-footer__who">
+        <img src={href('images/avatar.jpg')} alt="wei_er 的插画头像" width="640" height="640" />
+        <div><span>记录者</span><strong>WEI_ER</strong></div>
+      </div>
     </div>
 
     <div class="site-footer__nav-group">
-      <p class="site-footer__label">INDEX</p>
+      <p class="site-footer__label">INDEX / 导航</p>
       <nav class="site-footer__nav" aria-label="页脚导航">
         {nav.map((item) => (
-          <a href={href(item.path)}><span>{item.label}</span><span>{item.en}</span></a>
+          <a href={href(item.path)}><span>{item.label}</span></a>
         ))}
       </nav>
     </div>
 
     <div class="site-footer__uplink">
-      <p class="site-footer__label">UPLINK</p>
+      <p class="site-footer__label">UPLINK / 连接</p>
       <a href={site.github} target="_blank" rel="noreferrer">GITHUB <span>↗</span></a>
       <a href={href('rss.xml')}>RSS <span>↗</span></a>
-      <a href={`${href('')}?cover=1`}>重播封面 <span>↻</span></a>
+      <a href={`${href('')}?intro=1`}>重播开场 <span>↻</span></a>
       <a href="#top">回到顶部 <span>↑</span></a>
     </div>
   </div>
 
   <div class="site-footer__bottom container">
     <p>© {year} WEI_ER / AIUWEI OBSERVATORY</p>
-    <p>ISSUE 001 · BUILT ON PAPER</p>
+    <p>DEEP SPACE / BUILT IN PUBLIC</p>
     <p>ALL SIGNALS RESERVED</p>
   </div>
 </footer>
@@ -52,63 +48,106 @@ const year = new Date().getFullYear();
   .site-footer {
     position: relative;
     z-index: 1;
-    border-top: 1px solid var(--ink);
-    background: var(--paper);
+    border-top: 1px solid var(--line);
+    background:
+      radial-gradient(ellipse 60% 70% at 20% 0%, rgba(18, 62, 98, 0.18), transparent 62%),
+      #02060c;
   }
+
+  .site-footer__signal {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 28px;
+    padding: 0 var(--gutter);
+    overflow: hidden;
+    opacity: 0.4;
+  }
+
+  .site-footer__signal span {
+    display: block;
+    width: 1px;
+    background: var(--cyan);
+  }
+
+  .site-footer__signal span:nth-child(1) { height: 5px; }
+  .site-footer__signal span:nth-child(2) { height: 12px; }
+  .site-footer__signal span:nth-child(3) { height: 8px; }
+  .site-footer__signal span:nth-child(4) { height: 18px; }
+  .site-footer__signal span:nth-child(5) { height: 3px; }
 
   .site-footer__main {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(180px, 0.55fr) minmax(170px, 0.45fr);
-    gap: clamp(30px, 6vw, 100px);
-    padding-top: clamp(48px, 7vw, 84px);
-    padding-bottom: clamp(48px, 7vw, 80px);
+    grid-template-columns: minmax(0, 1.3fr) minmax(180px, 0.5fr) minmax(170px, 0.4fr);
+    gap: clamp(32px, 7vw, 110px);
+    padding-top: clamp(42px, 6vw, 76px);
+    padding-bottom: clamp(42px, 6vw, 72px);
   }
 
   .site-footer__name {
-    margin-top: 20px;
+    margin-top: 18px;
+    color: var(--ice);
     font-family: var(--font-sans);
-    font-size: clamp(54px, 7vw, 104px);
-    font-weight: 600;
-    letter-spacing: -0.07em;
-    line-height: 0.8;
+    font-size: clamp(54px, 7.4vw, 104px);
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    line-height: 0.82;
   }
 
   .site-footer__tagline {
     max-width: 20em;
     margin-top: 18px;
-    color: var(--ink-2);
-    font-family: var(--font-serif);
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 1.7;
+    color: var(--text-2);
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    line-height: 1.8;
   }
 
-  .site-footer__author {
-    margin-top: 20px;
-    color: var(--muted);
+  .site-footer__who {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .site-footer__who img {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .site-footer__who div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: var(--faint);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: 0.08em;
   }
 
-  .site-footer__author strong {
-    color: var(--ink);
-    font-weight: 500;
+  .site-footer__who strong {
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
   }
 
   .site-footer__label {
     margin-bottom: 14px;
-    color: var(--muted);
+    color: var(--faint);
     font-family: var(--font-mono);
     font-size: 10px;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
   }
 
   .site-footer__nav {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 9px;
   }
 
   .site-footer__nav a {
@@ -118,27 +157,20 @@ const year = new Date().getFullYear();
     gap: 14px;
     padding-bottom: 4px;
     border-bottom: 1px solid transparent;
-    color: var(--ink-2);
-    font-size: 15px;
-    transition: background-color 0.25s ease, border-color 0.25s ease;
-  }
-
-  .site-footer__nav a span:last-child {
-    color: var(--faint);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.06em;
+    color: var(--text-2);
+    font-size: 14px;
+    transition: color 0.2s ease, border-color 0.2s ease;
   }
 
   .site-footer__nav a:hover {
-    border-color: var(--ink);
-    background: var(--acid);
+    border-color: var(--line-strong);
+    color: var(--cyan);
   }
 
   .site-footer__uplink {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 9px;
   }
 
   .site-footer__uplink a {
@@ -146,16 +178,15 @@ const year = new Date().getFullYear();
     align-items: center;
     justify-content: space-between;
     gap: 14px;
-    color: var(--ink-2);
+    color: var(--text-2);
     font-family: var(--font-mono);
     font-size: 10px;
-    letter-spacing: 0.06em;
-    transition: background-color 0.25s ease;
+    letter-spacing: 0.05em;
+    transition: color 0.2s ease;
   }
 
   .site-footer__uplink a:hover {
-    background: var(--acid);
-    color: var(--ink);
+    color: var(--cyan);
   }
 
   .site-footer__uplink span {
@@ -168,12 +199,12 @@ const year = new Date().getFullYear();
     justify-content: space-between;
     gap: 20px;
     padding-top: 14px;
-    padding-bottom: 20px;
-    border-top: 1px solid var(--ink);
-    color: var(--muted);
+    padding-bottom: 22px;
+    border-top: 1px solid var(--line);
+    color: var(--faint);
     font-family: var(--font-mono);
     font-size: 9px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
   }
 
   @media (max-width: 880px) {

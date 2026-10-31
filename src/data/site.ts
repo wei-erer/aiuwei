@@ -2,9 +2,9 @@ export const BASE = import.meta.env.BASE_URL;
 
 export const site = {
   name: 'AIUWEI',
-  title: 'AIUWEI · 深空 AI 观测站',
+  title: 'AIUWEI · 深空观测站',
   description:
-    'wei_er 的 AI 观测站。记录 LLM、Agent、RAG 与 AI 安全方向的实验、项目与思考。',
+    'wei_er 的 AI 观测站。记录 LLM、Agent 与 AI 安全方向的实验、项目和判断。',
   tagline: '在深空里，记录智能的微光。',
   author: 'wei_er',
   aiAlias: 'AIUWEI',
@@ -20,8 +20,7 @@ export const nav = [
   { label: '首页', en: 'HOME', path: '', index: '00' },
   { label: '项目', en: 'PROJECTS', path: 'projects/', index: '01' },
   { label: '记录', en: 'WRITING', path: 'writing/', index: '02' },
-  { label: '实验室', en: 'LAB', path: 'lab/', index: '03' },
-  { label: '关于', en: 'ABOUT', path: 'about/', index: '04' },
+  { label: '关于', en: 'ABOUT', path: 'about/', index: '03' },
 ];
 
 /** Prefix an internal path with the GitHub Pages base path. */
@@ -44,15 +43,15 @@ export function canonical(path = '') {
 
 export const emptyCopy = {
   posts: {
-    code: 'NO SIGNAL',
-    title: '观测记录正在上传',
-    body: '第一条记录还没抵达观测站。信号通道已经开启，等 wei_er 把它写下来。',
-    prompt: 'wei_er@aiuwei:~$ awaiting first transmission_',
+    code: '000',
+    title: '还没有记录',
+    body: '等第一篇文章写完，它会出现在这里。不用占位内容凑数，也不假装这里已经有人读过。',
+    link: '打开记录页',
   },
   projects: {
-    code: 'NO MISSION FILES',
+    code: '000',
     title: '任务档案尚未归档',
-    body: '这里会放置实验、工具与独立项目。第一份任务档案还在深空里。',
-    prompt: 'wei_er@aiuwei:~$ ls /missions --all',
+    body: '只归档能说清问题、方法和结果的东西。第一份可验证的档案还在准备中。',
+    link: '查看项目页',
   },
 };

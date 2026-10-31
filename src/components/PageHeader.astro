@@ -1,40 +1,205 @@
 ---
 interface Props {
-  index: string;
-  en: string;
+  index?: string;
+  label: string;
   title: string;
   titleEn?: string;
-  description: string;
+  description?: string;
   meta?: string[];
-  stamp?: string;
 }
 
-const { index, en, title, titleEn, description, meta = [], stamp } = Astro.props;
+const { index = '00', label, title, titleEn, description, meta = [] } = Astro.props;
 ---
 
-<section class="page-head">
-  <div class="container">
-    <div class="page-head__top">
-      <p class="kicker">{en}</p>
-      <span class="page-head__index">{index} / 04</span>
+<header class="page-hero">
+  <div class="page-hero__scene" aria-hidden="true">
+    <div class="page-hero__stars"></div>
+    <div class="page-hero__planet"></div>
+    <div class="page-hero__atmosphere"></div>
+    <svg class="page-hero__orbit" viewBox="0 0 1200 600" fill="none">
+      <ellipse cx="760" cy="300" rx="540" ry="170" transform="rotate(-11 760 300)" stroke="currentColor" stroke-width="1" opacity=".22" />
+      <ellipse cx="760" cy="300" rx="430" ry="132" transform="rotate(-11 760 300)" stroke="currentColor" stroke-width="1" opacity=".16" stroke-dasharray="2 10" />
+      <path d="M300 300h250M1040 300h80" stroke="currentColor" stroke-width="1" opacity=".18" />
+    </svg>
+  </div>
+
+  <div class="page-hero__inner container">
+    <div class="page-hero__top">
+      <span class="label">{label}</span>
+      <span class="label">{index}</span>
     </div>
 
-    <div class="page-head__main">
+    <div class="page-hero__main">
       <div>
-        <h1 class="page-head__title">
-          {titleEn && <span class="page-head__title-en">{titleEn}</span>}
-          {title}
-        </h1>
+        {titleEn && <p class="kicker">{titleEn}</p>}
+        <h1 class="page-hero__title">{title}</h1>
         {meta.length > 0 && (
-          <div class="page-head__meta">
-            {meta.map((item) => <span class="tag">{item}</span>)}
-          </div>
+          <ul class="page-hero__meta" aria-label="页面信息">
+            {meta.map((item) => <li class="tag">{item}</li>)}
+          </ul>
         )}
       </div>
-      <div>
-        <p class="page-head__desc">{description}</p>
-      </div>
+      {description && <p class="page-hero__desc">{description}</p>}
     </div>
   </div>
-  {stamp && <div class="page-head__stamp" aria-hidden="true">{stamp}</div>}
-</section>
+</header>
+
+<style>
+  .page-hero {
+    position: relative;
+    overflow: hidden;
+    min-height: clamp(440px, 58vh, 620px);
+    padding-top: calc(var(--nav-h) + clamp(50px, 8vw, 100px));
+    padding-bottom: clamp(48px, 7vw, 86px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .page-hero__scene {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .page-hero__scene::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(2, 6, 13, 0.88) 0%, rgba(2, 6, 13, 0.28) 58%, rgba(2, 6, 13, 0.62) 100%),
+      linear-gradient(to bottom, rgba(2, 6, 13, 0.55), transparent 38%, rgba(2, 6, 13, 0.72));
+  }
+
+  .page-hero__stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(rgba(220, 242, 255, 0.7) 0.7px, transparent 0.7px),
+      radial-gradient(rgba(160, 220, 250, 0.55) 0.6px, transparent 0.6px);
+    background-size: 73px 61px, 131px 97px;
+    background-position: 11px 17px, 47px 38px;
+    opacity: 0.42;
+  }
+
+  .page-hero__planet {
+    position: absolute;
+    right: -320px;
+    bottom: -900px;
+    width: 1400px;
+    height: 1400px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 30% 24%,
+      rgba(225, 250, 255, 0.85) 0,
+      rgba(125, 215, 250, 0.55) 7%,
+      rgba(38, 112, 158, 0.4) 25%,
+      rgba(7, 35, 58, 0.55) 54%,
+      rgba(1, 6, 12, 0.9) 76%
+    );
+    opacity: 0.55;
+  }
+
+  .page-hero__atmosphere {
+    position: absolute;
+    right: -345px;
+    bottom: -870px;
+    width: 1450px;
+    height: 1450px;
+    border-radius: 50%;
+    border: 1px solid rgba(170, 232, 255, 0.38);
+    box-shadow: 0 0 60px rgba(110, 210, 255, 0.12);
+  }
+
+  .page-hero__orbit {
+    position: absolute;
+    right: -60px;
+    top: 15%;
+    width: min(1100px, 90vw);
+    color: var(--cyan);
+    opacity: 0.7;
+  }
+
+  .page-hero__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-hero__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .page-hero__main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(240px, 0.75fr);
+    gap: clamp(30px, 7vw, 100px);
+    align-items: end;
+    padding-top: clamp(34px, 6vw, 72px);
+  }
+
+  .page-hero__title {
+    margin-top: 14px;
+    color: var(--ice);
+    font-size: clamp(52px, 8.2vw, 118px);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    line-height: 0.9;
+  }
+
+  .page-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 26px;
+  }
+
+  .page-hero__desc {
+    max-width: 34ch;
+    padding-bottom: 6px;
+    color: var(--text-2);
+    font-size: 16px;
+    line-height: 1.9;
+    text-shadow: 0 1px 22px rgba(0, 0, 0, 0.7);
+  }
+
+  @media (max-width: 800px) {
+    .page-hero {
+      min-height: 0;
+      padding-top: calc(var(--nav-h) + 46px);
+      padding-bottom: 46px;
+    }
+
+    .page-hero__main {
+      grid-template-columns: 1fr;
+      gap: 22px;
+      align-items: start;
+      padding-top: 28px;
+    }
+
+    .page-hero__title {
+      font-size: clamp(44px, 13vw, 76px);
+    }
+
+    .page-hero__desc {
+      max-width: 40ch;
+      font-size: 15px;
+    }
+
+    .page-hero__planet {
+      right: -480px;
+      bottom: -780px;
+      opacity: 0.38;
+    }
+
+    .page-hero__orbit {
+      right: -280px;
+      top: 22%;
+      width: 900px;
+    }
+  }
+</style>

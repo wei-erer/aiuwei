@@ -6,20 +6,20 @@ import '../styles/global.css';
 
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
-import EntryCover from '../components/EntryCover.astro';
+import OrbitalIntro from '../components/OrbitalIntro.astro';
 import { site, href } from '../data/site';
 
 interface Props {
   title?: string;
   description?: string;
-  cover?: boolean;
+  intro?: boolean;
   image?: string;
 }
 
 const {
   title,
   description = site.description,
-  cover = false,
+  intro = false,
   image = href('og.jpg'),
 } = Astro.props;
 
@@ -53,8 +53,8 @@ const jsonLd = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#f2eee4" />
-    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#02050a" />
+    <meta name="color-scheme" content="dark" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
@@ -75,19 +75,21 @@ const jsonLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
 
-    <script is:inline>
+    <script is:inline define:vars={{ intro }}>
       document.documentElement.classList.add('js');
       try {
-        const seen = sessionStorage.getItem('aiuwei:cover-seen') === '1';
-        const forced = new URLSearchParams(location.search).has('cover');
-        if (seen && !forced) document.documentElement.classList.add('cover-skip');
+        if (intro && (!sessionStorage.getItem('aiuwei:orbital-intro') || new URLSearchParams(location.search).has('intro'))) {
+          document.documentElement.classList.add('has-intro');
+        } else if (intro) {
+          document.documentElement.classList.add('intro-skip');
+        }
       } catch (_) {
         /* sessionStorage may be unavailable. */
       }
     </script>
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
-  <body id="top" class:list={[{ 'has-cover': cover }]}>
+  <body id="top" class:list={[{ 'intro-open': intro }]}>
     <a class="skip-link" href="#main">跳到主要内容</a>
 
     <SiteHeader />
@@ -95,7 +97,7 @@ const jsonLd = {
       <slot />
     </main>
     <SiteFooter />
-    {cover && <EntryCover />}
+    {intro && <OrbitalIntro />}
 
     <script>
       import '../scripts/ui.js';

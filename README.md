@@ -1,11 +1,11 @@
-# AIUWEI · Paper Lab
+# AIUWEI · Orbital
 
-wei_er 的个人 AI 博客。浅色纸感、编辑部式排版、互动封面、Markdown 文章系统，以及两个中文小游戏。
+wei_er 的个人 AI 博客。硬核科幻、深空轨道站、第一人称开场、Markdown 文章系统。
 
 - 线上地址：`https://wei-erer.github.io/aiuwei/`
 - 源码仓库：`https://github.com/wei-erer/aiuwei`
 - 旧站：`https://wei-erer.github.io/`（未改动）
-- 技术栈：Astro 7 + 原生 CSS / JS，静态输出，无后端
+- 技术栈：Astro 7 + 原生 CSS / Canvas / Web Audio，静态输出，无后端
 - 部署：GitHub Actions → GitHub Pages
 
 ## 本地开发
@@ -26,27 +26,24 @@ pnpm preview
 
 构建产物在 `dist/`。
 
-## 视觉与入口
+## 视觉与开场
 
-- **Paper Lab**：暖白纸张、黑色墨线、酸性绿、钴蓝、橙色印章；没有暗色 HUD 和星野。
-- **互动封面**：首次访问先看到封面，点击或按 Enter 进入；同一会话只出现一次。
-- 页脚「重播封面」或访问 `?cover=1` 可以重新播放。
-- 所有正文、按钮、游戏说明都使用高对比度浅色主题，正文至少 16px。
+- **Orbital**：深空黑、冷蓝行星、轨道站、细线金属、冷白文字。没有纸感、酸性绿和卡片网格。
+- **第一人称开场**：点击启动后，信号锁定 → 星线拉伸 → 接近轨道站 → 对接灯亮起 → 开舱 → 进入观测站。约 8 秒。
+- **声音**：Web Audio 合成低频、噪声、对接口提示音和冲击音；点击启动后才会播放，可随时关闭。
+- **跳过**：右上角始终可以跳过；`prefers-reduced-motion` 会直接进入首页。
+- **只出现一次**：会话内记住 `aiuwei:orbital-intro`；页脚「重播开场」或访问 `?intro=1` 可重看。
+- **头像**：使用 `public/images/avatar.jpg` 原图，全站不做灰度、滤镜或去色处理。
 
-## 两个小游戏
+## 内容结构
 
-都在 `/lab/`，规则页使用中文，不需要操作技巧：
-
-1. **AI 真假判断**：每题两段文字，选出 AI 写的那段；6 题，答完给解析和评分。
-2. **Token 注意力配对**：翻开两张卡，找出语义相关的一对；60 秒内完成 6 对。
-
-游戏内容位置：
-
-- AI 判断题库：`src/scripts/ai-or-human.js` 的 `ROUNDS`
-- 配对词卡：`src/scripts/token-match.js` 的 `PAIRS`
-- 游戏界面：`src/components/AiOrHuman.astro`、`src/components/TokenMatch.astro`
-
-最佳成绩只存在浏览器 `localStorage`，不上传任何数据。
+- 首页：轨道站主视觉 / 观测记录 / 项目档案 / 记录者 / 结束区。
+- `/projects/`：项目档案，按问题、方法、结果归档。
+- `/writing/`：观测记录列表。
+- `/writing/[slug]/`：文章页。
+- `/about/`：记录者档案。
+- 404：信号丢失。
+- 没有游戏页，也不再有问答或配对游戏。
 
 ## 写第一篇记录
 
@@ -105,7 +102,7 @@ export const projects: Project[] = [
 ```ts
 export const site = {
   name: 'AIUWEI',
-  title: 'AIUWEI · 深空 AI 观测站',
+  title: 'AIUWEI · 深空观测站',
   tagline: '在深空里，记录智能的微光。',
   author: 'wei_er',
   github: 'https://github.com/wei-erer',
@@ -115,18 +112,30 @@ export const site = {
 
 导航、页脚和 SEO 都会从这里读取。联系方式目前只公开 GitHub，没有放邮箱。
 
+## 开场 / 视觉参数
+
+- 开场组件：`src/components/OrbitalIntro.astro`
+- 开场动画与声音：`src/scripts/orbital-intro.js`
+- 开场时长：`orbital-intro.js` 里的 `duration = 8200`
+- 首页主视觉：`src/pages/index.astro`
+- 全局颜色与字体：`src/styles/global.css`
+- 页面头图：`src/components/PageHeader.astro`
+- 头像：`public/images/avatar.jpg`
+
+若不想让开场自动出现，把首页的 `<BaseLayout intro={true}>` 改成 `intro={false}`，或删除 `OrbitalIntro`。
+
 ## 目录
 
 ```text
 src/
-  components/        页面组件、互动封面、两个游戏
+  components/        页面头、页头页脚、开场
   content/posts/     Markdown 文章（目前为空）
   content/projects.ts 项目数组
   data/site.ts       站名、导航、链接、文案
   layouts/           BaseLayout
   lib/content.ts     Markdown 自动导入与文章数据
-  pages/             首页、项目、记录、Lab、关于、404、RSS
-  scripts/           封面、UI、两个游戏、Lab tab
+  pages/             首页、项目、记录、关于、404、RSS
+  scripts/           开场、UI
   styles/            全局设计系统
 public/              头像、OG 图、favicon、robots.txt
 content-templates/   文章与项目模板
@@ -150,5 +159,5 @@ content-templates/   文章与项目模板
 
 - 不包含评论、后台、数据库或访问统计。
 - 不包含第三方字体 CDN；字体随构建打包。
-- 已处理 `prefers-reduced-motion`。
+- 开场声音由 Web Audio 合成，没有外部音频文件。
 - 内容目前是空的：首页、记录页和项目页使用有意的空状态，没有编造项目或文章。

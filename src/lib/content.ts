@@ -87,5 +87,5 @@ export function readingTime(text: string): string {
   const chinese = (text.match(/[\u4e00-\u9fff]/g) ?? []).length;
   const words = (text.match(/[A-Za-z0-9]+/g) ?? []).length;
   const minutes = Math.max(1, Math.round(chinese / 300 + words / 220));
-  return `${minutes} MIN READ`;
+  return `约 ${minutes} 分钟`;
 }
