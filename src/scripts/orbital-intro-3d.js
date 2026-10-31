@@ -34,6 +34,7 @@ if (root) {
   let station = null;
   let gate = null;
   let stars = null;
+  let warp = null;
   let flashValue = 0;
   let width = 1;
   let height = 1;
@@ -258,6 +259,35 @@ if (root) {
     );
     scene.add(stars);
 
+    // Hyperspace streaks for the first beat of the jump.
+    const warpGeo = new THREE.BufferGeometry();
+    const warpPositions = new Float32Array(520 * 6);
+    for (let i = 0; i < 520; i += 1) {
+      const x = (Math.random() - 0.5) * 18;
+      const y = (Math.random() - 0.5) * 11;
+      const z = -4 - Math.random() * 55;
+      const length = 1.5 + Math.random() * 10;
+      warpPositions[i * 6] = x;
+      warpPositions[i * 6 + 1] = y;
+      warpPositions[i * 6 + 2] = z;
+      warpPositions[i * 6 + 3] = x;
+      warpPositions[i * 6 + 4] = y;
+      warpPositions[i * 6 + 5] = z + length;
+    }
+    warpGeo.setAttribute('position', new THREE.BufferAttribute(warpPositions, 3));
+    warp = new THREE.LineSegments(
+      warpGeo,
+      new THREE.LineBasicMaterial({
+        color: 0xc8f4ff,
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      }),
+    );
+    warp.visible = false;
+    scene.add(warp);
+
     // Nebula glow and sun.
     const nebula = new THREE.Sprite(
       new THREE.SpriteMaterial({
@@ -396,8 +426,16 @@ if (root) {
     stars.rotation.z = t * 0.1;
 
     const flashIn = clamp((t - 0.86) / 0.1);
-    setFlash(flashIn * 0.95);
+    const warpFlash = Math.max(0, 1 - Math.abs(t - 0.075) / 0.055) * 0.34;
+    setFlash(Math.max(warpFlash, flashIn * 0.95));
     updateProgress(t);
+
+    if (warp) {
+      const warpPulse = Math.sin(clamp(t / 0.32) * Math.PI);
+      warp.visible = warpPulse > 0.005;
+      warp.material.opacity = warpPulse * 0.58;
+      warp.position.z = -t * 18;
+    }
 
     if (t < 0.18) setCaption('深空信号锁定');
     else if (t < 0.42) setCaption('第一人称接近 / DECK 07');
@@ -602,6 +640,7 @@ if (root) {
     idle?.setAttribute('aria-hidden', 'true');
     document.body.classList.add('intro-open');
     if (gate) gate.visible = true;
+    if (warp) warp.visible = true;
     startAudio();
     cancelAnimationFrame(raf);
     raf = requestAnimationFrame(renderFlight);
