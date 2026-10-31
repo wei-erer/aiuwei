@@ -21,6 +21,33 @@ const { index = '00', label, title, titleEn, description, meta = [] } = Astro.pr
       <ellipse cx="760" cy="300" rx="430" ry="132" transform="rotate(-11 760 300)" stroke="currentColor" stroke-width="1" opacity=".16" stroke-dasharray="2 10" />
       <path d="M300 300h250M1040 300h80" stroke="currentColor" stroke-width="1" opacity=".18" />
     </svg>
+
+    <svg class="page-hero__station" viewBox="0 0 1100 560" fill="none">
+      <defs>
+        <linearGradient id="page-metal" x1="80" y1="100" x2="1000" y2="490">
+          <stop stop-color="#effbff" stop-opacity=".85" />
+          <stop offset=".45" stop-color="#8fb3c5" stop-opacity=".45" />
+          <stop offset="1" stop-color="#d9f6ff" stop-opacity=".55" />
+        </linearGradient>
+      </defs>
+      <g transform="rotate(-12 620 280)" opacity=".7">
+        <ellipse cx="620" cy="280" rx="470" ry="132" stroke="url(#page-metal)" stroke-width="1.6" />
+        <ellipse cx="620" cy="280" rx="470" ry="132" stroke="#9feaff" stroke-width="1" stroke-dasharray="1 11" opacity=".6" />
+        <ellipse cx="620" cy="280" rx="380" ry="104" stroke="url(#page-metal)" stroke-width="1" opacity=".45" />
+        <g stroke="#b9edff" stroke-width="1" opacity=".3">
+          <path d="M620 280V150M620 280V410M180 280h220M840 280h220M930 373L760 320M300 190l180 60" />
+        </g>
+        <g fill="#dff8ff" opacity=".8">
+          <rect x="612" y="136" width="16" height="30" rx="2" />
+          <rect x="612" y="394" width="16" height="30" rx="2" />
+          <rect x="1000" y="273" width="30" height="14" rx="2" />
+          <rect x="210" y="273" width="30" height="14" rx="2" />
+        </g>
+        <circle cx="620" cy="280" r="44" stroke="url(#page-metal)" stroke-width="1.2" />
+        <circle cx="620" cy="280" r="18" fill="rgba(5,17,29,.9)" stroke="#b9edff" stroke-width="1.2" />
+        <circle cx="620" cy="280" r="4" fill="#b9f3ff" />
+      </g>
+    </svg>
   </div>
 
   <div class="page-hero__inner container">
@@ -89,15 +116,47 @@ const { index = '00', label, title, titleEn, description, meta = [] } = Astro.pr
     width: 1400px;
     height: 1400px;
     border-radius: 50%;
-    background: radial-gradient(
-      circle at 30% 24%,
-      rgba(225, 250, 255, 0.85) 0,
-      rgba(125, 215, 250, 0.55) 7%,
-      rgba(38, 112, 158, 0.4) 25%,
-      rgba(7, 35, 58, 0.55) 54%,
-      rgba(1, 6, 12, 0.9) 76%
-    );
-    opacity: 0.55;
+    background:
+      radial-gradient(ellipse 18% 5% at 60% 40%, rgba(231, 252, 255, 0.16), rgba(10, 45, 68, 0.2) 46%, transparent 72%),
+      radial-gradient(
+        circle at 30% 24%,
+        rgba(225, 250, 255, 0.85) 0,
+        rgba(125, 215, 250, 0.55) 7%,
+        rgba(38, 112, 158, 0.4) 25%,
+        rgba(7, 35, 58, 0.55) 54%,
+        rgba(1, 6, 12, 0.9) 76%
+      );
+    opacity: 0.62;
+  }
+
+  .page-hero__planet::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      repeating-linear-gradient(
+        9deg,
+        transparent 0 28px,
+        rgba(208, 246, 255, 0.07) 29px 33px,
+        transparent 34px 76px
+      ),
+      repeating-linear-gradient(
+        4deg,
+        transparent 0 55px,
+        rgba(2, 18, 32, 0.13) 56px 66px,
+        transparent 67px 128px
+      );
+    mix-blend-mode: screen;
+    opacity: 0.6;
+  }
+
+  .page-hero__planet::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(116deg, transparent 8%, rgba(0, 4, 10, 0.16) 44%, rgba(0, 2, 7, 0.68) 100%);
   }
 
   .page-hero__atmosphere {
@@ -118,6 +177,15 @@ const { index = '00', label, title, titleEn, description, meta = [] } = Astro.pr
     width: min(1100px, 90vw);
     color: var(--cyan);
     opacity: 0.7;
+  }
+
+  .page-hero__station {
+    position: absolute;
+    right: -80px;
+    top: 13%;
+    width: min(820px, 66vw);
+    opacity: 0.3;
+    filter: drop-shadow(0 0 16px rgba(100, 205, 245, 0.12));
   }
 
   .page-hero__inner {
@@ -200,6 +268,13 @@ const { index = '00', label, title, titleEn, description, meta = [] } = Astro.pr
       right: -280px;
       top: 22%;
       width: 900px;
+    }
+
+    .page-hero__station {
+      right: -330px;
+      top: 26%;
+      width: 720px;
+      opacity: 0.18;
     }
   }
 </style>

@@ -20,36 +20,80 @@ const projectCount = String(allProjects.length).padStart(2, '0');
       <div class="orbital-hero__sun"></div>
       <div class="orbital-hero__planet"></div>
       <div class="orbital-hero__atmosphere"></div>
-      <svg class="orbital-hero__station" viewBox="0 0 1200 640" fill="none">
+      <svg class="orbital-hero__station" viewBox="0 0 1400 760" fill="none">
         <defs>
-          <linearGradient id="hero-metal" x1="0" y1="0" x2="1" y2="1">
-            <stop stop-color="#eafaff" stop-opacity=".9" />
-            <stop offset=".45" stop-color="#7fa4b8" stop-opacity=".42" />
-            <stop offset="1" stop-color="#2a4558" stop-opacity=".14" />
+          <linearGradient id="hero-metal" x1="180" y1="180" x2="1260" y2="620">
+            <stop stop-color="#f5fdff" stop-opacity=".98" />
+            <stop offset=".28" stop-color="#b7dce8" stop-opacity=".7" />
+            <stop offset=".55" stop-color="#5e879d" stop-opacity=".4" />
+            <stop offset=".8" stop-color="#315268" stop-opacity=".3" />
+            <stop offset="1" stop-color="#d9f5ff" stop-opacity=".8" />
           </linearGradient>
           <linearGradient id="hero-cyan" x1="0" y1="0" x2="1" y2="0">
-            <stop stop-color="#7bdcff" stop-opacity=".15" />
-            <stop offset=".5" stop-color="#c9f5ff" stop-opacity=".8" />
-            <stop offset="1" stop-color="#7bdcff" stop-opacity=".1" />
+            <stop stop-color="#7bdcff" stop-opacity=".08" />
+            <stop offset=".48" stop-color="#d8f8ff" stop-opacity=".9" />
+            <stop offset="1" stop-color="#7bdcff" stop-opacity=".12" />
           </linearGradient>
+          <radialGradient id="hero-hub" cx="50%" cy="50%" r="50%">
+            <stop stop-color="#d9f9ff" stop-opacity=".5" />
+            <stop offset=".34" stop-color="#7bdcff" stop-opacity=".2" />
+            <stop offset="1" stop-color="#7bdcff" stop-opacity="0" />
+          </radialGradient>
         </defs>
-        <ellipse cx="760" cy="300" rx="510" ry="138" transform="rotate(-12 760 300)" stroke="url(#hero-metal)" stroke-width="1.8" opacity=".95" />
-        <ellipse cx="760" cy="300" rx="510" ry="138" transform="rotate(-12 760 300)" stroke="url(#hero-cyan)" stroke-width="1.2" stroke-dasharray="1 9" opacity=".9" />
-        <ellipse cx="760" cy="300" rx="410" ry="108" transform="rotate(-12 760 300)" stroke="url(#hero-metal)" stroke-width="1.2" opacity=".65" />
-        <ellipse cx="760" cy="300" rx="580" ry="158" transform="rotate(-12 760 300)" stroke="url(#hero-metal)" stroke-width="1" opacity=".32" />
-        <path d="M250 300h246M1020 300h104" stroke="url(#hero-cyan)" stroke-width="1.2" opacity=".55" />
-        <circle cx="760" cy="300" r="42" stroke="#9feaff" stroke-width="1" opacity=".32" />
-        <circle cx="760" cy="300" r="72" stroke="#9feaff" stroke-width="1" opacity=".16" />
-        <g fill="#dff8ff" opacity=".85">
-          <rect x="438" y="288" width="34" height="16" rx="2" />
-          <rect x="1010" y="294" width="38" height="14" rx="2" />
-          <rect x="748" y="210" width="16" height="34" rx="2" />
-          <rect x="748" y="356" width="16" height="34" rx="2" />
-          <rect x="620" y="244" width="26" height="10" rx="2" opacity=".7" />
-          <rect x="874" y="342" width="26" height="10" rx="2" opacity=".7" />
+
+        <g transform="rotate(16 740 380)" opacity=".18">
+          <ellipse cx="740" cy="380" rx="548" ry="156" stroke="url(#hero-metal)" stroke-width="1.2" />
+          <ellipse cx="740" cy="380" rx="548" ry="156" stroke="url(#hero-cyan)" stroke-width="1" stroke-dasharray="2 18" />
         </g>
-        <circle cx="760" cy="300" r="22" fill="#061421" stroke="url(#hero-metal)" stroke-width="1.4" />
-        <circle cx="760" cy="300" r="5" fill="#a9efff" />
+
+        <g transform="rotate(-12 740 380)">
+          <ellipse cx="740" cy="380" rx="540" ry="150" stroke="url(#hero-metal)" stroke-width="2.6" />
+          <ellipse cx="740" cy="380" rx="540" ry="150" stroke="url(#hero-cyan)" stroke-width="1.2" stroke-dasharray="1 10" opacity=".9" />
+          <ellipse cx="740" cy="380" rx="460" ry="126" stroke="url(#hero-metal)" stroke-width="1.4" opacity=".7" />
+          <ellipse cx="740" cy="380" rx="620" ry="174" stroke="url(#hero-metal)" stroke-width="1" opacity=".28" />
+
+          <g stroke="rgba(192, 235, 252, .38)" stroke-width="1">
+            <path d="M740 380V230M740 380V530M200 380H420M1060 380H1280" />
+            <path d="M740 380L1122 486M740 380L358 274M740 380L1122 274M740 380L358 486" opacity=".55" />
+          </g>
+
+          <g fill="#dff8ff" opacity=".88">
+            <rect x="732" y="214" width="16" height="32" rx="2" />
+            <rect x="732" y="514" width="16" height="32" rx="2" />
+            <rect x="1265" y="373" width="32" height="14" rx="2" />
+            <rect x="183" y="373" width="32" height="14" rx="2" />
+            <rect x="1108" y="480" width="28" height="12" rx="2" transform="rotate(28 1122 486)" />
+            <rect x="346" y="268" width="28" height="12" rx="2" transform="rotate(28 360 274)" />
+            <rect x="1108" y="268" width="28" height="12" rx="2" transform="rotate(-28 1122 274)" />
+            <rect x="346" y="480" width="28" height="12" rx="2" transform="rotate(-28 360 486)" />
+          </g>
+
+          <g fill="#9feaff">
+            <circle cx="740" cy="230" r="2.4" />
+            <circle cx="740" cy="530" r="2.4" />
+            <circle cx="1280" cy="380" r="2.4" />
+            <circle cx="200" cy="380" r="2.4" />
+            <circle cx="1122" cy="486" r="2" opacity=".8" />
+            <circle cx="358" cy="274" r="2" opacity=".8" />
+            <circle cx="1122" cy="274" r="2" opacity=".8" />
+            <circle cx="358" cy="486" r="2" opacity=".8" />
+            <circle cx="1010" cy="440" r="1.6" opacity=".6" />
+            <circle cx="470" cy="320" r="1.6" opacity=".6" />
+          </g>
+
+          <g opacity=".75">
+            <rect x="466" y="242" width="56" height="22" rx="1" fill="#071b2a" stroke="rgba(201,242,255,.55)" stroke-width=".8" transform="rotate(-24 494 253)" />
+            <path d="M472 246l44 16M478 240l44 16M484 234l44 16" stroke="rgba(158,226,250,.32)" stroke-width=".7" transform="rotate(-24 494 253)" />
+          </g>
+
+          <circle cx="740" cy="380" r="86" stroke="#9feaff" stroke-width="1" opacity=".18" />
+          <circle cx="740" cy="380" r="52" stroke="url(#hero-metal)" stroke-width="1.2" opacity=".7" />
+          <circle cx="740" cy="380" r="44" fill="url(#hero-hub)" />
+          <circle cx="740" cy="380" r="20" fill="#061421" stroke="url(#hero-metal)" stroke-width="1.6" />
+          <circle cx="740" cy="380" r="5" fill="#b9f3ff" />
+          <path d="M740 360v-42M740 400v42" stroke="rgba(210,246,255,.6)" stroke-width="1" />
+          <path d="M720 380h-34M760 380h34" stroke="rgba(210,246,255,.35)" stroke-width="1" />
+        </g>
       </svg>
       <div class="orbital-hero__grid" aria-hidden="true"></div>
     </div>
@@ -98,8 +142,8 @@ const projectCount = String(allProjects.length).padStart(2, '0');
   <section class="station-section" id="logs">
     <div class="container">
       <div class="section-label" data-reveal>
-        <span class="section-label__index">01 / TRANSMISSIONS</span>
-        <span class="section-label__meta">LOG COUNT / {postCount}</span>
+        <span class="section-label__index">01 / 观测记录</span>
+        <span class="section-label__meta">记录 / {postCount}</span>
       </div>
       <div class="section-head" data-reveal>
         <div>
@@ -142,8 +186,8 @@ const projectCount = String(allProjects.length).padStart(2, '0');
   <section class="station-section station-section--manifest" id="missions">
     <div class="container">
       <div class="section-label" data-reveal>
-        <span class="section-label__index">02 / MISSION FILES</span>
-        <span class="section-label__meta">FILES / {projectCount}</span>
+        <span class="section-label__index">02 / 项目档案</span>
+        <span class="section-label__meta">档案 / {projectCount}</span>
       </div>
       <div class="section-head" data-reveal>
         <div>
@@ -193,7 +237,7 @@ const projectCount = String(allProjects.length).padStart(2, '0');
   <section class="station-section" id="observer">
     <div class="container">
       <div class="section-label" data-reveal>
-        <span class="section-label__index">03 / OBSERVER</span>
+        <span class="section-label__index">03 / 记录者</span>
         <span class="section-label__meta">WEI_ER / HUMAN</span>
       </div>
       <div class="home-about" data-reveal>
@@ -279,16 +323,19 @@ const projectCount = String(allProjects.length).padStart(2, '0');
     width: 1600px;
     height: 1600px;
     border-radius: 50%;
-    background: radial-gradient(
-      circle at 30% 22%,
-      #e8fcff 0,
-      #a7ecff 4%,
-      #3d9bc8 13%,
-      #135a80 28%,
-      #06283f 50%,
-      #010a12 72%,
-      #000204 88%
-    );
+    background:
+      radial-gradient(ellipse 18% 5% at 61% 42%, rgba(231, 252, 255, 0.18), rgba(10, 45, 68, 0.2) 46%, transparent 72%),
+      radial-gradient(ellipse 42% 11% at 37% 57%, rgba(0, 7, 14, 0.22), transparent 72%),
+      radial-gradient(
+        circle at 30% 22%,
+        #e8fcff 0,
+        #b4f0ff 4%,
+        #4aa9d2 12%,
+        #135a80 27%,
+        #06283f 50%,
+        #010a12 73%,
+        #000204 90%
+      );
     box-shadow: 0 0 100px rgba(95, 195, 240, 0.12);
     animation: planet-drift 26s ease-in-out infinite alternate;
   }
@@ -298,14 +345,22 @@ const projectCount = String(allProjects.length).padStart(2, '0');
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: repeating-linear-gradient(
-      8deg,
-      transparent 0 38px,
-      rgba(214, 248, 255, 0.06) 39px 41px,
-      transparent 42px 92px
-    );
+    background:
+      radial-gradient(ellipse 7% 3% at 60% 46%, rgba(225, 250, 255, 0.3), rgba(3, 25, 42, 0.28) 48%, transparent 72%),
+      repeating-linear-gradient(
+        9deg,
+        transparent 0 24px,
+        rgba(208, 246, 255, 0.075) 25px 29px,
+        transparent 30px 68px
+      ),
+      repeating-linear-gradient(
+        4deg,
+        transparent 0 48px,
+        rgba(2, 18, 32, 0.14) 49px 58px,
+        transparent 59px 112px
+      );
     mix-blend-mode: screen;
-    opacity: 0.55;
+    opacity: 0.9;
     pointer-events: none;
   }
 
@@ -314,7 +369,13 @@ const projectCount = String(allProjects.length).padStart(2, '0');
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: linear-gradient(118deg, transparent 12%, rgba(0, 4, 10, 0.16) 48%, rgba(0, 2, 7, 0.72) 100%);
+    background: linear-gradient(
+      116deg,
+      transparent 6%,
+      rgba(0, 4, 10, 0.14) 40%,
+      rgba(0, 2, 7, 0.58) 76%,
+      rgba(0, 1, 4, 0.9) 100%
+    );
     pointer-events: none;
   }
 
@@ -332,10 +393,13 @@ const projectCount = String(allProjects.length).padStart(2, '0');
 
   .orbital-hero__station {
     position: absolute;
-    right: -40px;
-    top: 18%;
-    width: min(1180px, 82vw);
-    opacity: 0.96;
+    right: -180px;
+    top: 8%;
+    width: min(1400px, 90vw);
+    opacity: 0.66;
+    filter: drop-shadow(0 0 18px rgba(95, 195, 240, 0.1));
+    mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.2) 18%, #000 42%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.2) 18%, #000 42%);
     animation: station-drift 18s ease-in-out infinite alternate;
   }
 
@@ -847,9 +911,9 @@ const projectCount = String(allProjects.length).padStart(2, '0');
   @media (max-width: 980px) {
     .orbital-hero__station {
       right: -300px;
-      top: 24%;
-      width: 1000px;
-      opacity: 0.6;
+      top: 18%;
+      width: 1150px;
+      opacity: 0.62;
     }
 
     .orbital-hero__planet {
@@ -931,7 +995,10 @@ const projectCount = String(allProjects.length).padStart(2, '0');
     }
 
     .orbital-hero__station {
-      top: 32%;
+      right: -420px;
+      top: 27%;
+      width: 1180px;
+      opacity: 0.55;
     }
 
     .section-head {

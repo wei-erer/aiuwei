@@ -207,6 +207,21 @@ strong {
   z-index: 1;
 }
 
+.js body.is-ready .page {
+  animation: page-in 0.9s var(--ease) both;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0.55;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .section {
   position: relative;
   padding-block: clamp(72px, 9vw, 132px);
@@ -366,6 +381,11 @@ strong {
   font-size: 16px;
   line-height: 1;
   color: var(--cyan);
+  transition: transform 0.25s var(--ease);
+}
+
+.btn:hover .btn__arrow {
+  transform: translate(3px, -2px);
 }
 
 .btn--solid {

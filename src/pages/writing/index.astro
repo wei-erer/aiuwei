@@ -17,13 +17,13 @@ const categories = ['实验记录', '论文笔记', '项目复盘', 'AI 安全']
     title="观测记录"
     titleEn="TRANSMISSIONS"
     description="实验、论文笔记、项目复盘，以及那些还没想清楚但值得留下的问题。所有记录按时间归档。"
-    meta={[`LOG ${count}`, 'LANGUAGE / ZH-CN', 'RSS / OPEN']}
+    meta={[`记录 ${count}`, '语言 / 中文', 'RSS / 开放']}
   />
 
   <section class="section">
     <div class="container">
       <div class="section-label" data-reveal>
-        <span class="section-label__index">ARCHIVE / {hasPosts ? 'OPEN' : 'STANDBY'}</span>
+        <span class="section-label__index">档案 / {hasPosts ? '开放' : '待命'}</span>
         <a class="link" href={href('rss.xml')}>RSS ↗</a>
       </div>
 
@@ -45,7 +45,7 @@ const categories = ['实验记录', '论文笔记', '项目复盘', 'AI 安全']
         <div class="empty-log" data-reveal>
           <div class="empty-log__number">000</div>
           <div class="empty-log__copy">
-            <p class="kicker">NO TRANSMISSION YET</p>
+            <p class="kicker">暂无记录</p>
             <h2>还没有记录。</h2>
             <p>
               等第一篇文章写完，它会出现在这里。不用占位内容凑数，也不假装这里已经有人读过。
@@ -62,7 +62,7 @@ const categories = ['实验记录', '论文笔记', '项目复盘', 'AI 安全']
       )}
 
       <div class="page-foot" data-reveal>
-        <span class="label">TRANSMISSIONS / 记录会持续更新</span>
+        <span class="label">观测记录 / 持续更新</span>
         <a class="link" href={href('projects/')}>去看项目档案 ↗</a>
       </div>
     </div>

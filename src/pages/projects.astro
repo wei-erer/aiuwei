@@ -15,14 +15,14 @@ const count = String(ordered.length).padStart(2, '0');
     title="项目档案"
     titleEn="MISSION FILES"
     description="实验、工具与独立项目。每份档案都尽量留下问题、方法、结果和可验证的链接，而不是一句“我很厉害”。"
-    meta={[`FILE ${count}`, 'STATUS / OPEN', 'FORMAT / PROBLEM → METHOD → RESULT']}
+    meta={[`档案 ${count}`, '状态 / 开放', '格式 / 问题 → 方法 → 结果']}
   />
 
   <section class="section">
     <div class="container">
       <div class="section-label" data-reveal>
-        <span class="section-label__index">MISSION INDEX / {count} FILES</span>
-        <span class="section-label__meta">ONLY VERIFIED WORK</span>
+        <span class="section-label__index">项目索引 / {count} 份档案</span>
+        <span class="section-label__meta">仅收录可验证项目</span>
       </div>
 
       {ordered.length > 0 ? (
@@ -51,7 +51,7 @@ const count = String(ordered.length).padStart(2, '0');
           <div class="empty-missions__top">
             <span class="empty-missions__number">000</span>
             <div>
-              <p class="kicker">STANDBY / NO VERIFIED FILE</p>
+              <p class="kicker">待命 / 尚无已验证档案</p>
               <h2>任务档案<br />尚未归档。</h2>
             </div>
           </div>
@@ -78,7 +78,7 @@ const count = String(ordered.length).padStart(2, '0');
       )}
 
       <div class="page-foot" data-reveal>
-        <span class="label">MISSION FILES / AIUWEI OBSERVATORY</span>
+        <span class="label">项目档案 / AIUWEI OBSERVATORY</span>
         <a class="link" href={href('writing/')}>去看观测记录 ↗</a>
       </div>
     </div>
