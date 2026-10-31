@@ -1,0 +1,850 @@
+<div class="loss-game" data-loss-game data-status="idle">
+  <div class="loss-game__top">
+    <div class="loss-game__id">
+      <span class="status-dot"></span>
+      <span>EXPERIMENT 001</span>
+      <span class="loss-game__slash">/</span>
+      <span>LOSS VALLEY</span>
+      <span class="tag">LIVE</span>
+    </div>
+    <div class="loss-game__top-status">
+      <span data-game-status>READY</span>
+      <span>ATTEMPT <strong data-game-attempt>00</strong></span>
+    </div>
+  </div>
+
+  <div class="loss-game__grid">
+    <div class="loss-game__screen panel">
+      <span class="hud-corners" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+
+      <div class="loss-game__screen-head">
+        <div class="loss-game__level">
+          <span data-game-level-code>LEVEL 01</span>
+          <strong data-game-level-name>FIRST LIGHT</strong>
+          <em data-game-level-cn>第一道信号</em>
+        </div>
+        <div class="loss-game__readouts">
+          <span>STEP <strong data-game-step>000</strong><i>/</i><span data-game-total>140</span></span>
+          <span>LOSS <strong data-game-loss>0.663</strong></span>
+          <span>VEL <strong data-game-velocity>0.000</strong></span>
+        </div>
+      </div>
+
+      <div class="loss-game__canvas-wrap" data-game-canvas-wrap>
+        <canvas
+          data-game-canvas
+          role="img"
+          aria-label="损失地形图。调整学习率与动量，让参数球进入全局最优区域。"
+        ></canvas>
+        <div class="loss-game__scan" aria-hidden="true"></div>
+        <div class="loss-game__legend" aria-hidden="true">
+          <span><i class="loss-game__dot loss-game__dot--start"></i> x₀ START</span>
+          <span><i class="loss-game__dot loss-game__dot--min"></i> LOCAL MIN</span>
+          <span><i class="loss-game__dot loss-game__dot--target"></i> GLOBAL MIN</span>
+        </div>
+      </div>
+
+      <div class="loss-game__screen-foot">
+        <span class="loss-game__objective">OBJECTIVE // <span data-game-objective>一个凸谷。找到既不会太慢、也不会冲过头的步长。</span></span>
+        <span class="loss-game__stars" data-game-stars aria-label="本关最佳星级">
+          <i></i><i></i><i></i>
+        </span>
+      </div>
+    </div>
+
+    <aside class="loss-game__panel panel">
+      <span class="hud-corners" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+
+      <div class="loss-game__levels" aria-label="关卡">
+        <button class="loss-game__level-tab is-active" type="button" data-level-button data-level="0" aria-pressed="true">
+          <span>01</span>
+          <strong>FIRST LIGHT</strong>
+          <em data-level-lock>OPEN</em>
+        </button>
+        <button class="loss-game__level-tab is-locked" type="button" data-level-button data-level="1" aria-pressed="false">
+          <span>02</span>
+          <strong>FALSE VALLEY</strong>
+          <em data-level-lock>LOCKED</em>
+        </button>
+        <button class="loss-game__level-tab is-locked" type="button" data-level-button data-level="2" aria-pressed="false">
+          <span>03</span>
+          <strong>THE RAVINE</strong>
+          <em data-level-lock>LOCKED</em>
+        </button>
+      </div>
+
+      <div class="loss-game__control-block">
+        <div class="loss-game__slider-head">
+          <span>LEARNING RATE</span>
+          <strong data-game-lr-value>η 0.080</strong>
+        </div>
+        <input
+          type="range"
+          min="0.005"
+          max="0.35"
+          step="0.005"
+          value="0.08"
+          data-game-lr
+          aria-label="学习率"
+          aria-valuetext="学习率 0.080"
+        />
+        <div class="loss-game__scale"><span>0.005</span><span>0.350</span></div>
+      </div>
+
+      <div class="loss-game__control-block">
+        <div class="loss-game__slider-head">
+          <span>MOMENTUM</span>
+          <strong data-game-beta-value>β 0.00</strong>
+        </div>
+        <input
+          type="range"
+          min="0"
+          max="0.99"
+          step="0.01"
+          value="0"
+          data-game-beta
+          aria-label="动量"
+          aria-valuetext="动量 0.00"
+        />
+        <div class="loss-game__scale"><span>0.00</span><span>0.99</span></div>
+      </div>
+
+      <div class="loss-game__buttons">
+        <button class="loss-game__run" type="button" data-game-run>
+          <span data-run-label>RUN DESCENT</span>
+          <span aria-hidden="true">↵</span>
+        </button>
+        <button class="loss-game__small" type="button" data-game-reset>RESET</button>
+        <button class="loss-game__small" type="button" data-game-hint>HINT</button>
+      </div>
+
+      <div class="loss-game__status">
+        <div>
+          <span>STATUS</span>
+          <strong data-game-message>READY // 等待参数</strong>
+        </div>
+        <div>
+          <span>RECORD</span>
+          <strong data-game-best>BEST —</strong>
+        </div>
+      </div>
+
+      <div class="loss-game__hint">
+        <div class="loss-game__hint-head">
+          <span>AIUWEI // ADVISORY</span>
+          <span>HINT</span>
+        </div>
+        <p data-game-hint-text>从一个中等步长开始。太小会走得很慢，太大则会在谷底来回振荡。</p>
+      </div>
+
+      <button class="loss-game__next" type="button" data-game-next>
+        <span>NEXT TERRAIN</span>
+        <span aria-hidden="true">→</span>
+      </button>
+
+      <div class="loss-game__shortcuts">
+        <span>SPACE RUN / PAUSE</span>
+        <span>R RESET</span>
+        <span>H HINT</span>
+      </div>
+    </aside>
+  </div>
+
+  <div class="sr-only" data-game-live aria-live="polite"></div>
+</div>
+
+<script>
+  import { initLossValley } from '../scripts/gradient-game.js';
+  initLossValley();
+</script>
+
+<style>
+  .loss-game {
+    position: relative;
+    margin-top: 32px;
+  }
+
+  .loss-game__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  .loss-game__id,
+  .loss-game__top-status {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+
+  .loss-game__slash {
+    color: var(--line-strong);
+  }
+
+  .loss-game__id .tag {
+    height: 18px;
+    padding: 0 6px;
+    color: var(--cyan);
+    font-size: 6px;
+  }
+
+  .loss-game__top-status span:first-child {
+    color: var(--cyan);
+  }
+
+  .loss-game__top-status strong {
+    color: var(--ink-muted);
+    font-weight: 400;
+  }
+
+  .loss-game__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.42fr) minmax(320px, 0.58fr);
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .loss-game__screen {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    padding: 18px;
+    overflow: hidden;
+    transition: border-color 0.35s ease;
+  }
+
+  .loss-game__screen-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 14px;
+  }
+
+  .loss-game__level {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .loss-game__level span {
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 7px;
+    letter-spacing: 0.14em;
+  }
+
+  .loss-game__level strong {
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    line-height: 1;
+  }
+
+  .loss-game__level em {
+    color: var(--ink-faint);
+    font-family: var(--font-cn);
+    font-size: 10px;
+    font-style: normal;
+    letter-spacing: 0.1em;
+  }
+
+  .loss-game__readouts {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 14px;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 7px;
+    letter-spacing: 0.08em;
+    line-height: 1.5;
+  }
+
+  .loss-game__readouts strong {
+    color: var(--ink-muted);
+    font-weight: 400;
+  }
+
+  .loss-game__readouts i {
+    color: var(--ink-faint);
+    font-style: normal;
+    opacity: 0.5;
+  }
+
+  .loss-game__canvas-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 290px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background:
+      radial-gradient(70% 70% at 50% 45%, rgba(46, 196, 182, 0.055), transparent 72%),
+      rgba(3, 8, 15, 0.7);
+  }
+
+  .loss-game__canvas-wrap canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .loss-game__scan {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.25;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 3px,
+      rgba(100, 244, 223, 0.04) 3px,
+      rgba(100, 244, 223, 0.04) 4px
+    );
+  }
+
+  .loss-game__legend {
+    position: absolute;
+    right: 12px;
+    bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 6px;
+    letter-spacing: 0.08em;
+    pointer-events: none;
+  }
+
+  .loss-game__legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .loss-game__dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+  }
+
+  .loss-game__dot--start {
+    background: var(--blue);
+  }
+
+  .loss-game__dot--min {
+    background: var(--amber);
+  }
+
+  .loss-game__dot--target {
+    background: var(--cyan);
+  }
+
+  .loss-game__screen-foot {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 7px;
+    letter-spacing: 0.08em;
+    line-height: 1.5;
+  }
+
+  .loss-game__objective {
+    max-width: 72ch;
+  }
+
+  .loss-game__objective span {
+    color: var(--ink-muted);
+    font-family: var(--font-cn);
+    letter-spacing: 0.02em;
+  }
+
+  .loss-game__stars {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 4px;
+    padding-top: 1px;
+  }
+
+  .loss-game__stars i {
+    display: block;
+    width: 6px;
+    height: 6px;
+    transform: rotate(45deg);
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .loss-game__stars i.is-filled {
+    border-color: var(--cyan);
+    background: var(--cyan);
+    box-shadow: 0 0 8px rgba(100, 244, 223, 0.6);
+  }
+
+  .loss-game__panel {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 18px;
+    padding: 18px;
+  }
+
+  .loss-game__levels {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .loss-game__level-tab {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 9px 8px;
+    border: 1px solid var(--line);
+    color: var(--ink-faint);
+    text-align: left;
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .loss-game__level-tab > span {
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 7px;
+    opacity: 0.55;
+  }
+
+  .loss-game__level-tab strong {
+    max-width: 100%;
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 7px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .loss-game__level-tab em {
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 6px;
+    font-style: normal;
+    letter-spacing: 0.1em;
+    opacity: 0.65;
+  }
+
+  .loss-game__level-tab:hover:not(:disabled) {
+    border-color: var(--line-strong);
+    color: var(--ink);
+  }
+
+  .loss-game__level-tab.is-active {
+    border-color: var(--line-cyan);
+    background: rgba(100, 244, 223, 0.055);
+  }
+
+  .loss-game__level-tab.is-active strong {
+    color: var(--ink);
+  }
+
+  .loss-game__level-tab.is-locked {
+    cursor: not-allowed;
+    opacity: 0.32;
+  }
+
+  .loss-game__control-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .loss-game__slider-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 10px;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 7px;
+    letter-spacing: 0.12em;
+  }
+
+  .loss-game__slider-head strong {
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+
+  .loss-game__control-block input[type='range'] {
+    width: 100%;
+    height: 2px;
+    margin: 5px 0 8px;
+    appearance: none;
+    -webkit-appearance: none;
+    background: linear-gradient(
+      to right,
+      var(--cyan) 0 var(--fill, 0%),
+      rgba(100, 244, 223, 0.16) var(--fill, 0%) 100%
+    );
+    cursor: pointer;
+    outline: none;
+  }
+
+  .loss-game__control-block input[type='range']::-webkit-slider-thumb {
+    width: 12px;
+    height: 12px;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid var(--cyan);
+    border-radius: 50%;
+    background: #03100d;
+    box-shadow: 0 0 10px rgba(100, 244, 223, 0.45);
+    cursor: ew-resize;
+  }
+
+  .loss-game__control-block input[type='range']::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border: 1px solid var(--cyan);
+    border-radius: 50%;
+    background: #03100d;
+    box-shadow: 0 0 10px rgba(100, 244, 223, 0.45);
+    cursor: ew-resize;
+  }
+
+  .loss-game__control-block input[type='range']:focus-visible {
+    outline: 1px solid var(--cyan);
+    outline-offset: 8px;
+  }
+
+  .loss-game__scale {
+    display: flex;
+    justify-content: space-between;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 6px;
+    letter-spacing: 0.08em;
+    opacity: 0.65;
+  }
+
+  .loss-game__buttons {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 6px;
+  }
+
+  .loss-game__run,
+  .loss-game__small {
+    height: 42px;
+    border: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    text-transform: uppercase;
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .loss-game__run {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0 14px;
+    border-color: var(--cyan);
+    background: var(--cyan);
+    color: #03100d;
+  }
+
+  .loss-game__run:hover:not(:disabled) {
+    background: #cffff8;
+  }
+
+  .loss-game__run.is-running {
+    background: transparent;
+    color: var(--cyan);
+  }
+
+  .loss-game__small {
+    padding: 0 11px;
+    color: var(--ink-muted);
+  }
+
+  .loss-game__small:hover:not(:disabled) {
+    border-color: var(--line-strong);
+    color: var(--cyan);
+  }
+
+  .loss-game__run:disabled,
+  .loss-game__small:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .loss-game__status {
+    display: grid;
+    grid-template-columns: 1.4fr 0.6fr;
+    gap: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+
+  .loss-game__status > div {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .loss-game__status span {
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 6px;
+    letter-spacing: 0.12em;
+  }
+
+  .loss-game__status strong {
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.6;
+  }
+
+  .loss-game__hint {
+    padding: 13px 14px;
+    border: 1px solid var(--line);
+    border-left-color: var(--line-cyan);
+    background: rgba(100, 244, 223, 0.025);
+  }
+
+  .loss-game__hint-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 6px;
+    letter-spacing: 0.1em;
+    opacity: 0.75;
+  }
+
+  .loss-game__hint p {
+    min-height: 60px;
+    margin-top: 8px;
+    color: var(--ink-muted);
+    font-family: var(--font-cn);
+    font-size: 11px;
+    line-height: 1.8;
+  }
+
+  .loss-game__next {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    height: 40px;
+    padding: 0 14px;
+    border: 1px solid var(--line-cyan);
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    transition: background-color 0.3s ease;
+  }
+
+  .loss-game__next.is-visible {
+    display: flex;
+  }
+
+  .loss-game__next:hover {
+    background: rgba(100, 244, 223, 0.08);
+  }
+
+  .loss-game__shortcuts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 8px;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 6px;
+    letter-spacing: 0.08em;
+    opacity: 0.6;
+  }
+
+  .loss-game[data-status='success'] .loss-game__screen {
+    border-color: rgba(100, 244, 223, 0.42);
+    box-shadow: 0 0 36px rgba(100, 244, 223, 0.05);
+  }
+
+  .loss-game[data-status='success'] .loss-game__status strong {
+    color: var(--cyan);
+  }
+
+  .loss-game[data-status='failed'] .loss-game__screen {
+    border-color: rgba(255, 107, 122, 0.34);
+  }
+
+  .loss-game[data-status='failed'] .loss-game__status strong {
+    color: var(--danger);
+  }
+
+  .loss-game[data-status='paused'] .loss-game__status strong {
+    color: var(--amber);
+  }
+
+  @media (max-width: 1120px) {
+    .loss-game__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .loss-game__panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+      gap: 18px 24px;
+    }
+
+    .loss-game__levels,
+    .loss-game__buttons,
+    .loss-game__status,
+    .loss-game__hint,
+    .loss-game__next,
+    .loss-game__shortcuts {
+      grid-column: 1 / -1;
+    }
+
+    .loss-game__control-block {
+      grid-column: span 1;
+    }
+
+    .loss-game__shortcuts {
+      margin-top: 0;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .loss-game__top {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .loss-game__top-status {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .loss-game__screen {
+      padding: 13px;
+    }
+
+    .loss-game__screen-head {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .loss-game__readouts {
+      width: 100%;
+      justify-content: flex-start;
+      gap: 10px;
+    }
+
+    .loss-game__canvas-wrap {
+      aspect-ratio: 4 / 3;
+      min-height: 240px;
+    }
+
+    .loss-game__legend {
+      display: none;
+    }
+
+    .loss-game__screen-foot {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .loss-game__panel {
+      display: flex;
+      padding: 14px;
+    }
+
+    .loss-game__levels {
+      gap: 4px;
+    }
+
+    .loss-game__level-tab {
+      padding: 8px 6px;
+    }
+
+    .loss-game__level-tab strong {
+      font-size: 6px;
+    }
+
+    .loss-game__buttons {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .loss-game__run {
+      grid-column: 1 / -1;
+    }
+
+    .loss-game__status {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .loss-game__hint p {
+      min-height: 0;
+    }
+
+    .loss-game__shortcuts {
+      justify-content: flex-start;
+      gap: 12px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .loss-game__stars i {
+      transition: none;
+    }
+  }
+</style>

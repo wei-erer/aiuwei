@@ -1,0 +1,135 @@
+---
+import { href } from '../data/site';
+import type { Project } from '../content/projects';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const statusLabel = {
+  active: 'ACTIVE',
+  archived: 'ARCHIVED',
+  experiment: 'EXPERIMENT',
+  planned: 'PLANNED',
+}[project.status] ?? 'OPEN';
+---
+
+<article class="project-card panel">
+  <span class="hud-corners" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+
+  <div class="project-card__top">
+    <span class="tag">{statusLabel}</span>
+    <span class="project-card__year">{project.year}</span>
+  </div>
+
+  <h3 class="project-card__title">{project.title}</h3>
+  <p class="project-card__desc">{project.description}</p>
+
+  {project.stack.length > 0 && (
+    <ul class="project-card__stack" aria-label="技术栈">
+      {project.stack.map((item) => <li>{item}</li>)}
+    </ul>
+  )}
+
+  <div class="project-card__foot">
+    {project.link && (
+      <a href={project.link} target="_blank" rel="noreferrer">访问项目 <span>↗</span></a>
+    )}
+    {project.repo && (
+      <a href={project.repo} target="_blank" rel="noreferrer">源码 <span>↗</span></a>
+    )}
+    {!project.link && !project.repo && <span class="project-card__soon">档案整理中</span>}
+  </div>
+</article>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+    padding: 26px;
+    transition: border-color 0.35s ease, transform 0.45s var(--ease), background-color 0.35s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--line-strong);
+    background-color: rgba(9, 22, 36, 0.9);
+  }
+
+  .project-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .project-card__year {
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.12em;
+  }
+
+  .project-card__title {
+    margin-top: 28px;
+    font-family: var(--font-cn);
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+  }
+
+  .project-card__desc {
+    margin-top: 12px;
+    color: var(--ink-muted);
+    font-family: var(--font-cn);
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .project-card__stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 20px;
+  }
+
+  .project-card__stack li {
+    padding: 4px 7px;
+    border: 1px solid var(--line);
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.08em;
+  }
+
+  .project-card__foot {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: auto;
+    padding-top: 24px;
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  .project-card__foot a {
+    transition: color 0.3s ease;
+  }
+
+  .project-card__foot a:hover {
+    color: var(--cyan);
+  }
+
+  .project-card__foot span {
+    color: var(--cyan);
+  }
+
+  .project-card__soon {
+    color: var(--ink-faint);
+  }
+</style>

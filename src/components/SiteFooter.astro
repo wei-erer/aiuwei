@@ -1,0 +1,237 @@
+---
+import { nav, site, href } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="site-footer__ghost" aria-hidden="true">AIUWEI</div>
+
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <p class="eyebrow"><span class="status-dot"></span> OBSERVATORY / {site.established}</p>
+      <p class="site-footer__name">AIUWEI</p>
+      <p class="site-footer__tagline">{site.tagline}</p>
+      <p class="site-footer__author">记录者 / <strong>WEI_ER</strong></p>
+    </div>
+
+    <nav class="site-footer__nav" aria-label="页脚导航">
+      <p class="site-footer__label">NAVIGATION</p>
+      {nav.map((item) => (
+        <a href={href(item.path)}>
+          <span>{item.label}</span>
+          <span>{item.en}</span>
+        </a>
+      ))}
+    </nav>
+
+    <div class="site-footer__links">
+      <p class="site-footer__label">UPLINK</p>
+      <a href={site.github} target="_blank" rel="noreferrer">GITHUB <span>↗</span></a>
+      <a href={href('rss.xml')}>RSS <span>↗</span></a>
+      <a href={`${href('')}?intro=1`}>重播开场 <span>↻</span></a>
+      <a href="#top">回到顶部 <span>↑</span></a>
+    </div>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <p>© {year} WEI_ER. ALL SIGNALS RESERVED.</p>
+    <p><span class="status-dot"></span> SIGNAL END // 本次传输结束</p>
+    <p>BUILT FOR THE DEEP SPACE</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    position: relative;
+    z-index: var(--z-content);
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+    background:
+      linear-gradient(to bottom, rgba(3, 6, 11, 0.2), rgba(3, 6, 11, 0.92)),
+      radial-gradient(50% 90% at 80% 100%, rgba(46, 196, 182, 0.08), transparent 70%);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(140px, 0.6fr) minmax(160px, 0.6fr);
+    gap: clamp(32px, 6vw, 100px);
+    padding-top: clamp(56px, 8vw, 100px);
+    padding-bottom: clamp(56px, 8vw, 96px);
+  }
+
+  .site-footer__ghost {
+    position: absolute;
+    left: 50%;
+    bottom: -0.08em;
+    width: 100%;
+    transform: translateX(-50%);
+    color: transparent;
+    font-family: var(--font-sans);
+    font-size: clamp(100px, 22vw, 330px);
+    font-weight: 500;
+    letter-spacing: -0.07em;
+    line-height: 0.7;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-text-stroke: 1px rgba(100, 244, 223, 0.11);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .site-footer__brand {
+    position: relative;
+    z-index: 1;
+  }
+
+  .site-footer__name {
+    margin-top: 22px;
+    font-size: clamp(34px, 4vw, 54px);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 0.9;
+  }
+
+  .site-footer__tagline {
+    max-width: 18em;
+    margin-top: 18px;
+    color: var(--ink-soft);
+    font-family: var(--font-cn);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    line-height: 1.9;
+  }
+
+  .site-footer__author {
+    margin-top: 24px;
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+
+  .site-footer__author strong {
+    color: var(--cyan);
+    font-weight: 400;
+  }
+
+  .site-footer__nav,
+  .site-footer__links {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding-top: 2px;
+  }
+
+  .site-footer__label {
+    margin-bottom: 10px;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.2em;
+  }
+
+  .site-footer__nav a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+    color: var(--ink-muted);
+    font-family: var(--font-cn);
+    font-size: 12px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .site-footer__nav a span:last-child {
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 7px;
+    letter-spacing: 0.12em;
+  }
+
+  .site-footer__nav a:hover {
+    color: var(--ink);
+    border-color: var(--line);
+  }
+
+  .site-footer__links a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    transition: color 0.3s ease;
+  }
+
+  .site-footer__links a span {
+    color: var(--ink-faint);
+    font-size: 11px;
+    transition: color 0.3s ease, transform 0.3s var(--ease);
+  }
+
+  .site-footer__links a:hover {
+    color: var(--cyan);
+  }
+
+  .site-footer__links a:hover span {
+    color: var(--cyan);
+    transform: translate(2px, -2px);
+  }
+
+  .site-footer__bottom {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 18px;
+    padding-bottom: 22px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+  }
+
+  .site-footer__bottom p {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .site-footer__bottom .status-dot {
+    width: 4px;
+    height: 4px;
+  }
+
+  @media (max-width: 860px) {
+    .site-footer__inner {
+      grid-template-columns: 1fr 1fr;
+      gap: 40px 24px;
+    }
+
+    .site-footer__brand {
+      grid-column: 1 / -1;
+    }
+
+    .site-footer__bottom {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .site-footer__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

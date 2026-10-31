@@ -1,0 +1,14 @@
+node_modules/
+dist/
+dist-preview/
+.astro/
+.tools/
+.preview/
+.deploy/
+.pnpm-store/
+.dsh-vision-router/
+*.zip
+.DS_Store
+*.log
+.env
+.env.*

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wei-erer.github.io/aiuwei/sitemap-index.xml

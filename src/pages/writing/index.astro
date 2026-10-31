@@ -1,0 +1,416 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import PostRow from '../../components/PostRow.astro';
+import { href } from '../../data/site';
+import { getPosts } from '../../lib/content';
+
+const posts = getPosts();
+const count = String(posts.length).padStart(2, '0');
+const years = [...new Set(posts.map((post) => post.data.pubDate.getFullYear()))];
+const hasPosts = posts.length > 0;
+const topics = [
+  { cn: '实验记录', en: 'EXPERIMENT LOGS' },
+  { cn: '论文与阅读', en: 'PAPERS & NOTES' },
+  { cn: '项目复盘', en: 'RETROSPECTIVES' },
+];
+---
+
+<BaseLayout title="观测记录" description="AIUWEI 的观测记录：实验、论文笔记、项目复盘与 AI 安全方向的思考。">
+  <PageHeader
+    index="02"
+    en="TRANSMISSIONS / WRITING"
+    title="观测记录"
+    titleEn="TRANSMISSIONS"
+    description="实验、论文笔记、项目复盘，以及那些还没想清楚但值得留下的问题。所有记录按时间归档。"
+    meta={[`LOGS ${count}`, 'LANGUAGE / ZH-CN', 'RSS / AVAILABLE']}
+  />
+
+  <section class="section writing-page">
+    <div class="container">
+      <div class="writing-page__bar" data-reveal>
+        <p class="eyebrow">ARCHIVE INDEX / {years.length > 0 ? years.join(' · ') : 'EMPTY'}</p>
+        <a class="writing-page__rss" href={href('rss.xml')}>RSS FEED <span>↗</span></a>
+      </div>
+
+      {hasPosts ? (
+        <div class="writing-list">
+          {posts.map((post, index) => (
+            <div class="writing-list__item">
+              <PostRow post={post} index={index} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="writing-empty">
+          <aside class="writing-empty__index" data-reveal>
+            <p class="eyebrow">STATION ARCHIVE</p>
+            <p class="writing-empty__count">00 <span>TRANSMISSIONS</span></p>
+
+            <div class="writing-empty__topics">
+              {topics.map((topic, index) => (
+                <div>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <strong>{topic.cn}</strong>
+                  <em>{topic.en}</em>
+                </div>
+              ))}
+            </div>
+
+            <p class="writing-empty__note">
+              <span class="status-dot status-dot--amber"></span>
+              频道已开启，等待第一条记录。
+            </p>
+          </aside>
+
+          <div class="writing-empty__feed panel" data-reveal style="--delay: 0.1s">
+            <span class="hud-corners" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+
+            <div class="writing-empty__feed-top">
+              <span><i class="status-dot status-dot--amber"></i> LIVE FEED // NO SIGNAL</span>
+              <span>CH 002</span>
+            </div>
+
+            <div class="writing-empty__body">
+              <span class="writing-empty__big" aria-hidden="true">00</span>
+              <div>
+                <h2>第一条观测记录，<br />正在穿越深空。</h2>
+                <p>
+                  这里暂时是空的。等 wei_er 写下第一篇实验记录、论文笔记或项目复盘，它会以时间戳的形式出现在这条频道里。
+                </p>
+              </div>
+            </div>
+
+            <div class="terminal writing-empty__terminal">
+              <span>wei_er@aiuwei:~$ tail -f /var/log/aiuwei/signals.log</span><span class="caret" aria-hidden="true"></span>
+            </div>
+
+            <div class="writing-empty__feed-foot">
+              <span>CHANNEL OPEN</span>
+              <span>AWAITING FIRST TRANSMISSION</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div class="writing-page__protocol" data-reveal>
+        <span class="writing-page__protocol-label">TRANSMISSION PROTOCOL</span>
+        <p>笔记会持续更新。不追热点，只留下可复用的实验过程、判断依据和失败记录。</p>
+        <a href={href('about/')}>关于这座观测站 <span>↗</span></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .writing-page__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .writing-page__rss {
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    transition: color 0.3s ease;
+  }
+
+  .writing-page__rss span {
+    color: var(--cyan);
+  }
+
+  .writing-page__rss:hover {
+    color: var(--cyan);
+  }
+
+  .writing-list {
+    border-top: 1px solid var(--line);
+  }
+
+  .writing-empty {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.62fr) minmax(0, 1.38fr);
+    gap: clamp(28px, 5vw, 70px);
+    align-items: start;
+    margin-top: clamp(40px, 6vw, 72px);
+  }
+
+  .writing-empty__index {
+    padding-top: 4px;
+  }
+
+  .writing-empty__count {
+    margin-top: 24px;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: clamp(44px, 5vw, 70px);
+    letter-spacing: -0.06em;
+    line-height: 0.9;
+  }
+
+  .writing-empty__count span {
+    display: block;
+    margin-top: 12px;
+    color: var(--ink-faint);
+    font-size: 8px;
+    letter-spacing: 0.14em;
+  }
+
+  .writing-empty__topics {
+    margin-top: 34px;
+    border-top: 1px solid var(--line);
+  }
+
+  .writing-empty__topics > div {
+    display: grid;
+    grid-template-columns: 26px minmax(0, 1fr);
+    gap: 4px 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .writing-empty__topics span {
+    grid-row: span 2;
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    opacity: 0.55;
+  }
+
+  .writing-empty__topics strong {
+    color: var(--ink-soft);
+    font-family: var(--font-cn);
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .writing-empty__topics em {
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 7px;
+    letter-spacing: 0.1em;
+  }
+
+  .writing-empty__note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+  }
+
+  .writing-empty__feed {
+    display: flex;
+    min-height: 470px;
+    flex-direction: column;
+    padding: clamp(24px, 3.4vw, 40px);
+    overflow: hidden;
+  }
+
+  .writing-empty__feed::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(100, 244, 223, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(100, 244, 223, 0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: linear-gradient(to bottom, black, transparent 82%);
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent 82%);
+    pointer-events: none;
+  }
+
+  .writing-empty__feed-top,
+  .writing-empty__feed-foot {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  .writing-empty__feed-top span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .writing-empty__body {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: clamp(20px, 4vw, 48px);
+    margin-block: auto;
+    padding-block: 30px;
+  }
+
+  .writing-empty__big {
+    color: transparent;
+    font-family: var(--font-mono);
+    font-size: clamp(84px, 10vw, 140px);
+    font-weight: 400;
+    letter-spacing: -0.08em;
+    line-height: 0.8;
+    -webkit-text-stroke: 1px rgba(100, 244, 223, 0.26);
+  }
+
+  .writing-empty__body h2 {
+    font-family: var(--font-cn);
+    font-size: clamp(24px, 3vw, 38px);
+    font-weight: 300;
+    letter-spacing: -0.04em;
+    line-height: 1.35;
+  }
+
+  .writing-empty__body p {
+    max-width: 38ch;
+    margin-top: 16px;
+    color: var(--ink-muted);
+    font-family: var(--font-cn);
+    font-size: 12px;
+    line-height: 1.95;
+  }
+
+  .writing-empty__terminal {
+    position: relative;
+    z-index: 1;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    opacity: 0.8;
+  }
+
+  .writing-empty__feed-foot {
+    padding-top: 14px;
+  }
+
+  .writing-page__protocol {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 24px;
+    margin-top: clamp(56px, 8vw, 100px);
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-faint);
+    font-family: var(--font-cn);
+    font-size: 11px;
+    line-height: 1.8;
+  }
+
+  .writing-page__protocol-label {
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 7px;
+    letter-spacing: 0.14em;
+  }
+
+  .writing-page__protocol p {
+    color: var(--ink-muted);
+  }
+
+  .writing-page__protocol a {
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+  }
+
+  .writing-page__protocol a span {
+    color: var(--cyan);
+  }
+
+  .writing-page__protocol a:hover {
+    color: var(--cyan);
+  }
+
+  @media (max-width: 1000px) {
+    .writing-empty {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .writing-empty__index {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 32px;
+    }
+
+    .writing-empty__index > .eyebrow {
+      grid-column: 1 / -1;
+    }
+
+    .writing-empty__count {
+      grid-column: 1;
+    }
+
+    .writing-empty__topics {
+      grid-column: 2;
+      grid-row: 2 / span 2;
+      margin-top: 20px;
+    }
+
+    .writing-empty__note {
+      grid-column: 1;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .writing-empty__index {
+      display: block;
+    }
+
+    .writing-empty__topics {
+      margin-top: 28px;
+    }
+
+    .writing-empty__count {
+      font-size: 54px;
+    }
+
+    .writing-empty__body {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .writing-empty__big {
+      font-size: 82px;
+    }
+
+    .writing-empty__feed {
+      min-height: 430px;
+    }
+
+    .writing-empty__terminal {
+      font-size: 8px;
+    }
+
+    .writing-page__protocol {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+</style>
