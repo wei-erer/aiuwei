@@ -7,6 +7,10 @@ dist-preview/
 .deploy/
 .pnpm-store/
 .dsh-vision-router/
+.deploy-go
+.deploy-status.txt
+.deploy-failed
+/*.png
 *.zip
 .DS_Store
 *.log

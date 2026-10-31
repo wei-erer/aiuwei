@@ -1,226 +1,208 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
-import LossValley from '../components/LossValley.astro';
+import AiOrHuman from '../components/AiOrHuman.astro';
+import TokenMatch from '../components/TokenMatch.astro';
 import { href } from '../data/site';
 ---
 
-<BaseLayout title="实验室" description="AIUWEI 实验室：一个关于学习率与动量的可玩实验，Loss Valley。">
+<BaseLayout title="实验室" description="AIUWEI 实验室：两个中文小游戏，AI 真假判断与 Token 注意力配对。">
   <PageHeader
     index="03"
-    en="EXPERIMENTS / LAB"
+    en="PLAYGROUND / LAB"
     title="实验室"
     titleEn="EXPERIMENTS"
-    description="把调参的直觉，变成一场可玩的实验。调整学习率与动量，观察参数球如何在损失地形里移动、停滞、越过局部最优，最后收敛。"
-    meta={['EXPERIMENTS 01', 'STATUS / ONLINE', 'INPUT / MOUSE + KEYBOARD']}
+    description="两个不需要操作技巧的小游戏。一个判断文字背后是谁，一个寻找词语之间的注意力。规则都在开始页，中文说明。"
+    meta={['GAMES 02', 'STATUS / OPEN', 'NO SIGN-UP / NO API']}
+    stamp={`PLAY\n02`}
   />
 
   <section class="section lab-page">
     <div class="container">
-      <div class="lab-page__brief" data-reveal>
+      <div class="lab-note" data-reveal>
         <div>
-          <span>01 / TUNE</span>
-          <p>调学习率与动量</p>
+          <p class="kicker">SELECT A GAME</p>
+          <p>先选一个游戏。每个游戏都有自己的规则页和“开始”按钮，不会一上来就把你扔进计时器。</p>
         </div>
-        <div>
-          <span>02 / RUN</span>
-          <p>观察参数更新过程</p>
-        </div>
-        <div>
-          <span>03 / CONVERGE</span>
-          <p>在步数耗尽前进入全局最优</p>
-        </div>
-        <p class="lab-page__brief-note">
-          <span class="status-dot"></span>
-          这不是在训练真实模型，但调参的快乐与痛苦是真的。
-        </p>
-      </div>
-
-      <LossValley />
-
-      <div class="lab-page__footer" data-reveal>
-        <div>
-          <p class="eyebrow">LAB NOTES / 001</p>
-          <p>
-            这个实验只做一件事：让你亲手感受 η 和 β 如何改变收敛路径。每一关的损失地形都是固定的，但你的策略不必相同。
-          </p>
-        </div>
-        <div class="lab-page__next">
-          <span>NEXT EXPERIMENT</span>
-          <strong>QUEUED / 002</strong>
-          <em>更多实验正在排队</em>
+        <div class="lab-note__facts">
+          <span>01 / 判断</span>
+          <span>02 / 配对</span>
+          <span>本地记录最佳成绩</span>
         </div>
       </div>
 
-      <div class="lab-page__return">
-        <a href={href('projects/')}>看看任务档案 <span>↗</span></a>
-        <a href={href('writing/')}>读取观测记录 <span>↗</span></a>
+      <div class="lab-tabs" role="tablist" aria-label="选择游戏" data-reveal>
+        <button class="lab-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="ai-or-human" id="tab-ai-or-human" data-lab-tab="ai-or-human">
+          <span class="lab-tab__index">01</span>
+          <span class="lab-tab__name">AI 真假判断</span>
+          <span class="lab-tab__en">HUMAN OR AI?</span>
+        </button>
+        <button class="lab-tab" type="button" role="tab" aria-selected="false" aria-controls="token-match" id="tab-token-match" data-lab-tab="token-match">
+          <span class="lab-tab__index">02</span>
+          <span class="lab-tab__name">Token 注意力配对</span>
+          <span class="lab-tab__en">ATTENTION MATCH</span>
+        </button>
+      </div>
+
+      <div class="lab-panel" data-lab-panel="ai-or-human" id="ai-or-human" role="tabpanel" aria-labelledby="tab-ai-or-human">
+        <AiOrHuman />
+      </div>
+
+      <div class="lab-panel" data-lab-panel="token-match" id="token-match" role="tabpanel" aria-labelledby="tab-token-match" hidden>
+        <TokenMatch />
+      </div>
+
+      <div class="lab-foot" data-reveal>
+        <p class="label">LAB NOTES / 两个游戏都可以反复玩</p>
+        <p>游戏文本与词卡都是虚构的，用来观察表达、记忆和联想，不构成对真实模型或作者的判断。</p>
+        <a class="link" href={href('writing/')}>回去读记录 ↗</a>
       </div>
     </div>
   </section>
 </BaseLayout>
 
+<script>
+  import '../scripts/lab-tabs.js';
+</script>
+
 <style>
-  .lab-page__brief {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(220px, 0.9fr);
-    gap: 16px;
-    padding-bottom: 22px;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .lab-page__brief > div {
+  .lab-note {
     display: flex;
-    flex-direction: column;
-    gap: 7px;
-    padding-right: 16px;
-    border-right: 1px solid var(--line);
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--ink);
   }
 
-  .lab-page__brief > div span {
-    color: var(--cyan);
-    font-family: var(--font-mono);
-    font-size: 7px;
-    letter-spacing: 0.12em;
-    opacity: 0.65;
+  .lab-note > div:first-child {
+    max-width: 64ch;
   }
 
-  .lab-page__brief > div p {
-    color: var(--ink-soft);
-    font-family: var(--font-cn);
-    font-size: 12px;
-    line-height: 1.7;
+  .lab-note > div:first-child p:not(.kicker) {
+    margin-top: 10px;
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.9;
   }
 
-  .lab-page__brief-note {
+  .lab-note__facts {
     display: flex;
-    align-items: flex-start;
+    flex-wrap: wrap;
     gap: 8px;
-    align-self: end;
-    color: var(--ink-faint);
-    font-family: var(--font-cn);
+    flex: 0 0 auto;
+  }
+
+  .lab-note__facts span {
+    padding: 4px 8px;
+    border: 1px solid var(--ink);
+    background: var(--paper-3);
+    font-family: var(--font-mono);
     font-size: 10px;
+    letter-spacing: 0.03em;
+  }
+
+  .lab-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .lab-tab {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid var(--ink);
+    background: var(--paper-3);
+    text-align: left;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .lab-tab:hover {
+    background: var(--acid);
+  }
+
+  .lab-tab.is-active {
+    background: var(--ink);
+    color: var(--paper-3);
+  }
+
+  .lab-tab__index {
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+
+  .lab-tab__name {
+    font-family: var(--font-serif);
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
+  .lab-tab__en {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    opacity: 0.75;
+  }
+
+  .lab-panel {
+    margin-top: 18px;
+  }
+
+  .lab-panel[hidden] {
+    display: none !important;
+  }
+
+  .lab-foot {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 20px;
+    margin-top: 46px;
+    padding-top: 16px;
+    border-top: 1px solid var(--ink);
+  }
+
+  .lab-foot > p:nth-child(2) {
+    max-width: 54ch;
+    color: var(--muted);
+    font-size: 12px;
     line-height: 1.8;
   }
 
-  .lab-page__brief-note .status-dot {
-    margin-top: 6px;
-  }
-
-  .lab-page__footer {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 40px;
-    margin-top: 54px;
-    padding-top: 22px;
-    border-top: 1px solid var(--line);
-  }
-
-  .lab-page__footer > div:first-child {
-    max-width: 56ch;
-  }
-
-  .lab-page__footer p:not(.eyebrow) {
-    margin-top: 14px;
-    color: var(--ink-muted);
-    font-family: var(--font-cn);
-    font-size: 12px;
-    line-height: 1.95;
-  }
-
-  .lab-page__next {
-    display: flex;
-    flex: 0 0 auto;
-    flex-direction: column;
-    gap: 5px;
-    min-width: 180px;
-    padding: 16px;
-    border: 1px dashed var(--line);
-    opacity: 0.6;
-  }
-
-  .lab-page__next span {
-    color: var(--ink-faint);
+  .lab-foot .link {
     font-family: var(--font-mono);
-    font-size: 6px;
-    letter-spacing: 0.12em;
-  }
-
-  .lab-page__next strong {
-    color: var(--ink-muted);
-    font-family: var(--font-mono);
-    font-size: 8px;
-    font-weight: 400;
-    letter-spacing: 0.06em;
-  }
-
-  .lab-page__next em {
-    color: var(--ink-faint);
-    font-family: var(--font-cn);
     font-size: 10px;
-    font-style: normal;
+    white-space: nowrap;
   }
 
-  .lab-page__return {
-    display: flex;
-    gap: 24px;
-    margin-top: 42px;
-    padding-top: 18px;
-    border-top: 1px solid var(--line);
-  }
-
-  .lab-page__return a {
-    color: var(--ink-muted);
-    font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.08em;
-    transition: color 0.3s ease;
-  }
-
-  .lab-page__return a span {
-    color: var(--cyan);
-  }
-
-  .lab-page__return a:hover {
-    color: var(--cyan);
-  }
-
-  @media (max-width: 1000px) {
-    .lab-page__brief {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .lab-page__brief > div:nth-child(2) {
-      border-right: 0;
-    }
-
-    .lab-page__brief-note {
-      grid-column: 1 / -1;
-    }
-
-    .lab-page__footer {
+  @media (max-width: 860px) {
+    .lab-note {
+      align-items: flex-start;
       flex-direction: column;
-      gap: 24px;
+    }
+
+    .lab-tabs {
+      grid-template-columns: 1fr;
+    }
+
+    .lab-foot {
+      grid-template-columns: 1fr;
+      gap: 10px;
     }
   }
 
   @media (max-width: 560px) {
-    .lab-page__brief {
-      grid-template-columns: 1fr;
-      gap: 12px;
+    .lab-tab {
+      grid-template-columns: 26px minmax(0, 1fr);
     }
 
-    .lab-page__brief > div {
-      padding-bottom: 10px;
-      padding-right: 0;
-      border-right: 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .lab-page__return {
-      flex-direction: column;
-      gap: 12px;
+    .lab-tab__en {
+      display: none;
     }
   }
 </style>

@@ -12,9 +12,9 @@ const { index, en, title, link, linkLabel = '查看全部' } = Astro.props;
 
 <div class="section-head" data-reveal>
   <span class="section-head__index" aria-hidden="true">{index}</span>
-  <div class="section-head__heading">
+  <div>
     <p class="section-head__en">{en}</p>
-    <h2 class="section-head__title"><span class="section-head__title-cn">{title}</span></h2>
+    <h2 class="section-head__title">{title}</h2>
   </div>
   {link && (
     <a class="section-head__link" href={link}>

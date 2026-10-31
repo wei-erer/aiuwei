@@ -6,156 +6,35 @@ interface Props {
   titleEn?: string;
   description: string;
   meta?: string[];
+  stamp?: string;
 }
 
-const { index, en, title, titleEn, description, meta = [] } = Astro.props;
+const { index, en, title, titleEn, description, meta = [], stamp } = Astro.props;
 ---
 
 <section class="page-head">
-  <div class="page-head__grid" aria-hidden="true"></div>
-  <div class="page-head__glow" aria-hidden="true"></div>
-
-  <div class="container page-head__inner">
+  <div class="container">
     <div class="page-head__top">
-      <p class="eyebrow"><span class="status-dot"></span>{en}</p>
+      <p class="kicker">{en}</p>
       <span class="page-head__index">{index} / 04</span>
     </div>
 
     <div class="page-head__main">
-      <h1 class="page-head__title">
-        <span class="page-head__title-en">{titleEn}</span>
-        {title}
-      </h1>
-      <p class="page-head__desc">{description}</p>
-      {meta.length > 0 && (
-        <div class="page-head__meta">
-          {meta.map((item) => <span>{item}</span>)}
-        </div>
-      )}
+      <div>
+        <h1 class="page-head__title">
+          {titleEn && <span class="page-head__title-en">{titleEn}</span>}
+          {title}
+        </h1>
+        {meta.length > 0 && (
+          <div class="page-head__meta">
+            {meta.map((item) => <span class="tag">{item}</span>)}
+          </div>
+        )}
+      </div>
+      <div>
+        <p class="page-head__desc">{description}</p>
+      </div>
     </div>
   </div>
+  {stamp && <div class="page-head__stamp" aria-hidden="true">{stamp}</div>}
 </section>
-
-<style>
-  .page-head {
-    position: relative;
-    overflow: hidden;
-    padding-top: calc(var(--nav-h) + clamp(58px, 9vw, 112px));
-    padding-bottom: clamp(48px, 7vw, 82px);
-    border-bottom: 1px solid var(--line);
-  }
-
-  .page-head__grid {
-    position: absolute;
-    inset: 0;
-    opacity: 0.3;
-    background-image:
-      linear-gradient(to right, rgba(100, 244, 223, 0.055) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(100, 244, 223, 0.04) 1px, transparent 1px);
-    background-size: 96px 96px;
-    mask-image: linear-gradient(to bottom, black, transparent 78%);
-    -webkit-mask-image: linear-gradient(to bottom, black, transparent 78%);
-    pointer-events: none;
-  }
-
-  .page-head__glow {
-    position: absolute;
-    top: -20%;
-    right: -8%;
-    width: 48vw;
-    height: 48vw;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(46, 196, 182, 0.08), transparent 66%);
-    filter: blur(20px);
-    pointer-events: none;
-  }
-
-  .page-head__inner {
-    position: relative;
-    z-index: 1;
-  }
-
-  .page-head__top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .page-head__index {
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.14em;
-  }
-
-  .page-head__main {
-    margin-top: clamp(38px, 6vw, 72px);
-  }
-
-  .page-head__title {
-    max-width: 16em;
-    color: var(--ink);
-    font-family: var(--font-cn);
-    font-size: clamp(46px, 8vw, 104px);
-    font-weight: 300;
-    letter-spacing: -0.055em;
-    line-height: 1.02;
-  }
-
-  .page-head__title-en {
-    display: block;
-    margin-bottom: 14px;
-    color: var(--cyan);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    font-weight: 400;
-    letter-spacing: 0.22em;
-    line-height: 1.2;
-    text-transform: uppercase;
-  }
-
-  .page-head__desc {
-    max-width: 56ch;
-    margin-top: 26px;
-    color: var(--ink-muted);
-    font-family: var(--font-cn);
-    font-size: 14px;
-    line-height: 1.95;
-  }
-
-  .page-head__meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 26px;
-  }
-
-  .page-head__meta span {
-    padding: 5px 8px;
-    border: 1px solid var(--line);
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.1em;
-    line-height: 1;
-    text-transform: uppercase;
-  }
-
-  @media (max-width: 560px) {
-    .page-head {
-      padding-top: calc(var(--nav-h) + 44px);
-      padding-bottom: 46px;
-    }
-
-    .page-head__title {
-      font-size: clamp(42px, 12vw, 64px);
-    }
-
-    .page-head__desc {
-      font-size: 13px;
-    }
-  }
-</style>

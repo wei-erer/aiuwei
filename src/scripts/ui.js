@@ -6,7 +6,7 @@ const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').mat
 
 function onScroll() {
   if (!header) return;
-  header.classList.toggle('is-scrolled', window.scrollY > 18);
+  header.classList.toggle('is-scrolled', window.scrollY > 12);
 }
 
 if (header) {
@@ -50,7 +50,7 @@ document.addEventListener('keydown', (event) => {
 });
 
 window.addEventListener('resize', () => {
-  if (window.innerWidth > 1120 && menu?.classList.contains('is-open')) {
+  if (window.innerWidth > 1080 && menu?.classList.contains('is-open')) {
     closeMenu({ restoreFocus: false });
   }
 });
@@ -68,7 +68,7 @@ if (prefersReduced || !('IntersectionObserver' in window)) {
         observer.unobserve(entry.target);
       });
     },
-    { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+    { threshold: 0.1, rootMargin: '0px 0px -6% 0px' },
   );
 
   revealItems.forEach((item) => observer.observe(item));
@@ -78,7 +78,6 @@ requestAnimationFrame(() => {
   document.body.classList.add('is-ready');
 });
 
-// Keep footer timestamps honest when the page is open across midnight.
 const yearTargets = document.querySelectorAll('[data-year]');
 if (yearTargets.length) {
   const year = String(new Date().getFullYear());

@@ -1,0 +1,501 @@
+---
+import { site, href } from '../data/site';
+---
+
+<div class="entry-cover" data-cover aria-label="AIUWEI 封面">
+  <div class="entry-cover__shutter entry-cover__shutter--top" aria-hidden="true"></div>
+  <div class="entry-cover__shutter entry-cover__shutter--bottom" aria-hidden="true"></div>
+  <div class="entry-cover__flash" aria-hidden="true"></div>
+
+  <div class="entry-cover__inner container">
+    <header class="entry-cover__top">
+      <span class="kicker">AIUWEI / ISSUE 001</span>
+      <span class="label">DEEP SPACE OBSERVATORY / {site.established}</span>
+    </header>
+
+    <div class="entry-cover__grid">
+      <div class="entry-cover__copy">
+        <p class="kicker">AI / PROJECTS / WRITING / PLAY</p>
+        <p class="entry-cover__title">AIUWEI</p>
+        <p class="entry-cover__cn">深空观测站</p>
+        <p class="entry-cover__tagline">在深空里，<br />记录智能的微光。</p>
+        <button class="entry-cover__enter" type="button" data-cover-enter>
+          <span>进入观测站</span>
+          <span aria-hidden="true">↗</span>
+        </button>
+        <p class="entry-cover__hint">点击进入 · 或按 Enter <span>无背景音乐</span></p>
+      </div>
+
+      <div class="entry-cover__poster" aria-hidden="true">
+        <div class="entry-cover__card entry-cover__card--acid">
+          <span class="entry-cover__card-label">SIGNAL / 001</span>
+          <svg viewBox="0 0 120 120" fill="none">
+            <circle cx="60" cy="60" r="4" fill="currentColor" />
+            <ellipse cx="60" cy="60" rx="45" ry="17" transform="rotate(-28 60 60)" stroke="currentColor" stroke-width="1.2" />
+            <ellipse cx="60" cy="60" rx="45" ry="17" transform="rotate(34 60 60)" stroke="currentColor" stroke-width="1.2" />
+            <circle cx="96" cy="34" r="3" fill="currentColor" />
+          </svg>
+          <span class="entry-cover__card-caption">LOCAL TIME<br />DEEP SPACE</span>
+        </div>
+
+        <figure class="entry-cover__card entry-cover__card--photo">
+          <span class="entry-cover__tape" aria-hidden="true"></span>
+          <img src={href('images/avatar.jpg')} alt="" width="640" height="640" />
+          <figcaption><span>OBSERVER</span><strong>WEI_ER</strong></figcaption>
+        </figure>
+
+        <div class="entry-cover__card entry-cover__card--blue">
+          <span class="entry-cover__card-label">FOCUS</span>
+          <p>LLM<br />AGENT<br />ALIGNMENT</p>
+          <span class="entry-cover__card-caption">ISSUE 001 / 2026</span>
+        </div>
+
+        <div class="entry-cover__barcode">
+          <span aria-hidden="true"></span>
+          <small>AIUWEI · 001 · OBSERVATORY</small>
+        </div>
+      </div>
+    </div>
+
+    <footer class="entry-cover__bottom">
+      <span>记录者 / WEI_ER</span>
+      <span>AIUWEI OBSERVATORY</span>
+      <span>PRESS ENTER</span>
+    </footer>
+  </div>
+</div>
+
+<script>
+  import '../scripts/entry.js';
+</script>
+
+<style>
+  .entry-cover {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-cover);
+    display: none;
+    overflow: hidden;
+  }
+
+  :global(html.js:not(.cover-skip)) .entry-cover {
+    display: block;
+  }
+
+  :global(body.cover-complete) .entry-cover {
+    display: none;
+  }
+
+  .entry-cover__shutter {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    z-index: 1;
+    background-color: var(--paper);
+    background-image: radial-gradient(rgba(16, 16, 14, 0.13) 0.65px, transparent 0.65px);
+    background-size: 16px 16px;
+    transition: transform 0.85s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  .entry-cover__shutter--top {
+    top: 0;
+  }
+
+  .entry-cover__shutter--bottom {
+    bottom: 0;
+  }
+
+  .entry-cover__inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    height: 100svh;
+    flex-direction: column;
+    padding-top: 22px;
+    padding-bottom: 18px;
+  }
+
+  .entry-cover__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .entry-cover__top .label {
+    text-align: right;
+  }
+
+  .entry-cover__grid {
+    display: grid;
+    flex: 1;
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+    align-items: center;
+    gap: clamp(24px, 5vw, 80px);
+    min-height: 0;
+  }
+
+  .entry-cover__copy {
+    position: relative;
+    z-index: 2;
+  }
+
+  .entry-cover__title {
+    margin-top: 22px;
+    font-family: var(--font-sans);
+    font-size: clamp(92px, 16vw, 238px);
+    font-weight: 600;
+    letter-spacing: -0.08em;
+    line-height: 0.72;
+  }
+
+  .entry-cover__cn {
+    width: fit-content;
+    margin-top: 26px;
+    padding: 0 6px;
+    background: linear-gradient(transparent 52%, var(--acid) 52%, var(--acid) 92%, transparent 92%);
+    font-family: var(--font-serif);
+    font-size: clamp(34px, 5vw, 70px);
+    font-weight: 600;
+    letter-spacing: -0.06em;
+    line-height: 1.15;
+  }
+
+  .entry-cover__tagline {
+    max-width: 22ch;
+    margin-top: 18px;
+    color: var(--ink-2);
+    font-family: var(--font-serif);
+    font-size: clamp(17px, 1.8vw, 23px);
+    font-weight: 600;
+    line-height: 1.7;
+  }
+
+  .entry-cover__enter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 38px;
+    min-width: 270px;
+    min-height: 56px;
+    margin-top: 30px;
+    padding: 0 18px;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper-3);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.3s var(--ease);
+  }
+
+  .entry-cover__enter span:last-child {
+    font-size: 18px;
+  }
+
+  .entry-cover__enter:hover {
+    background: var(--acid);
+    color: var(--ink);
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+
+  .entry-cover__hint {
+    margin-top: 12px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+
+  .entry-cover__hint span {
+    margin-left: 12px;
+    color: var(--faint);
+  }
+
+  .entry-cover__poster {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr auto;
+    gap: 10px;
+    width: min(100%, 430px);
+    justify-self: end;
+    transform: rotate(-2deg);
+  }
+
+  .entry-cover__card {
+    position: relative;
+    min-height: 150px;
+    border: 1px solid var(--ink);
+    overflow: hidden;
+  }
+
+  .entry-cover__card--acid {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px;
+    background: var(--acid);
+    color: var(--ink);
+  }
+
+  .entry-cover__card--acid svg {
+    width: 72%;
+    margin-inline: auto;
+  }
+
+  .entry-cover__card-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+
+  .entry-cover__card-caption {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    line-height: 1.5;
+  }
+
+  .entry-cover__card--photo {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    background: var(--paper-3);
+  }
+
+  .entry-cover__card--photo img {
+    width: 100%;
+    flex: 1;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.08);
+  }
+
+  .entry-cover__card--photo figcaption {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 8px 9px;
+    border-top: 1px solid var(--ink);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.06em;
+  }
+
+  .entry-cover__card--photo figcaption strong {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .entry-cover__tape {
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    z-index: 2;
+    width: 64px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(16, 16, 14, 0.16);
+    transform: translateX(-50%) rotate(-2deg);
+    backdrop-filter: blur(1px);
+  }
+
+  .entry-cover__card--blue {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px;
+    background: var(--blue);
+    color: #fff;
+  }
+
+  .entry-cover__card--blue p {
+    font-family: var(--font-sans);
+    font-size: clamp(18px, 2.2vw, 30px);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+
+  .entry-cover__barcode {
+    display: flex;
+    grid-column: 1 / -1;
+    flex-direction: column;
+    gap: 5px;
+    padding-top: 2px;
+  }
+
+  .entry-cover__barcode span {
+    display: block;
+    width: 100%;
+    height: 34px;
+    background: repeating-linear-gradient(
+      to right,
+      var(--ink) 0 2px,
+      transparent 2px 5px,
+      var(--ink) 5px 6px,
+      transparent 6px 11px,
+      var(--ink) 11px 14px,
+      transparent 14px 17px
+    );
+  }
+
+  .entry-cover__barcode small {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.12em;
+  }
+
+  .entry-cover__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 12px;
+    border-top: 1px solid var(--ink);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  /* Exit: two paper shutters part; a cobalt flash line crosses the gap. */
+  .entry-cover.is-leaving .entry-cover__inner {
+    opacity: 0;
+    transform: translateY(-14px);
+    transition: opacity 0.35s ease, transform 0.45s var(--ease);
+  }
+
+  .entry-cover.is-leaving .entry-cover__shutter--top {
+    transform: translateY(-100%);
+  }
+
+  .entry-cover.is-leaving .entry-cover__shutter--bottom {
+    transform: translateY(100%);
+  }
+
+  .entry-cover__flash {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    height: 2px;
+    background: var(--blue);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .entry-cover.is-leaving .entry-cover__flash {
+    animation: cover-flash 0.85s ease-out;
+  }
+
+  @keyframes cover-flash {
+    0% {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    18% {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+    70% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .entry-cover__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .entry-cover__poster {
+      display: none;
+    }
+
+    .entry-cover__title {
+      font-size: clamp(86px, 18vw, 150px);
+    }
+
+    .entry-cover__cn {
+      margin-top: 18px;
+      font-size: clamp(32px, 8vw, 52px);
+    }
+
+    .entry-cover__tagline {
+      font-size: 16px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .entry-cover__inner {
+      padding-top: 16px;
+      padding-bottom: 14px;
+    }
+
+    .entry-cover__top .label {
+      display: none;
+    }
+
+    .entry-cover__copy {
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .entry-cover__title {
+      margin-top: 16px;
+      font-size: clamp(70px, 23vw, 110px);
+    }
+
+    .entry-cover__cn {
+      margin-top: 16px;
+      font-size: 34px;
+    }
+
+    .entry-cover__tagline {
+      margin-top: 12px;
+      font-size: 15px;
+    }
+
+    .entry-cover__enter {
+      width: 100%;
+      min-width: 0;
+      margin-top: 24px;
+    }
+
+    .entry-cover__hint {
+      font-size: 9px;
+    }
+
+    .entry-cover__hint span {
+      display: block;
+      margin: 4px 0 0;
+    }
+
+    .entry-cover__bottom {
+      font-size: 8px;
+    }
+
+    .entry-cover__bottom span:nth-child(2) {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .entry-cover__shutter,
+    .entry-cover__inner {
+      transition: none !important;
+    }
+  }
+</style>

@@ -1,26 +1,24 @@
 ---
-import { href } from '../data/site';
 import type { Project } from '../content/projects';
 
 interface Props {
   project: Project;
+  accent?: 'acid' | 'blue' | 'orange' | 'paper';
 }
 
-const { project } = Astro.props;
+const { project, accent = 'acid' } = Astro.props;
 const statusLabel = {
-  active: 'ACTIVE',
-  archived: 'ARCHIVED',
-  experiment: 'EXPERIMENT',
-  planned: 'PLANNED',
-}[project.status] ?? 'OPEN';
+  active: '进行中',
+  archived: '已归档',
+  experiment: '实验中',
+  planned: '计划中',
+}[project.status] ?? '待定';
 ---
 
-<article class="project-card panel">
-  <span class="hud-corners" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
-
+<article class:list={['project-card', `project-card--${accent}`]}>
   <div class="project-card__top">
     <span class="tag">{statusLabel}</span>
-    <span class="project-card__year">{project.year}</span>
+    <span class="label">{project.year}</span>
   </div>
 
   <h3 class="project-card__title">{project.title}</h3>
@@ -33,103 +31,94 @@ const statusLabel = {
   )}
 
   <div class="project-card__foot">
-    {project.link && (
-      <a href={project.link} target="_blank" rel="noreferrer">访问项目 <span>↗</span></a>
-    )}
-    {project.repo && (
-      <a href={project.repo} target="_blank" rel="noreferrer">源码 <span>↗</span></a>
-    )}
-    {!project.link && !project.repo && <span class="project-card__soon">档案整理中</span>}
+    {project.link && <a class="link" href={project.link} target="_blank" rel="noreferrer">访问项目 ↗</a>}
+    {project.repo && <a class="link" href={project.repo} target="_blank" rel="noreferrer">源码 ↗</a>}
+    {!project.link && !project.repo && <span class="label">档案整理中</span>}
   </div>
 </article>
 
 <style>
   .project-card {
     display: flex;
+    min-height: 300px;
     flex-direction: column;
-    min-height: 280px;
-    padding: 26px;
-    transition: border-color 0.35s ease, transform 0.45s var(--ease), background-color 0.35s ease;
+    padding: 22px;
+    border: 1px solid var(--ink);
+    background: var(--paper-3);
+    box-shadow: 5px 5px 0 var(--ink);
+    transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
   }
 
   .project-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--line-strong);
-    background-color: rgba(9, 22, 36, 0.9);
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0 var(--ink);
+  }
+
+  .project-card--acid {
+    border-top: 8px solid var(--acid);
+  }
+
+  .project-card--blue {
+    border-top: 8px solid var(--blue);
+  }
+
+  .project-card--orange {
+    border-top: 8px solid var(--orange);
+  }
+
+  .project-card--paper {
+    border-top: 8px solid var(--paper-2);
   }
 
   .project-card__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-  }
-
-  .project-card__year {
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.12em;
+    gap: 12px;
   }
 
   .project-card__title {
     margin-top: 28px;
-    font-family: var(--font-cn);
-    font-size: 24px;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1.35;
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.2;
   }
 
   .project-card__desc {
     margin-top: 12px;
-    color: var(--ink-muted);
-    font-family: var(--font-cn);
-    font-size: 13px;
-    line-height: 1.8;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.9;
   }
 
   .project-card__stack {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-top: 20px;
+    margin-top: 18px;
   }
 
   .project-card__stack li {
-    padding: 4px 7px;
-    border: 1px solid var(--line);
-    color: var(--ink-faint);
+    padding: 3px 6px;
+    border: 1px solid var(--ink);
     font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.08em;
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
   }
 
   .project-card__foot {
     display: flex;
     align-items: center;
-    gap: 18px;
+    flex-wrap: wrap;
+    gap: 14px;
     margin-top: auto;
     padding-top: 24px;
-    color: var(--ink-muted);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.08em;
   }
 
-  .project-card__foot a {
-    transition: color 0.3s ease;
-  }
-
-  .project-card__foot a:hover {
-    color: var(--cyan);
-  }
-
-  .project-card__foot span {
-    color: var(--cyan);
-  }
-
-  .project-card__soon {
-    color: var(--ink-faint);
+  .project-card__foot .label {
+    color: var(--muted);
   }
 </style>

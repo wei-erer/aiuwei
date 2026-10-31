@@ -1,771 +1,580 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
-import NeuralCore from '../components/NeuralCore.astro';
 import AvatarFrame from '../components/AvatarFrame.astro';
 import PostRow from '../components/PostRow.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import { site, href, emptyCopy } from '../data/site';
+import { site, href } from '../data/site';
 import { getPosts } from '../lib/content';
 import { projects as allProjects } from '../content/projects';
 
 const allPosts = getPosts();
 const posts = allPosts.slice(0, 3);
-
-const projects = [...allProjects]
+const orderedProjects = [...allProjects]
   .sort((a, b) => (a.order ?? 99) - (b.order ?? 99))
   .slice(0, 3);
-
 const postCount = String(allPosts.length).padStart(2, '0');
 const projectCount = String(allProjects.length).padStart(2, '0');
 ---
 
-<BaseLayout intro={true}>
-  <section class="hero">
-    <div class="hero__grid" aria-hidden="true"></div>
+<BaseLayout cover={true}>
+  <section class="home-hero">
+    <div class="container">
+      <div class="home-hero__top">
+        <span class="kicker">AI OBSERVATORY / ISSUE 001</span>
+        <span class="label">DEEP SPACE / {site.established}</span>
+        <span class="label">SCROLL TO READ ↓</span>
+      </div>
 
-    <div class="hero__inner container">
-      <div class="hero__content">
-        <p class="hero__eyebrow" data-hero style="--delay: 0.04s">
-          <span class="status-dot"></span>
-          <span>DEEP SPACE AI OBSERVATORY</span>
-          <span class="hero__eyebrow-line" aria-hidden="true"></span>
-          <span>EST. {site.established}</span>
-        </p>
+      <div class="home-hero__grid">
+        <div class="home-hero__copy">
+          <p class="kicker" data-hero style="--delay: 0.04s">AI / PROJECTS / WRITING / PLAY</p>
+          <h1 class="home-hero__title" data-hero style="--delay: 0.1s">
+            <span class="home-hero__en">AIUWEI</span>
+            <span class="home-hero__cn">在深空里，<br /><em>记录智能的微光。</em></span>
+          </h1>
+          <p class="home-hero__lede" data-hero style="--delay: 0.18s">
+            我是 wei_er。这里记录我对 LLM、Agent、RAG 与 AI
+            安全/对齐的观察、实验和项目。不追热点，只留下可复用的过程与判断。
+          </p>
+          <ul class="home-hero__tags" data-hero style="--delay: 0.24s" aria-label="关注方向">
+            {site.focus.map((item) => <li>{item}</li>)}
+            <li>BUILDING IN PUBLIC</li>
+          </ul>
+          <div class="home-hero__actions" data-hero style="--delay: 0.3s">
+            <a class="btn btn--solid" href="#signals">
+              <span>开始阅读</span><span class="btn__arrow" aria-hidden="true">↓</span>
+            </a>
+            <a class="btn" href={href('lab/')}>
+              <span>去玩两个小游戏</span><span class="btn__arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
 
-        <h1 class="hero__title" data-hero style="--delay: 0.12s">
-          <span class="hero__title-main" data-text="AIUWEI">AIUWEI</span>
-          <span class="hero__title-cn">在深空里，<br /><em>记录智能的微光。</em></span>
-        </h1>
+        <div class="home-collage" data-hero style="--delay: 0.16s" aria-label="AIUWEI 视觉拼贴">
+          <div class="home-collage__card home-collage__card--acid">
+            <span class="label">SIGNAL / 001</span>
+            <svg viewBox="0 0 120 120" fill="none" aria-hidden="true">
+              <circle cx="60" cy="60" r="4" fill="currentColor" />
+              <ellipse cx="60" cy="60" rx="44" ry="17" transform="rotate(-28 60 60)" stroke="currentColor" stroke-width="1.2" />
+              <ellipse cx="60" cy="60" rx="44" ry="17" transform="rotate(34 60 60)" stroke="currentColor" stroke-width="1.2" />
+              <circle cx="96" cy="35" r="3" fill="currentColor" />
+            </svg>
+            <span class="mono home-collage__micro">AIUWEI OBSERVATORY<br />2026 / DEEP SPACE</span>
+          </div>
 
-        <p class="hero__lede" data-hero style="--delay: 0.22s">
-          我是 wei_er。这里是我的 AI 观测站，记录 LLM、Agent、RAG 与 AI
-          安全方向的实验、项目与思考。
-        </p>
+          <figure class="home-collage__card home-collage__card--photo">
+            <span class="home-collage__tape" aria-hidden="true"></span>
+            <img src={href('images/avatar.jpg')} alt="wei_er 的插画头像" width="640" height="640" />
+            <figcaption><span>OBSERVER</span><strong>WEI_ER</strong></figcaption>
+          </figure>
 
-        <ul class="hero__focus" data-hero style="--delay: 0.3s" aria-label="关注方向">
-          {site.focus.map((item) => <li>{item}</li>)}
-          <li>BUILDING IN PUBLIC</li>
-        </ul>
+          <div class="home-collage__card home-collage__card--blue">
+            <span class="label">FOCUS</span>
+            <p>LLM<br />AGENT<br />ALIGNMENT</p>
+            <span class="mono home-collage__micro">ISSUE 001 / EST. 2026</span>
+          </div>
 
-        <div class="hero__actions" data-hero style="--delay: 0.38s">
-          <a class="btn btn--primary" href="#signals">
-            <span class="btn__code">01</span>
-            <span>读取观测记录</span>
-            <span class="btn__arrow" aria-hidden="true">↓</span>
-          </a>
-          <a class="btn btn--ghost" href={href('lab/')}>
-            <span class="btn__code">LAB</span>
-            <span>进入实验室</span>
-            <span class="btn__arrow" aria-hidden="true">↗</span>
-          </a>
+          <div class="home-collage__card home-collage__card--paper">
+            <span class="label">CURRENTLY</span>
+            <ul>
+              <li>OBSERVING</li>
+              <li>BUILDING</li>
+              <li>WRITING</li>
+            </ul>
+            <span class="mono home-collage__micro">STATUS / OPEN</span>
+          </div>
+
+          <div class="home-collage__barcode" aria-hidden="true">
+            <span></span>
+            <small>AIUWEI · 001 · WEI_ER</small>
+          </div>
         </div>
       </div>
 
-      <div class="hero__visual" data-hero style="--delay: 0.18s">
-        <div class="hero__ring" aria-hidden="true"></div>
-        <div class="hero__ring hero__ring--inner" aria-hidden="true"></div>
-        <div class="hero__crosshair" aria-hidden="true">
-          <span class="hero__crosshair-h"></span>
-          <span class="hero__crosshair-v"></span>
-        </div>
-
-        <NeuralCore nodes={142} />
-
-        <div class="hero__hud hero__hud--tl" aria-hidden="true">
-          <span>NEURAL CORE</span>
-          <strong>00 / AIUWEI</strong>
-        </div>
-        <div class="hero__hud hero__hud--tr" aria-hidden="true">
-          <span>CORE SYNC</span>
-          <strong>98.2%</strong>
-        </div>
-        <div class="hero__hud hero__hud--bl" aria-hidden="true">
-          <span>SIGNAL</span>
-          <strong>LOCKED</strong>
-        </div>
-        <div class="hero__hud hero__hud--br" aria-hidden="true">
-          <span>OBSERVER</span>
-          <strong>WEI_ER</strong>
-        </div>
-
-        <p class="hero__core-hint">MOVE CURSOR <span>//</span> 让核心感知你</p>
-      </div>
-    </div>
-
-    <div class="hero__status container" data-hero style="--delay: 0.5s">
-      <a class="hero__scroll" href="#signals">
-        <span class="hero__scroll-line" aria-hidden="true"></span>
-        <span>SCROLL TO EXPLORE</span>
-      </a>
-      <div class="hero__status-list" aria-label="站点状态">
-        <span><i class="status-dot"></i> CORE: ONLINE</span>
-        <span>ARCHIVE: {postCount}</span>
-        <span>MISSIONS: {projectCount}</span>
-        <span>LAB: 01</span>
+      <div class="home-hero__foot" data-hero style="--delay: 0.36s">
+        <div><span class="label">RECORD</span><strong>WEI_ER</strong></div>
+        <div><span class="label">FOCUS</span><strong>LLM / AGENT / ALIGNMENT</strong></div>
+        <div><span class="label">STATUS</span><strong><i class="status-dot"></i> OBSERVING</strong></div>
       </div>
     </div>
   </section>
 
-  <section class="section signals" id="signals">
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__inner">
+      <div class="marquee__group">
+        <span>AIUWEI OBSERVATORY</span><span>ISSUE 001</span><span>LLM / AGENT / ALIGNMENT</span><span>记录智能的微光</span>
+      </div>
+      <div class="marquee__group">
+        <span>AIUWEI OBSERVATORY</span><span>ISSUE 001</span><span>LLM / AGENT / ALIGNMENT</span><span>记录智能的微光</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" id="signals">
     <div class="container">
       <SectionHeading
         index="01"
-        en="LATEST TRANSMISSIONS"
+        en="TRANSMISSIONS / LATEST"
         title="观测记录"
         link={href('writing/')}
         linkLabel="全部记录"
       />
 
-      <div class="signals__grid">
-        <div class="signal-manifesto" data-reveal>
-          <p class="eyebrow">OBSERVATION PROTOCOL / 001</p>
-          <p class="signal-manifesto__quote">先记录，<br /><em>再命名。</em></p>
-          <p class="signal-manifesto__body">
-            AIUWEI 不是一份简历，也不是一个产品。它是一座持续建设中的个人观测站：把读过的论文、跑过的实验、做过的项目，以及那些还没想清楚的问题，留在深空里。
-          </p>
-
-          <ul class="signal-manifesto__list">
-            <li>
-              <span class="signal-manifesto__num">01</span>
-              <span class="signal-manifesto__item"><strong>实验记录</strong><em>EXPERIMENTS</em></span>
-              <span aria-hidden="true">→</span>
-            </li>
-            <li>
-              <span class="signal-manifesto__num">02</span>
-              <span class="signal-manifesto__item"><strong>项目档案</strong><em>MISSION FILES</em></span>
-              <span aria-hidden="true">→</span>
-            </li>
-            <li>
-              <span class="signal-manifesto__num">03</span>
-              <span class="signal-manifesto__item"><strong>长文与碎片</strong><em>TRANSMISSIONS</em></span>
-              <span aria-hidden="true">→</span>
-            </li>
-          </ul>
-
-          <p class="signal-manifesto__note">
-            <span class="status-dot status-dot--amber"></span>
-            STATION NOTE // 记录正在陆续上传
-          </p>
-        </div>
-
-        <div class="signals__feed" data-reveal style="--delay: 0.1s">
-          {posts.length > 0 ? (
-            <div class="signal-list">
-              <div class="signal-list__head">
-                <span>LATEST FEED</span>
-                <span>{postCount} LOGS</span>
-              </div>
-              {posts.map((post, index) => <PostRow post={post} index={index} />)}
-            </div>
-          ) : (
-            <div class="empty-feed panel">
-              <span class="hud-corners" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
-
-              <div class="empty-feed__top">
-                <span><i class="status-dot status-dot--amber"></i> LIVE FEED // NO SIGNAL</span>
-                <span>CH 001</span>
-              </div>
-
-              <div class="empty-feed__body">
-                <span class="empty-feed__count" aria-hidden="true">00</span>
-                <div>
-                  <h3>{emptyCopy.posts.title}</h3>
-                  <p>{emptyCopy.posts.body}</p>
-                </div>
-              </div>
-
-              <div class="terminal empty-feed__terminal">
-                <span>{emptyCopy.posts.prompt}</span><span class="caret" aria-hidden="true"></span>
-              </div>
-
-              <div class="empty-feed__foot">
-                <span>CHANNEL OPEN</span>
-                <span>AWAITING WEI_ER</span>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section projects" id="projects">
-    <div class="container">
-      <SectionHeading
-        index="02"
-        en="MISSION FILES"
-        title="项目档案"
-        link={href('projects/')}
-        linkLabel="全部任务"
-      />
-
-      {projects.length > 0 ? (
-        <div class="project-grid">
-          {projects.map((project) => <ProjectCard project={project} />)}
+      {posts.length > 0 ? (
+        <div class="post-list">
+          {posts.map((post, index) => <PostRow post={post} index={index} />)}
         </div>
       ) : (
-        <div class="mission-layout">
-          <div class="mission-slots" data-reveal>
-            {[1, 2, 3].map((slot) => (
-              <div class="mission-slot">
-                <span class="mission-slot__top">SLOT {String(slot).padStart(2, '0')}</span>
-                <span class="mission-slot__plus" aria-hidden="true">+</span>
-                <span class="mission-slot__bottom"><span>STATUS</span><strong>OPEN</strong></span>
-              </div>
-            ))}
+        <div class="signal-empty" data-reveal>
+          <div class="signal-empty__left">
+            <p class="label">TRANSMISSION COUNT</p>
+            <p class="signal-empty__number">00</p>
+            <p class="signal-empty__status"><span class="status-dot"></span> CHANNEL OPEN</p>
           </div>
-
-          <div class="mission-note panel" data-reveal style="--delay: 0.12s">
-            <span class="hud-corners" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
-            <div>
-              <p class="eyebrow">MISSION CONTROL / STANDBY</p>
-              <h3>第一份任务档案，<br />还在深空里。</h3>
-              <p>
-                这里会放置实验、工具与独立项目。每个项目都会带上技术栈、状态和可验证的链接。
-              </p>
+          <div class="signal-empty__right">
+            <p class="kicker">FIELD NOTES / 000</p>
+            <h3>第一条记录，<br /><em>还在深空里。</em></h3>
+            <p>
+              这里会存放实验记录、论文笔记和项目复盘。等 wei_er 写下第一篇，它会以时间戳的形式出现在这页纸上。
+            </p>
+            <div class="signal-empty__cats">
+              <span>实验记录</span><span>论文笔记</span><span>项目复盘</span>
             </div>
-            <div class="terminal mission-note__terminal">
-              <span>wei_er@aiuwei:~$ ls /missions --all</span><span class="caret" aria-hidden="true"></span>
-            </div>
+            <a class="link" href={href('writing/')}>打开记录页 ↗</a>
           </div>
         </div>
       )}
     </div>
   </section>
 
-  <section class="section lab" id="lab">
+  <section class="section" id="projects">
+    <div class="container">
+      <SectionHeading
+        index="02"
+        en="MISSION FILES / PROJECTS"
+        title="项目档案"
+        link={href('projects/')}
+        linkLabel="全部任务"
+      />
+
+      {orderedProjects.length > 0 ? (
+        <div class="project-grid">
+          {orderedProjects.map((project, index) => (
+            <ProjectCard project={project} accent={index === 0 ? 'acid' : index === 1 ? 'blue' : 'orange'} />
+          ))}
+        </div>
+      ) : (
+        <div class="project-empty" data-reveal>
+          <div class="project-empty__slots">
+            {[1, 2, 3].map((slot) => (
+              <article class:list={['index-slot', slot === 1 ? 'index-slot--acid' : slot === 2 ? 'index-slot--blue' : 'index-slot--orange']}>
+                <div class="index-slot__top">
+                  <span class="mono">SLOT {String(slot).padStart(2, '0')}</span>
+                  <span class="tag">OPEN</span>
+                </div>
+                <span class="index-slot__number">{String(slot).padStart(2, '0')}</span>
+                <div class="index-slot__lines" aria-hidden="true"><span></span><span></span><span></span></div>
+                <p class="index-slot__note">等待第一份任务档案</p>
+              </article>
+            ))}
+          </div>
+          <div class="project-empty__note">
+            <p class="kicker">MISSION CONTROL</p>
+            <h3>不用虚构项目，<br /><em>空着也成立。</em></h3>
+            <p>
+              项目会以“问题 / 方法 / 结果 / 链接”的格式归档。没有可验证链接的项目，不会出现在这里。
+            </p>
+            <a class="link" href={href('projects/')}>查看项目索引 ↗</a>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="section" id="lab">
     <div class="container">
       <SectionHeading
         index="03"
-        en="EXPERIMENTS"
+        en="PLAYGROUND / LAB"
         title="实验室"
         link={href('lab/')}
         linkLabel="进入 Lab"
       />
 
-      <a class="lab-feature panel" href={href('lab/')} data-reveal>
-        <span class="hud-corners" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
-
-        <div class="lab-feature__visual" aria-hidden="true">
-          <span class="lab-feature__badge">PLAYABLE // 01</span>
-          <svg viewBox="0 0 600 280" role="presentation">
-            <defs>
-              <linearGradient id="loss-fill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#64f4df" stop-opacity="0.18" />
-                <stop offset="1" stop-color="#64f4df" stop-opacity="0" />
-              </linearGradient>
-              <filter id="loss-glow" x="-20%" y="-40%" width="140%" height="180%">
-                <feGaussianBlur stdDeviation="4" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-            <g class="lab-feature__grid">
-              <path d="M40 40H560M40 90H560M40 140H560M40 190H560M40 240H560" />
-              <path d="M40 30V250M140 30V250M240 30V250M340 30V250M440 30V250M540 30V250" />
-            </g>
-            <path
-              class="lab-feature__curve"
-              d="M40 62 C86 124 118 166 164 160 C210 154 228 92 268 100 C310 108 326 198 382 204 C430 209 458 168 500 174 C522 177 544 184 560 190"
-            />
-            <path
-              class="lab-feature__fill"
-              d="M40 62 C86 124 118 166 164 160 C210 154 228 92 268 100 C310 108 326 198 382 204 C430 209 458 168 500 174 C522 177 544 184 560 190 L560 250 L40 250 Z"
-            />
-            <line class="lab-feature__target-line" x1="500" y1="40" x2="500" y2="250" />
-            <circle class="lab-feature__target" cx="500" cy="174" r="12" />
-            <circle class="lab-feature__target-dot" cx="500" cy="174" r="3" />
-            <circle class="lab-feature__ball" cx="164" cy="160" r="7" />
-            <text x="40" y="24" class="lab-feature__label">LOSS</text>
-            <text x="458" y="130" class="lab-feature__label">GLOBAL MIN</text>
-            <text x="132" y="214" class="lab-feature__label">LOCAL MIN</text>
-          </svg>
-          <div class="lab-feature__readout">
-            <span>η 0.082</span>
-            <span>β 0.913</span>
-            <span>LOSS 0.041</span>
+      <div class="game-grid" data-reveal>
+        <a class="game-card game-card--blue" href={`${href('lab/')}#ai-or-human`}>
+          <div class="game-card__top">
+            <span class="tag tag--acid">GAME 01</span>
+            <span class="label">6 题 / 2 分钟</span>
           </div>
-        </div>
+          <h3>HUMAN<br />OR AI?</h3>
+          <p class="game-card__cn">AI 真假判断</p>
+          <p class="game-card__desc">两段文字，猜哪段是 AI 写的。答完给解析，不需要操作技巧。</p>
+          <span class="game-card__cta">开始判断 <span aria-hidden="true">↗</span></span>
+        </a>
 
-        <div class="lab-feature__copy">
-          <p class="eyebrow">EXPERIMENT 001 / OPTIMIZATION</p>
-          <h3>LOSS<br />VALLEY</h3>
-          <p class="lab-feature__cn">收敛协议</p>
-          <p class="lab-feature__desc">
-            调整学习率与动量，让参数球穿过局部最优，收敛到全局最低点。三关，一次关于调参直觉的实验。
-          </p>
-          <div class="lab-feature__meta">
-            <span>3 LEVELS</span>
-            <span>60–90 SEC</span>
-            <span>TOUCH READY</span>
+        <a class="game-card game-card--acid" href={`${href('lab/')}#token-match`}>
+          <div class="game-card__top">
+            <span class="tag">GAME 02</span>
+            <span class="label">60 秒 / 12 张卡</span>
           </div>
-          <span class="lab-feature__cta">启动实验 <span aria-hidden="true">↗</span></span>
-        </div>
-      </a>
+          <h3>ATTENTION<br />MATCH</h3>
+          <p class="game-card__cn">Token 注意力配对</p>
+          <p class="game-card__desc">翻开两张卡，找出语义相关的一对。配对成功会亮起一条注意力线。</p>
+          <span class="game-card__cta">开始配对 <span aria-hidden="true">↗</span></span>
+        </a>
+      </div>
     </div>
   </section>
 
-  <section class="section about" id="about">
+  <section class="section" id="about">
     <div class="container">
       <SectionHeading
         index="04"
-        en="THE OBSERVER"
+        en="THE OBSERVER / ABOUT"
         title="记录者"
         link={href('about/')}
-        linkLabel="关于 wei_er"
+        linkLabel="完整档案"
       />
 
-      <div class="about__grid">
+      <div class="about-home" data-reveal>
         <AvatarFrame compact />
-
-        <div class="about__copy" data-reveal style="--delay: 0.1s">
-          <p class="eyebrow">CALLSIGN / WEI_ER</p>
-          <h2 class="about__title">在 AI 深空里，<br /><em>持续观测的人。</em></h2>
-          <p class="about__body">
-            我是 wei_er，一个关注 LLM、Agent、RAG 与 AI 安全/对齐的独立记录者。AIUWEI
-            是我的 AI 身份，也是这座观测站的名字。这里没有标准答案，只有持续更新的观测记录。
+        <div class="about-home__copy">
+          <p class="kicker">CALLSIGN / WEI_ER</p>
+          <h3>我是 wei_er，<br /><em>在深空里持续观测的人。</em></h3>
+          <p>
+            关注 LLM、Agent、RAG 与 AI 安全/对齐。AIUWEI
+            是我的 AI 身份，也是这座观测站的名字。这里没有标准答案，只有持续更新的记录。
           </p>
-
-          <div class="about__identity">
-            <div><span>CALLSIGN</span><strong>WEI_ER</strong></div>
-            <div><span>AI ALIAS</span><strong>AIUWEI</strong></div>
-            <div><span>FOCUS</span><strong>LLM / AGENT / ALIGNMENT</strong></div>
-            <div><span>STATUS</span><strong><i class="status-dot"></i> OBSERVING</strong></div>
-          </div>
-
-          <div class="about__actions">
-            <a class="btn btn--ghost" href={href('about/')}>
-              <span>完整档案</span>
-              <span class="btn__arrow" aria-hidden="true">↗</span>
-            </a>
-            <a class="about__github" href={site.github} target="_blank" rel="noreferrer">
-              <span>GITHUB</span><span aria-hidden="true">↗</span>
-            </a>
+          <dl class="about-home__facts">
+            <div><dt>记录者</dt><dd>WEI_ER</dd></div>
+            <div><dt>AI 身份</dt><dd>AIUWEI</dd></div>
+            <div><dt>关注</dt><dd>LLM / AGENT / ALIGNMENT</dd></div>
+            <div><dt>状态</dt><dd><i class="status-dot"></i> OBSERVING</dd></div>
+          </dl>
+          <div class="about-home__actions">
+            <a class="btn" href={href('about/')}><span>更多关于我</span><span class="btn__arrow" aria-hidden="true">↗</span></a>
+            <a class="link" href={site.github} target="_blank" rel="noreferrer">GITHUB ↗</a>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="container closing__inner">
+      <p class="kicker">SIGNAL OPEN / 2026</p>
+      <p class="closing__quote">先记录，<br /><em>再命名。</em></p>
+      <div class="closing__links">
+        <a href={href('writing/')}>观测记录 ↗</a>
+        <a href={href('projects/')}>项目档案 ↗</a>
+        <a href={href('lab/')}>实验室 ↗</a>
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
+  .status-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background: var(--blue);
+    vertical-align: 0.08em;
+  }
+
   /* =========================================================
      Hero
      ========================================================= */
 
-  .hero {
+  .home-hero {
     position: relative;
-    display: flex;
-    min-height: 100svh;
-    flex-direction: column;
     overflow: hidden;
-    padding-top: var(--nav-h);
+    padding-top: calc(var(--nav-h) + 18px);
+    padding-bottom: 0;
+    border-bottom: 1px solid var(--ink);
   }
 
-  .hero__grid {
-    position: absolute;
-    inset: 0;
-    opacity: 0.34;
-    background-image:
-      linear-gradient(to right, rgba(100, 244, 223, 0.055) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(100, 244, 223, 0.045) 1px, transparent 1px);
-    background-size: 118px 118px;
-    mask-image: radial-gradient(ellipse 72% 70% at 62% 48%, black 0%, transparent 78%);
-    -webkit-mask-image: radial-gradient(ellipse 72% 70% at 62% 48%, black 0%, transparent 78%);
-    pointer-events: none;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: 4%;
-    right: -12vw;
-    width: 62vw;
-    height: 62vw;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(46, 196, 182, 0.09), transparent 64%);
-    filter: blur(16px);
-    pointer-events: none;
-  }
-
-  .hero__inner {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    flex: 1;
-    grid-template-columns: minmax(0, 1.02fr) minmax(300px, 0.98fr);
-    align-items: center;
-    gap: clamp(16px, 3vw, 40px);
-    padding-block: clamp(44px, 7vh, 90px);
-  }
-
-  .hero__content {
-    position: relative;
-    z-index: 2;
-    max-width: 760px;
-  }
-
-  .hero__eyebrow {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    color: var(--ink-muted);
-    font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.17em;
-    line-height: 1.5;
-    text-transform: uppercase;
-  }
-
-  .hero__eyebrow-line {
-    display: inline-block;
-    width: 34px;
-    height: 1px;
-    background: var(--line-strong);
-  }
-
-  .hero__title {
-    margin-top: clamp(26px, 4vh, 44px);
-    font-weight: 400;
-  }
-
-  .hero__title-main {
-    position: relative;
-    display: block;
-    width: fit-content;
-    color: var(--ink);
-    font-family: var(--font-sans);
-    font-size: clamp(76px, 12.4vw, 178px);
-    font-weight: 400;
-    letter-spacing: 0.012em;
-    line-height: 0.78;
-    text-shadow: 0 0 90px rgba(100, 244, 223, 0.07);
-  }
-
-  .hero__title-main::before,
-  .hero__title-main::after {
-    content: attr(data-text);
-    position: absolute;
-    inset: 0;
-    color: var(--cyan);
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .hero__title-main::before {
-    clip-path: inset(0 0 54% 0);
-  }
-
-  .hero__title-main::after {
-    clip-path: inset(56% 0 0 0);
-    color: var(--blue);
-  }
-
-  .hero__title-main:hover::before {
-    opacity: 0.28;
-    transform: translate(3px, -1px);
-  }
-
-  .hero__title-main:hover::after {
-    opacity: 0.18;
-    transform: translate(-3px, 1px);
-  }
-
-  .hero__title-cn {
-    display: block;
-    margin-top: clamp(24px, 4vh, 38px);
-    color: var(--ink-soft);
-    font-family: var(--font-cn);
-    font-size: clamp(22px, 3vw, 40px);
-    font-weight: 300;
-    letter-spacing: 0.01em;
-    line-height: 1.42;
-  }
-
-  .hero__title-cn em {
-    background: linear-gradient(100deg, var(--ink) 8%, var(--cyan) 65%, var(--blue) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .hero__lede {
-    max-width: 52ch;
-    margin-top: clamp(20px, 3vh, 30px);
-    color: var(--ink-muted);
-    font-family: var(--font-cn);
-    font-size: 14px;
-    letter-spacing: 0.02em;
-    line-height: 1.95;
-  }
-
-  .hero__focus {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-    margin-top: 22px;
-  }
-
-  .hero__focus li {
-    padding: 5px 8px;
-    border: 1px solid var(--line);
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.12em;
-    line-height: 1;
-    text-transform: uppercase;
-  }
-
-  .hero__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: clamp(28px, 4vh, 38px);
-  }
-
-  .hero__visual {
-    position: relative;
-    z-index: 1;
-    width: min(100%, 580px);
-    aspect-ratio: 1;
-    justify-self: end;
-  }
-
-  .hero__ring {
-    position: absolute;
-    inset: -1%;
-    border: 1px dashed rgba(100, 244, 223, 0.15);
-    border-radius: 50%;
-    animation: hero-ring 70s linear infinite;
-    pointer-events: none;
-  }
-
-  .hero__ring--inner {
-    inset: 8%;
-    border-style: solid;
-    border-color: rgba(109, 140, 255, 0.12);
-    border-left-color: rgba(100, 244, 223, 0.24);
-    animation-duration: 46s;
-    animation-direction: reverse;
-  }
-
-  .hero__ring::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: -2px;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--cyan);
-    box-shadow: 0 0 12px rgba(100, 244, 223, 0.8);
-  }
-
-  @keyframes hero-ring {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  .hero__crosshair {
-    position: absolute;
-    inset: 3%;
-    z-index: 3;
-    pointer-events: none;
-  }
-
-  .hero__crosshair-h,
-  .hero__crosshair-v {
-    position: absolute;
-    background: linear-gradient(to right, transparent, rgba(100, 244, 223, 0.12), transparent);
-  }
-
-  .hero__crosshair-h {
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 1px;
-  }
-
-  .hero__crosshair-v {
-    top: 0;
-    left: 50%;
-    width: 1px;
-    height: 100%;
-    background: linear-gradient(to bottom, transparent, rgba(100, 244, 223, 0.1), transparent);
-  }
-
-  .hero__visual .neural-core {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-  }
-
-  .hero__hud {
-    position: absolute;
-    z-index: 4;
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 7px;
-    letter-spacing: 0.16em;
-    line-height: 1.8;
-    text-transform: uppercase;
-    pointer-events: none;
-  }
-
-  .hero__hud span {
-    display: block;
-  }
-
-  .hero__hud strong {
-    display: block;
-    color: var(--cyan);
-    font-size: 8px;
-    font-weight: 400;
-    letter-spacing: 0.12em;
-    opacity: 0.75;
-  }
-
-  .hero__hud--tl {
-    top: 5%;
-    left: 1%;
-  }
-
-  .hero__hud--tr {
-    top: 5%;
-    right: 1%;
-    text-align: right;
-  }
-
-  .hero__hud--bl {
-    bottom: 5%;
-    left: 1%;
-  }
-
-  .hero__hud--br {
-    bottom: 5%;
-    right: 1%;
-    text-align: right;
-  }
-
-  .hero__core-hint {
-    position: absolute;
-    bottom: -2%;
-    left: 50%;
-    z-index: 4;
-    width: max-content;
-    transform: translateX(-50%);
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 7px;
-    letter-spacing: 0.16em;
-    line-height: 1.4;
-    text-align: center;
-    opacity: 0.65;
-    pointer-events: none;
-  }
-
-  .hero__core-hint span {
-    color: var(--cyan);
-  }
-
-  .hero__status {
-    position: relative;
-    z-index: 2;
+  .home-hero__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    padding-top: 14px;
-    padding-bottom: 20px;
-    border-top: 1px solid var(--line);
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 7px;
-    letter-spacing: 0.14em;
-    line-height: 1.4;
-    text-transform: uppercase;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ink);
   }
 
-  .hero__scroll {
-    display: inline-flex;
+  .home-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+    gap: clamp(28px, 5vw, 82px);
     align-items: center;
-    gap: 12px;
-    color: var(--ink-muted);
-    transition: color 0.3s ease;
+    padding-block: clamp(42px, 6vw, 78px);
   }
 
-  .hero__scroll:hover {
-    color: var(--cyan);
-  }
-
-  .hero__scroll-line {
+  .home-hero__copy {
     position: relative;
+    z-index: 2;
+  }
+
+  .home-hero__title {
+    margin-top: 20px;
+  }
+
+  .home-hero__en {
     display: block;
-    width: 54px;
-    height: 1px;
-    background: var(--line);
+    font-family: var(--font-sans);
+    font-size: clamp(82px, 12vw, 178px);
+    font-weight: 600;
+    letter-spacing: -0.085em;
+    line-height: 0.75;
+  }
+
+  .home-hero__cn {
+    display: block;
+    margin-top: clamp(22px, 3vw, 34px);
+    font-family: var(--font-serif);
+    font-size: clamp(30px, 4.2vw, 54px);
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 1.28;
+  }
+
+  .home-hero__cn em {
+    background: linear-gradient(transparent 55%, var(--acid) 55%, var(--acid) 93%, transparent 93%);
+    color: var(--ink);
+    font-style: normal;
+  }
+
+  .home-hero__lede {
+    max-width: 48ch;
+    margin-top: 24px;
+    color: var(--ink-2);
+    font-size: clamp(16px, 1.4vw, 18px);
+    line-height: 1.9;
+  }
+
+  .home-hero__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 20px;
+  }
+
+  .home-hero__tags li {
+    padding: 4px 7px;
+    border: 1px solid var(--ink);
+    background: var(--paper-3);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+  }
+
+  .home-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .home-hero__actions .btn {
+    width: auto;
+  }
+
+  .home-hero__foot {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding-block: 16px;
+    border-top: 1px solid var(--ink);
+  }
+
+  .home-hero__foot > div {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .home-hero__foot strong {
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  /* Collage */
+  .home-collage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr auto;
+    gap: 10px;
+    width: min(100%, 520px);
+    justify-self: end;
+    transform: rotate(1.5deg);
+  }
+
+  .home-collage__card {
+    position: relative;
+    min-height: 156px;
+    border: 1px solid var(--ink);
     overflow: hidden;
   }
 
-  .hero__scroll-line::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 26px;
-    height: 1px;
-    background: var(--cyan);
-    animation: scroll-line 2.4s ease-in-out infinite;
-  }
-
-  @keyframes scroll-line {
-    0% {
-      transform: translateX(-100%);
-    }
-    60%,
-    100% {
-      transform: translateX(220%);
-    }
-  }
-
-  .hero__status-list {
+  .home-collage__card--acid {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 13px;
+    background: var(--acid);
   }
 
-  .hero__status-list span {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
+  .home-collage__card--acid svg {
+    width: 70%;
+    margin-inline: auto;
   }
 
-  .hero__status-list .status-dot {
-    width: 4px;
-    height: 4px;
+  .home-collage__micro {
+    color: var(--ink-2);
+    font-size: 8px;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
   }
 
-  /* Hero entrance is held until the intro releases it. */
-  .js .hero [data-hero] {
+  .home-collage__card--photo {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    background: var(--paper-3);
+  }
+
+  .home-collage__card--photo img {
+    width: 100%;
+    flex: 1;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.08);
+  }
+
+  .home-collage__card--photo figcaption {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 8px 10px;
+    border-top: 1px solid var(--ink);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .home-collage__card--photo figcaption strong {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .home-collage__tape {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    z-index: 2;
+    width: 72px;
+    height: 18px;
+    border: 1px solid rgba(16, 16, 14, 0.16);
+    background: rgba(255, 255, 255, 0.55);
+    transform: translateX(-50%) rotate(-2deg);
+    backdrop-filter: blur(1px);
+  }
+
+  .home-collage__card--blue {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 13px;
+    background: var(--blue);
+    color: #fff;
+  }
+
+  .home-collage__card--blue .label,
+  .home-collage__card--blue .home-collage__micro {
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .home-collage__card--blue p {
+    font-family: var(--font-sans);
+    font-size: clamp(20px, 2.4vw, 34px);
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 1.02;
+  }
+
+  .home-collage__card--paper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 13px;
+    background: var(--paper-3);
+  }
+
+  .home-collage__card--paper ul {
+    margin-block: 12px;
+  }
+
+  .home-collage__card--paper li {
+    padding: 5px 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+
+  .home-collage__barcode {
+    display: flex;
+    grid-column: 1 / -1;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 2px;
+  }
+
+  .home-collage__barcode span {
+    height: 34px;
+    background: repeating-linear-gradient(
+      to right,
+      var(--ink) 0 2px,
+      transparent 2px 5px,
+      var(--ink) 5px 6px,
+      transparent 6px 11px,
+      var(--ink) 11px 14px,
+      transparent 14px 17px
+    );
+  }
+
+  .home-collage__barcode small {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+  }
+
+  /* Hero entrance waits for the cover. */
+  .js .home-hero [data-hero] {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(20px);
   }
 
-  .js body.intro-complete .hero [data-hero],
-  .js body:not(.has-intro) .hero [data-hero] {
-    animation: hero-in 1s var(--ease) var(--delay, 0s) both;
+  .js body.cover-complete .home-hero [data-hero],
+  .js body:not(.has-cover) .home-hero [data-hero] {
+    animation: hero-rise 0.8s var(--ease) var(--delay, 0s) both;
   }
 
-  @keyframes hero-in {
+  @keyframes hero-rise {
     from {
       opacity: 0;
-      transform: translateY(24px);
+      transform: translateY(20px);
     }
     to {
       opacity: 1;
@@ -774,561 +583,335 @@ const projectCount = String(allProjects.length).padStart(2, '0');
   }
 
   /* =========================================================
-     Signals
+     Empty signals
      ========================================================= */
 
-  .signals__grid {
+  .post-list {
+    border-top: 1px solid var(--ink);
+  }
+
+  .signal-empty {
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: clamp(32px, 6vw, 90px);
-    align-items: start;
+    grid-template-columns: minmax(180px, 0.46fr) minmax(0, 1.54fr);
+    gap: clamp(28px, 6vw, 90px);
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
   }
 
-  .signal-manifesto {
-    padding-top: 4px;
-  }
-
-  .signal-manifesto__quote {
-    margin-top: clamp(26px, 4vw, 44px);
-    color: var(--ink);
-    font-family: var(--font-cn);
-    font-size: clamp(38px, 4.6vw, 64px);
-    font-weight: 300;
-    letter-spacing: -0.055em;
-    line-height: 1.08;
-  }
-
-  .signal-manifesto__quote em {
-    color: var(--cyan);
-  }
-
-  .signal-manifesto__body {
-    max-width: 48ch;
-    margin-top: 24px;
-    color: var(--ink-muted);
-    font-family: var(--font-cn);
-    font-size: 13px;
-    line-height: 1.95;
-  }
-
-  .signal-manifesto__list {
-    margin-top: 34px;
-    border-top: 1px solid var(--line);
-  }
-
-  .signal-manifesto__list li {
-    display: grid;
-    grid-template-columns: 32px minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 12px;
-    padding: 13px 0;
-    border-bottom: 1px solid var(--line);
-    color: var(--ink-faint);
-  }
-
-  .signal-manifesto__num {
-    font-family: var(--font-mono);
-    font-size: 8px;
-    color: var(--cyan);
-    opacity: 0.55;
-  }
-
-  .signal-manifesto__item {
+  .signal-empty__left {
     display: flex;
-    align-items: baseline;
-    gap: 12px;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 28px;
+    padding: 24px 24px 24px 0;
+    border-right: 1px solid var(--ink);
   }
 
-  .signal-manifesto__item strong {
-    font-family: var(--font-cn);
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--ink-soft);
+  .signal-empty__number {
+    margin-block: auto;
+    font-family: var(--font-sans);
+    font-size: clamp(110px, 14vw, 190px);
+    font-weight: 600;
+    letter-spacing: -0.1em;
+    line-height: 0.72;
   }
 
-  .signal-manifesto__item em {
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.1em;
-  }
-
-  .signal-manifesto__list li > span:last-child {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    transition: transform 0.3s var(--ease), color 0.3s ease;
-  }
-
-  .signal-manifesto__list li:hover > span:last-child {
-    color: var(--cyan);
-    transform: translateX(3px);
-  }
-
-  .signal-manifesto__note {
-    display: inline-flex;
+  .signal-empty__status {
+    display: flex;
     align-items: center;
     gap: 8px;
-    margin-top: 22px;
-    color: var(--ink-faint);
+    color: var(--muted);
     font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.1em;
+    font-size: 10px;
+    letter-spacing: 0.08em;
   }
 
-  .empty-feed {
-    display: flex;
-    min-height: 430px;
-    flex-direction: column;
-    padding: clamp(22px, 3vw, 34px);
-    overflow: hidden;
+  .signal-empty__status .status-dot {
+    background: var(--orange);
   }
 
-  .empty-feed::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(to right, rgba(100, 244, 223, 0.045) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(100, 244, 223, 0.035) 1px, transparent 1px);
-    background-size: 52px 52px;
-    mask-image: linear-gradient(to bottom, black, transparent 78%);
-    -webkit-mask-image: linear-gradient(to bottom, black, transparent 78%);
-    pointer-events: none;
+  .signal-empty__right {
+    padding: 30px 0 30px 12px;
   }
 
-  .empty-feed__top,
-  .empty-feed__foot {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.1em;
-    line-height: 1.5;
-    text-transform: uppercase;
+  .signal-empty__right h3 {
+    margin-top: 18px;
+    font-family: var(--font-serif);
+    font-size: clamp(36px, 4.8vw, 66px);
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 1.12;
   }
 
-  .empty-feed__top span {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
+  .signal-empty__right h3 em {
+    background: linear-gradient(transparent 55%, var(--acid) 55%, var(--acid) 93%, transparent 93%);
+    font-style: normal;
   }
 
-  .empty-feed__body {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    gap: clamp(18px, 4vw, 42px);
-    margin-block: auto;
-    padding-block: 24px;
-  }
-
-  .empty-feed__count {
-    color: transparent;
-    font-family: var(--font-mono);
-    font-size: clamp(82px, 11vw, 150px);
-    font-weight: 400;
-    letter-spacing: -0.08em;
-    line-height: 0.8;
-    -webkit-text-stroke: 1px rgba(100, 244, 223, 0.28);
-  }
-
-  .empty-feed__body h3 {
-    font-family: var(--font-cn);
-    font-size: clamp(20px, 2.4vw, 28px);
-    font-weight: 400;
-    letter-spacing: -0.03em;
-  }
-
-  .empty-feed__body p {
-    max-width: 34ch;
-    margin-top: 10px;
-    color: var(--ink-muted);
-    font-family: var(--font-cn);
-    font-size: 12px;
+  .signal-empty__right > p:not(.kicker) {
+    max-width: 52ch;
+    margin-top: 18px;
+    color: var(--ink-2);
+    font-size: 16px;
     line-height: 1.9;
   }
 
-  .terminal {
-    color: var(--cyan);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.03em;
-    line-height: 1.6;
-  }
-
-  .empty-feed__terminal {
-    position: relative;
-    z-index: 1;
-    padding: 14px 0;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    opacity: 0.8;
-  }
-
-  .empty-feed__foot {
-    padding-top: 14px;
-  }
-
-  .signal-list__head {
+  .signal-empty__cats {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--line);
-    color: var(--ink-faint);
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 22px;
+  }
+
+  .signal-empty__cats span {
+    padding: 4px 8px;
+    border: 1px solid var(--ink);
+    background: var(--paper-3);
     font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.12em;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+  }
+
+  .signal-empty__right .link {
+    display: inline-block;
+    margin-top: 26px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
   }
 
   /* =========================================================
-     Projects / mission slots
+     Projects empty
      ========================================================= */
 
   .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
     gap: 16px;
   }
 
-  .mission-layout {
+  .project-empty {
     display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.7fr);
     gap: 16px;
   }
 
-  .mission-slots {
+  .project-empty__slots {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 12px;
   }
 
-  .mission-slot {
-    position: relative;
+  .index-slot {
     display: flex;
     min-height: 300px;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 18px;
-    border: 1px dashed var(--line);
-    background:
-      linear-gradient(135deg, rgba(100, 244, 223, 0.03), transparent 48%),
-      rgba(5, 12, 22, 0.28);
-    transition: border-color 0.35s ease, background-color 0.35s ease;
+    padding: 16px;
+    border: 1px solid var(--ink);
+    background: var(--paper-3);
   }
 
-  .mission-slot::before {
-    content: '';
-    position: absolute;
-    inset: 18px;
-    border: 1px solid rgba(100, 244, 223, 0.05);
-    pointer-events: none;
+  .index-slot--acid {
+    border-top: 8px solid var(--acid);
   }
 
-  .mission-slot:hover {
-    border-color: var(--line-strong);
-    background-color: rgba(8, 20, 34, 0.5);
+  .index-slot--blue {
+    border-top: 8px solid var(--blue);
   }
 
-  .mission-slot__top,
-  .mission-slot__bottom {
-    position: relative;
-    z-index: 1;
+  .index-slot--orange {
+    border-top: 8px solid var(--orange);
+  }
+
+  .index-slot__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 7px;
-    letter-spacing: 0.12em;
-    line-height: 1.4;
+    gap: 8px;
+    font-size: 9px;
+    letter-spacing: 0.06em;
   }
 
-  .mission-slot__plus {
-    position: relative;
-    z-index: 1;
-    align-self: center;
-    color: var(--line-strong);
-    font-family: var(--font-mono);
-    font-size: 34px;
-    font-weight: 300;
-    line-height: 1;
-    transition: color 0.35s ease, transform 0.35s var(--ease);
+  .index-slot__top .mono {
+    font-size: 9px;
   }
 
-  .mission-slot:hover .mission-slot__plus {
-    color: var(--cyan);
-    transform: rotate(90deg);
+  .index-slot__number {
+    margin-block: auto;
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 72px;
+    font-weight: 600;
+    letter-spacing: -0.08em;
+    line-height: 0.8;
   }
 
-  .mission-slot__bottom span:first-child {
-    color: var(--ink-faint);
-  }
-
-  .mission-slot__bottom strong {
-    color: var(--ink-muted);
-    font-weight: 400;
-  }
-
-  .mission-note {
+  .index-slot__lines {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 32px;
-    padding: clamp(24px, 3vw, 38px);
+    gap: 8px;
+    margin-bottom: 14px;
   }
 
-  .mission-note h3 {
-    margin-top: 24px;
-    font-family: var(--font-cn);
-    font-size: clamp(26px, 3vw, 38px);
-    font-weight: 300;
-    letter-spacing: -0.04em;
-    line-height: 1.3;
+  .index-slot__lines span {
+    display: block;
+    height: 1px;
+    background: var(--line);
   }
 
-  .mission-note p:not(.eyebrow) {
+  .index-slot__lines span:nth-child(2) {
+    width: 76%;
+  }
+
+  .index-slot__lines span:nth-child(3) {
+    width: 48%;
+  }
+
+  .index-slot__note {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.04em;
+  }
+
+  .project-empty__note {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(24px, 3vw, 36px);
+    border: 1px solid var(--ink);
+    background: var(--acid);
+  }
+
+  .project-empty__note h3 {
+    margin-top: 18px;
+    font-family: var(--font-serif);
+    font-size: clamp(30px, 3.6vw, 46px);
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 1.15;
+  }
+
+  .project-empty__note h3 em {
+    font-style: normal;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 5px;
+  }
+
+  .project-empty__note p:not(.kicker) {
     margin-top: 16px;
-    color: var(--ink-muted);
-    font-family: var(--font-cn);
-    font-size: 12px;
+    color: var(--ink-2);
+    font-size: 14px;
     line-height: 1.9;
   }
 
-  .mission-note__terminal {
-    padding-top: 18px;
-    border-top: 1px solid var(--line);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    opacity: 0.75;
+  .project-empty__note .link {
+    display: inline-block;
+    align-self: flex-start;
+    margin-top: 24px;
+    color: var(--ink);
+    border-color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 10px;
   }
 
   /* =========================================================
-     Lab feature
+     Lab cards
      ========================================================= */
 
-  .lab-feature {
+  .game-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-    overflow: hidden;
-    color: inherit;
-    transition: border-color 0.4s ease, transform 0.5s var(--ease);
-  }
-
-  .lab-feature:hover {
-    border-color: var(--line-strong);
-    transform: translateY(-3px);
-  }
-
-  .lab-feature__visual {
-    position: relative;
-    display: flex;
-    min-height: 380px;
-    flex-direction: column;
-    justify-content: center;
-    padding: clamp(24px, 4vw, 48px);
-    border-right: 1px solid var(--line);
-    background:
-      radial-gradient(70% 70% at 50% 50%, rgba(46, 196, 182, 0.07), transparent 70%),
-      rgba(4, 10, 18, 0.42);
-    overflow: hidden;
-  }
-
-  .lab-feature__visual::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(to right, rgba(100, 244, 223, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(100, 244, 223, 0.03) 1px, transparent 1px);
-    background-size: 48px 48px;
-    mask-image: radial-gradient(ellipse at center, black 20%, transparent 78%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 78%);
-    pointer-events: none;
-  }
-
-  .lab-feature__badge {
-    position: absolute;
-    top: 20px;
-    left: 22px;
-    z-index: 2;
-    padding: 6px 8px;
-    border: 1px solid var(--line);
-    color: var(--cyan);
-    font-family: var(--font-mono);
-    font-size: 7px;
-    letter-spacing: 0.12em;
-    line-height: 1;
-  }
-
-  .lab-feature__visual svg {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    height: auto;
-    overflow: visible;
-  }
-
-  .lab-feature__grid path {
-    stroke: rgba(100, 244, 223, 0.09);
-    stroke-width: 0.7;
-    fill: none;
-  }
-
-  .lab-feature__curve {
-    fill: none;
-    stroke: var(--cyan);
-    stroke-width: 1.3;
-    filter: url(#loss-glow);
-  }
-
-  .lab-feature__fill {
-    fill: url(#loss-fill);
-    opacity: 0.7;
-  }
-
-  .lab-feature__target-line {
-    stroke: rgba(100, 244, 223, 0.24);
-    stroke-width: 1;
-    stroke-dasharray: 3 5;
-  }
-
-  .lab-feature__target {
-    fill: none;
-    stroke: rgba(100, 244, 223, 0.45);
-    stroke-width: 1;
-    animation: target-pulse 2.6s ease-out infinite;
-    transform-origin: 500px 174px;
-  }
-
-  .lab-feature__target-dot {
-    fill: var(--cyan);
-  }
-
-  @keyframes target-pulse {
-    0% {
-      transform: scale(0.8);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(1.8);
-      opacity: 0;
-    }
-  }
-
-  .lab-feature__ball {
-    fill: var(--ink);
-    filter: drop-shadow(0 0 8px rgba(100, 244, 223, 0.8));
-    transition: transform 0.5s var(--ease);
-  }
-
-  .lab-feature:hover .lab-feature__ball {
-    transform: translate(5px, -3px);
-  }
-
-  .lab-feature__label {
-    fill: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 7px;
-    letter-spacing: 0.12em;
-  }
-
-  .lab-feature__readout {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-wrap: wrap;
+    grid-template-columns: 1fr 1fr;
     gap: 16px;
-    margin-top: 18px;
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 7px;
-    letter-spacing: 0.1em;
   }
 
-  .lab-feature__readout span:first-child {
-    color: var(--cyan);
-    opacity: 0.7;
-  }
-
-  .lab-feature__copy {
+  .game-card {
     display: flex;
+    min-height: 390px;
     flex-direction: column;
-    justify-content: center;
-    padding: clamp(28px, 4vw, 48px);
+    padding: clamp(22px, 3vw, 32px);
+    border: 1px solid var(--ink);
+    transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
   }
 
-  .lab-feature__copy h3 {
-    margin-top: 24px;
+  .game-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0 var(--ink);
+  }
+
+  .game-card--blue {
+    background: var(--blue);
+    color: #fff;
+  }
+
+  .game-card--acid {
+    background: var(--acid);
     color: var(--ink);
-    font-family: var(--font-sans);
-    font-size: clamp(42px, 5vw, 72px);
-    font-weight: 400;
-    letter-spacing: -0.03em;
-    line-height: 0.86;
   }
 
-  .lab-feature__cn {
-    margin-top: 14px;
-    color: var(--cyan);
-    font-family: var(--font-cn);
-    font-size: 14px;
-    letter-spacing: 0.18em;
+  .game-card--blue .tag {
+    border-color: var(--ink);
+    background: var(--acid);
+    color: var(--ink);
   }
 
-  .lab-feature__desc {
-    max-width: 32ch;
-    margin-top: 22px;
-    color: var(--ink-muted);
-    font-family: var(--font-cn);
-    font-size: 12px;
-    line-height: 1.9;
+  .game-card--blue .label {
+    color: rgba(255, 255, 255, 0.82);
   }
 
-  .lab-feature__meta {
+  .game-card__top {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
     gap: 12px;
-    margin-top: 24px;
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 7px;
-    letter-spacing: 0.1em;
   }
 
-  .lab-feature__cta {
+  .game-card h3 {
+    margin-top: 34px;
+    font-family: var(--font-sans);
+    font-size: clamp(48px, 6vw, 84px);
+    font-weight: 600;
+    letter-spacing: -0.075em;
+    line-height: 0.82;
+  }
+
+  .game-card__cn {
+    margin-top: 18px;
+    font-family: var(--font-serif);
+    font-size: clamp(20px, 2.2vw, 28px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
+  .game-card__desc {
+    max-width: 34ch;
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .game-card--blue .game-card__desc {
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .game-card__cta {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    margin-top: 28px;
-    color: var(--ink);
-    font-family: var(--font-cn);
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 24px;
+    font-family: var(--font-mono);
     font-size: 12px;
-    letter-spacing: 0.1em;
-    transition: color 0.3s ease;
+    letter-spacing: 0.05em;
   }
 
-  .lab-feature__cta span {
-    color: var(--cyan);
-    transition: transform 0.3s var(--ease);
+  .game-card__cta span {
+    font-size: 18px;
+    transition: transform 0.25s var(--ease);
   }
 
-  .lab-feature:hover .lab-feature__cta {
-    color: var(--cyan);
-  }
-
-  .lab-feature:hover .lab-feature__cta span {
+  .game-card:hover .game-card__cta span {
     transform: translate(3px, -3px);
   }
 
@@ -1336,370 +919,294 @@ const projectCount = String(allProjects.length).padStart(2, '0');
      About
      ========================================================= */
 
-  .about__grid {
+  .about-home {
     display: grid;
-    grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1.28fr);
+    grid-template-columns: minmax(240px, 0.65fr) minmax(0, 1.35fr);
+    gap: clamp(36px, 7vw, 100px);
     align-items: center;
-    gap: clamp(40px, 7vw, 100px);
+    padding-top: 8px;
   }
 
-  .about__grid .avatar-frame {
-    justify-self: center;
+  .about-home__copy h3 {
+    margin-top: 18px;
+    font-family: var(--font-serif);
+    font-size: clamp(34px, 4.4vw, 58px);
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 1.2;
   }
 
-  .about__title {
-    margin-top: 22px;
-    font-family: var(--font-cn);
-    font-size: clamp(28px, 3.8vw, 52px);
-    font-weight: 300;
-    letter-spacing: -0.045em;
-    line-height: 1.28;
+  .about-home__copy h3 em {
+    background: linear-gradient(transparent 56%, var(--acid) 56%, var(--acid) 93%, transparent 93%);
+    font-style: normal;
   }
 
-  .about__title em {
-    background: linear-gradient(100deg, var(--ink), var(--cyan));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .about__body {
+  .about-home__copy > p:not(.kicker) {
     max-width: 54ch;
-    margin-top: 22px;
-    color: var(--ink-muted);
-    font-family: var(--font-cn);
-    font-size: 13px;
+    margin-top: 20px;
+    color: var(--ink-2);
+    font-size: 16px;
     line-height: 1.95;
   }
 
-  .about__identity {
+  .about-home__facts {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr 1fr;
     gap: 0 28px;
-    margin-top: 30px;
-    border-top: 1px solid var(--line);
+    margin-top: 28px;
+    border-top: 1px solid var(--ink);
   }
 
-  .about__identity > div {
+  .about-home__facts > div {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 13px 0;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
     border-bottom: 1px solid var(--line);
   }
 
-  .about__identity span {
-    color: var(--ink-faint);
+  .about-home__facts dt {
+    color: var(--muted);
     font-family: var(--font-mono);
-    font-size: 7px;
-    letter-spacing: 0.13em;
+    font-size: 10px;
+    letter-spacing: 0.06em;
   }
 
-  .about__identity strong {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    color: var(--ink-soft);
+  .about-home__facts dd {
+    margin: 0;
     font-family: var(--font-mono);
-    font-size: 9px;
-    font-weight: 400;
-    letter-spacing: 0.08em;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    text-align: right;
   }
 
-  .about__identity .status-dot {
-    width: 4px;
-    height: 4px;
-  }
-
-  .about__actions {
+  .about-home__actions {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 28px;
+    gap: 22px;
+    margin-top: 26px;
   }
 
-  .about__github {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--ink-muted);
+  .about-home__actions .link {
     font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    transition: color 0.3s ease;
+    font-size: 10px;
   }
 
-  .about__github:hover {
-    color: var(--cyan);
+  /* =========================================================
+     Closing
+     ========================================================= */
+
+  .closing {
+    border-top: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper-3);
+  }
+
+  .closing__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 32px;
+    align-items: end;
+    padding-block: clamp(54px, 8vw, 96px);
+  }
+
+  .closing__quote {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+    font-family: var(--font-serif);
+    font-size: clamp(52px, 8vw, 116px);
+    font-weight: 600;
+    letter-spacing: -0.06em;
+    line-height: 1.02;
+  }
+
+  .closing__quote em {
+    color: var(--acid);
+    font-style: normal;
+  }
+
+  .closing__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+  }
+
+  .closing__links a {
+    color: var(--paper-3);
+    border-bottom: 1px solid var(--acid);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .closing__links a:hover {
+    background: var(--acid);
+    color: var(--ink);
   }
 
   /* =========================================================
      Responsive
      ========================================================= */
 
-  @media (max-width: 1120px) {
-    .hero__inner {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .hero__content {
-      max-width: 660px;
-    }
-
-    .hero__visual {
-      position: absolute;
-      top: 50%;
-      right: -12%;
-      width: min(66vw, 620px);
-      transform: translateY(-50%);
-      opacity: 0.5;
-      pointer-events: none;
-    }
-
-    .hero__hud,
-    .hero__core-hint {
-      display: none;
-    }
-
-    .hero__crosshair {
-      display: none;
-    }
-
-    .hero__ring {
-      opacity: 0.6;
-    }
-
-    .signals__grid {
-      grid-template-columns: 1fr;
-      gap: 38px;
-    }
-
-    .signal-manifesto__body {
-      max-width: 58ch;
-    }
-
-    .mission-layout {
+  @media (max-width: 1000px) {
+    .home-hero__grid {
       grid-template-columns: 1fr;
     }
 
-    .mission-note {
-      min-height: 260px;
-    }
-  }
-
-  @media (max-width: 860px) {
-    .hero__inner {
-      padding-block: 38px;
+    .home-collage {
+      width: min(100%, 620px);
+      justify-self: start;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      transform: none;
     }
 
-    .hero__visual {
-      right: -28%;
-      width: 88vw;
-      opacity: 0.34;
+    .home-collage__card {
+      min-height: 150px;
     }
 
-    .hero__title-main {
-      font-size: clamp(68px, 16vw, 120px);
+    .home-collage__barcode {
+      grid-column: 1 / -1;
     }
 
-    .hero__title-cn {
-      font-size: clamp(21px, 6.6vw, 30px);
+    .project-empty {
+      grid-template-columns: 1fr;
     }
 
-    .hero__status-list {
-      gap: 12px;
-    }
-
-    .hero__status-list span:nth-child(2),
-    .hero__status-list span:nth-child(3) {
-      display: none;
-    }
-
-    .mission-slots {
+    .project-empty__slots {
       gap: 10px;
     }
 
-    .mission-slot {
-      min-height: 220px;
-      padding: 14px;
-    }
-
-    .lab-feature {
+    .game-grid {
       grid-template-columns: 1fr;
     }
 
-    .lab-feature__visual {
-      min-height: 280px;
-      border-right: 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .lab-feature__copy {
-      padding: 28px 24px 32px;
-    }
-
-    .about__grid {
+    .about-home {
       grid-template-columns: 1fr;
-      gap: 36px;
     }
 
-    .about__grid .avatar-frame {
+    .about-home .avatar-card {
       justify-self: start;
     }
-
-    .about__copy {
-      max-width: 660px;
-    }
   }
 
-  @media (max-width: 560px) {
-    .hero {
-      min-height: auto;
-    }
-
-    .hero__inner {
-      min-height: 0;
-      padding-block: 30px 26px;
-    }
-
-    .hero__eyebrow {
-      gap: 8px;
-      font-size: 7px;
-      letter-spacing: 0.12em;
-    }
-
-    .hero__eyebrow-line {
-      width: 18px;
-    }
-
-    .hero__title-main {
-      font-size: clamp(58px, 19vw, 92px);
-    }
-
-    .hero__title-cn {
-      margin-top: 22px;
-      font-size: clamp(20px, 6.4vw, 26px);
-      line-height: 1.5;
-    }
-
-    .hero__lede {
-      font-size: 13px;
-      line-height: 1.9;
-    }
-
-    .hero__actions {
-      margin-top: 26px;
-    }
-
-    .hero__actions .btn {
-      flex: 1 1 100%;
-    }
-
-    .hero__focus li,
-    .hero__actions .btn--ghost {
-      background: rgba(3, 6, 11, 0.68);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-    }
-
-    .hero__visual {
-      top: 63%;
-      right: -48%;
-      width: 120vw;
-      opacity: 0.18;
-    }
-
-    .hero__status {
-      padding-bottom: 16px;
-      font-size: 6px;
-      letter-spacing: 0.1em;
-    }
-
-    .hero__scroll-line {
-      width: 34px;
-    }
-
-    .hero__status-list span:last-child {
+  @media (max-width: 760px) {
+    .home-hero__top .label:last-child {
       display: none;
     }
 
-    .signal-manifesto__quote {
-      font-size: clamp(36px, 11vw, 50px);
+    .home-hero__en {
+      font-size: clamp(74px, 19vw, 120px);
     }
 
-    .empty-feed {
-      min-height: 390px;
+    .home-hero__cn {
+      font-size: clamp(28px, 8vw, 40px);
     }
 
-    .empty-feed__body {
-      align-items: flex-start;
+    .home-hero__lede {
+      font-size: 15px;
+    }
+
+    .home-hero__actions {
       flex-direction: column;
-      gap: 20px;
     }
 
-    .empty-feed__count {
-      font-size: 84px;
+    .home-hero__actions .btn {
+      width: 100%;
     }
 
-    .empty-feed__terminal {
-      font-size: 8px;
+    .home-hero__foot {
+      grid-template-columns: 1fr;
+      gap: 7px;
     }
 
-    .mission-slots {
+    .home-collage {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .home-collage__card--photo {
+      grid-row: auto;
+    }
+
+    .signal-empty {
       grid-template-columns: 1fr;
     }
 
-    .mission-slot {
-      min-height: 130px;
+    .signal-empty__left {
+      padding: 20px 0;
+      border-right: 0;
+      border-bottom: 1px solid var(--ink);
     }
 
-    .mission-slot__plus {
-      font-size: 24px;
+    .signal-empty__right {
+      padding: 24px 0;
     }
 
-    .lab-feature__visual {
-      min-height: 220px;
-      padding: 26px 18px 18px;
+    .project-empty__slots {
+      grid-template-columns: 1fr;
     }
 
-    .lab-feature__badge {
-      top: 14px;
-      left: 16px;
+    .index-slot {
+      min-height: 180px;
     }
 
-    .lab-feature__readout {
+    .index-slot__number {
+      font-size: 58px;
+    }
+
+    .game-card {
+      min-height: 330px;
+    }
+
+    .game-card h3 {
+      font-size: clamp(44px, 12vw, 64px);
+    }
+
+    .about-home__facts {
+      grid-template-columns: 1fr;
+    }
+
+    .about-home__copy h3 {
+      font-size: 28px;
+    }
+
+    .closing__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .home-hero {
+      padding-top: calc(var(--nav-h) + 12px);
+    }
+
+    .home-hero__top {
       gap: 10px;
-      margin-top: 10px;
-      font-size: 6px;
     }
 
-    .lab-feature__copy h3 {
-      font-size: 46px;
+    .home-collage {
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
     }
 
-    .about__identity {
-      grid-template-columns: 1fr;
+    .home-collage__card {
+      min-height: 124px;
     }
 
-    .about__actions {
-      align-items: stretch;
-      flex-direction: column;
+    .home-collage__card--blue p {
+      font-size: 18px;
     }
 
-    .about__github {
-      padding-left: 2px;
+    .home-collage__barcode {
+      display: none;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero__ring,
-    .hero__scroll-line::after,
-    .lab-feature__target {
-      animation: none;
-    }
-
-    .js .hero [data-hero] {
+    .js .home-hero [data-hero] {
       opacity: 1;
       transform: none;
       animation: none;

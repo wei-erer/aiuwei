@@ -4,24 +4,23 @@ import '@fontsource/ibm-plex-mono/latin-400.css';
 import '@fontsource/ibm-plex-mono/latin-500.css';
 import '../styles/global.css';
 
-import Starfield from '../components/Starfield.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
-import IntroOverlay from '../components/IntroOverlay.astro';
+import EntryCover from '../components/EntryCover.astro';
 import { site, href } from '../data/site';
 
 interface Props {
   title?: string;
   description?: string;
-  intro?: boolean;
+  cover?: boolean;
   image?: string;
 }
 
 const {
   title,
   description = site.description,
-  intro = false,
-  image = href('og.png'),
+  cover = false,
+  image = href('og.jpg'),
 } = Astro.props;
 
 const pageTitle = title ? `${title} · ${site.name}` : site.title;
@@ -54,8 +53,8 @@ const jsonLd = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#03060b" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#f2eee4" />
+    <meta name="color-scheme" content="light" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
@@ -79,33 +78,24 @@ const jsonLd = {
     <script is:inline>
       document.documentElement.classList.add('js');
       try {
-        const seen = sessionStorage.getItem('aiuwei:intro-seen') === '1';
-        const forced = new URLSearchParams(location.search).has('intro');
-        const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if ((seen && !forced) || reduced) {
-          document.documentElement.classList.add('intro-skip');
-        }
+        const seen = sessionStorage.getItem('aiuwei:cover-seen') === '1';
+        const forced = new URLSearchParams(location.search).has('cover');
+        if (seen && !forced) document.documentElement.classList.add('cover-skip');
       } catch (_) {
         /* sessionStorage may be unavailable. */
       }
     </script>
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
-  <body id="top" class:list={[{ 'has-intro': intro }]}>
+  <body id="top" class:list={[{ 'has-cover': cover }]}>
     <a class="skip-link" href="#main">跳到主要内容</a>
-    <div class="grain" aria-hidden="true"></div>
-    <div class="scanlines" aria-hidden="true"></div>
-    <div class="vignette" aria-hidden="true"></div>
 
-    <Starfield />
     <SiteHeader />
-
     <main id="main" class="page">
       <slot />
     </main>
-
     <SiteFooter />
-    {intro && <IntroOverlay />}
+    {cover && <EntryCover />}
 
     <script>
       import '../scripts/ui.js';

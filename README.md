@@ -1,10 +1,11 @@
-# AIUWEI · 深空 AI 观测站
+# AIUWEI · Paper Lab
 
-wei_er 的个人 AI 博客。深空控制台视觉、可交互神经核心、开场动画、Markdown 文章系统和一款关于学习率调参的 Canvas 小游戏。
+wei_er 的个人 AI 博客。浅色纸感、编辑部式排版、互动封面、Markdown 文章系统，以及两个中文小游戏。
 
 - 线上地址：`https://wei-erer.github.io/aiuwei/`
+- 源码仓库：`https://github.com/wei-erer/aiuwei`
 - 旧站：`https://wei-erer.github.io/`（未改动）
-- 技术栈：Astro 7 + 原生 Canvas / CSS，静态输出，无后端
+- 技术栈：Astro 7 + 原生 CSS / JS，静态输出，无后端
 - 部署：GitHub Actions → GitHub Pages
 
 ## 本地开发
@@ -25,9 +26,31 @@ pnpm preview
 
 构建产物在 `dist/`。
 
+## 视觉与入口
+
+- **Paper Lab**：暖白纸张、黑色墨线、酸性绿、钴蓝、橙色印章；没有暗色 HUD 和星野。
+- **互动封面**：首次访问先看到封面，点击或按 Enter 进入；同一会话只出现一次。
+- 页脚「重播封面」或访问 `?cover=1` 可以重新播放。
+- 所有正文、按钮、游戏说明都使用高对比度浅色主题，正文至少 16px。
+
+## 两个小游戏
+
+都在 `/lab/`，规则页使用中文，不需要操作技巧：
+
+1. **AI 真假判断**：每题两段文字，选出 AI 写的那段；6 题，答完给解析和评分。
+2. **Token 注意力配对**：翻开两张卡，找出语义相关的一对；60 秒内完成 6 对。
+
+游戏内容位置：
+
+- AI 判断题库：`src/scripts/ai-or-human.js` 的 `ROUNDS`
+- 配对词卡：`src/scripts/token-match.js` 的 `PAIRS`
+- 游戏界面：`src/components/AiOrHuman.astro`、`src/components/TokenMatch.astro`
+
+最佳成绩只存在浏览器 `localStorage`，不上传任何数据。
+
 ## 写第一篇记录
 
-在 `src/content/posts/` 新建 `.md` 文件即可。文件名会成为 URL slug，例如 `agent-memory.md` → `/aiuwei/writing/agent-memory/`。
+在 `src/content/posts/` 新建 `.md` 文件。文件名会成为 URL slug，例如 `agent-memory.md` → `/aiuwei/writing/agent-memory/`。
 
 ```md
 ---
@@ -57,7 +80,7 @@ draft: false
 
 ## 添加项目
 
-项目不是 Markdown，而是一个类型化数组，入口在 `src/content/projects.ts`：
+项目是一个类型化数组，入口在 `src/content/projects.ts`：
 
 ```ts
 export const projects: Project[] = [
@@ -92,28 +115,18 @@ export const site = {
 
 导航、页脚和 SEO 都会从这里读取。联系方式目前只公开 GitHub，没有放邮箱。
 
-## 视觉与交互
-
-- `src/components/IntroOverlay.astro` + `src/scripts/intro.js`：6 秒开场动画。可跳过，同一会话只播一次；`?intro=1` 强制重播。
-- `src/scripts/neural-core.js`：首页和开场动画共用的粒子神经核心，支持鼠标视差和点击脉冲。
-- `src/scripts/starfield.js`：全站固定星野、视差和流星。
-- `src/components/LossValley.astro` + `src/scripts/gradient-game.js`：三关学习率 / 动量调参游戏。进度和最佳成绩存在浏览器 `localStorage`。
-- `src/styles/global.css`：颜色、字体、间距、HUD 控件和动效 token。
-
-游戏规则不是“训练真实模型”，而是一个关于优化直觉的互动实验；说明文案里已经明确这一点。
-
 ## 目录
 
 ```text
 src/
-  components/        页面组件、HUD、神经核心、游戏外壳
+  components/        页面组件、互动封面、两个游戏
   content/posts/     Markdown 文章（目前为空）
   content/projects.ts 项目数组
   data/site.ts       站名、导航、链接、文案
   layouts/           BaseLayout
   lib/content.ts     Markdown 自动导入与文章数据
   pages/             首页、项目、记录、Lab、关于、404、RSS
-  scripts/           星野、核心、开场、游戏、UI
+  scripts/           封面、UI、两个游戏、Lab tab
   styles/            全局设计系统
 public/              头像、OG 图、favicon、robots.txt
 content-templates/   文章与项目模板
@@ -137,5 +150,5 @@ content-templates/   文章与项目模板
 
 - 不包含评论、后台、数据库或访问统计。
 - 不包含第三方字体 CDN；字体随构建打包。
-- 已处理 `prefers-reduced-motion`：会跳过开场并关闭装饰性动效。
-- 内容目前是空的：首页、记录页和项目页使用有意的“等待信号”空状态，没有编造项目或文章。
+- 已处理 `prefers-reduced-motion`。
+- 内容目前是空的：首页、记录页和项目页使用有意的空状态，没有编造项目或文章。

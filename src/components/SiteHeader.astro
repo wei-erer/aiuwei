@@ -17,35 +17,25 @@ function isActive(path) {
 <header class="site-header" data-header>
   <div class="site-header__inner container">
     <a class="brand" href={href('')} aria-label="AIUWEI 首页">
-      <span class="brand__mark" aria-hidden="true">
-        <svg viewBox="0 0 32 32" fill="none">
-          <circle cx="16" cy="16" r="2.6" fill="currentColor" />
-          <ellipse cx="16" cy="16" rx="13" ry="5.4" transform="rotate(-28 16 16)" stroke="currentColor" stroke-width="0.9" opacity="0.7" />
-          <ellipse cx="16" cy="16" rx="13" ry="5.4" transform="rotate(34 16 16)" stroke="currentColor" stroke-width="0.9" opacity="0.35" />
-          <circle cx="27.3" cy="9.4" r="1.3" fill="currentColor" />
-        </svg>
-      </span>
+      <span class="brand__mark" aria-hidden="true">A</span>
       <span class="brand__type">
         <span class="brand__name">AIUWEI</span>
-        <span class="brand__sub">DEEP SPACE OBSERVATORY</span>
+        <span class="brand__sub">AI OBSERVATORY / ISSUE 001</span>
       </span>
     </a>
 
     <nav class="nav" aria-label="主导航">
       {nav.map((item) => (
         <a class:list={['nav__link', { 'is-active': isActive(item.path) }]} href={href(item.path)}>
-          <span class="nav__en">{item.index} / {item.en}</span>
+          <span class="nav__index">{item.index}</span>
           <span class="nav__label">{item.label}</span>
         </a>
       ))}
     </nav>
 
     <div class="header__meta">
-      <span class="header__status">
-        <span class="status-dot"></span>
-        <span>SIGNAL LOCKED</span>
-      </span>
-      <a class="header__icon" href={site.github} target="_blank" rel="noreferrer" aria-label="GitHub（新窗口打开）">
+      <span class="header__issue">ISSUE 001 / {site.established}</span>
+      <a class="header__github" href={site.github} target="_blank" rel="noreferrer" aria-label="GitHub（新窗口打开）">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M12 .7a11.3 11.3 0 0 0-3.57 22.02c.57.1.78-.25.78-.55v-2.13c-3.17.69-3.84-1.34-3.84-1.34-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.75 2.68 1.25 3.33.95.1-.74.4-1.25.73-1.54-2.53-.29-5.2-1.27-5.2-5.63 0-1.24.44-2.26 1.17-3.06-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.14 1.17a10.9 10.9 0 0 1 5.72 0c2.18-1.48 3.14-1.17 3.14-1.17.62 1.57.23 2.73.11 3.02.73.8 1.17 1.82 1.17 3.06 0 4.37-2.68 5.34-5.22 5.62.41.36.78 1.06.78 2.14v3.17c0 .3.21.66.79.55A11.3 11.3 0 0 0 12 .7Z" />
         </svg>
@@ -60,7 +50,7 @@ function isActive(path) {
 
 <div class="mobile-menu" id="mobile-menu" data-mobile-menu aria-hidden="true">
   <div class="mobile-menu__top container">
-    <span class="eyebrow"><span class="status-dot"></span> LINK ESTABLISHED</span>
+    <span class="kicker">AIUWEI / INDEX</span>
     <button class="mobile-menu__close" type="button" data-menu-close aria-label="关闭导航">
       <span></span><span></span>
     </button>
@@ -77,8 +67,8 @@ function isActive(path) {
   </nav>
 
   <div class="mobile-menu__bottom container">
-    <p>AIUWEI OBSERVATORY<br /><span>记录者 / WEI_ER</span></p>
-    <a href={site.github} target="_blank" rel="noreferrer">GITHUB ↗</a>
+    <p class="label">AIUWEI OBSERVATORY<br />记录者 / WEI_ER</p>
+    <a class="link" href={site.github} target="_blank" rel="noreferrer">GITHUB ↗</a>
   </div>
 </div>
 
@@ -90,18 +80,10 @@ function isActive(path) {
     right: 0;
     z-index: var(--z-header);
     height: var(--nav-h);
-    border-bottom: 1px solid transparent;
-    transition:
-      background-color 0.45s ease,
-      border-color 0.45s ease,
-      backdrop-filter 0.45s ease;
-  }
-
-  .site-header.is-scrolled {
-    border-bottom-color: var(--line);
-    background: rgba(3, 6, 11, 0.72);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--ink);
+    background: rgba(242, 238, 228, 0.93);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   .site-header__inner {
@@ -109,33 +91,35 @@ function isActive(path) {
     align-items: center;
     justify-content: space-between;
     height: 100%;
-    gap: 28px;
+    gap: 26px;
   }
 
   .brand {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
+    gap: 11px;
     flex: 0 0 auto;
   }
 
   .brand__mark {
     display: grid;
-    width: 32px;
-    height: 32px;
+    width: 31px;
+    height: 31px;
     place-items: center;
-    color: var(--cyan);
-    filter: drop-shadow(0 0 10px rgba(100, 244, 223, 0.35));
-    transition: transform 0.6s var(--ease);
+    border: 1px solid var(--ink);
+    background: var(--acid);
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1;
+    transition: background-color 0.25s ease, transform 0.25s ease;
   }
 
   .brand:hover .brand__mark {
-    transform: rotate(120deg);
-  }
-
-  .brand__mark svg {
-    width: 100%;
-    height: 100%;
+    background: var(--blue);
+    color: #fff;
+    transform: rotate(-6deg);
   }
 
   .brand__type {
@@ -146,166 +130,137 @@ function isActive(path) {
 
   .brand__name {
     font-family: var(--font-sans);
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
     line-height: 1;
   }
 
   .brand__sub {
-    color: var(--ink-muted);
+    color: var(--muted);
     font-family: var(--font-mono);
-    font-size: 7px;
-    letter-spacing: 0.19em;
+    font-size: 8px;
+    letter-spacing: 0.1em;
     line-height: 1;
+    white-space: nowrap;
   }
 
   .nav {
     display: flex;
     align-items: center;
-    gap: clamp(18px, 2.4vw, 38px);
+    gap: clamp(14px, 2.2vw, 32px);
   }
 
   .nav__link {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: 9px 0;
-    color: var(--ink-muted);
-    transition: color 0.3s ease;
-  }
-
-  .nav__link::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 2px;
-    width: 100%;
-    height: 1px;
-    background: var(--cyan);
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.45s var(--ease);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 7px 0;
+    border-bottom: 2px solid transparent;
+    color: var(--ink-2);
+    transition: border-color 0.25s ease, background-color 0.25s ease;
   }
 
   .nav__link:hover,
   .nav__link.is-active {
-    color: var(--ink);
+    border-color: var(--ink);
+    background: var(--acid);
   }
 
-  .nav__link:hover::after,
-  .nav__link.is-active::after {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
-
-  .nav__en {
-    color: var(--ink-faint);
+  .nav__index {
+    color: var(--faint);
     font-family: var(--font-mono);
-    font-size: 7px;
-    letter-spacing: 0.16em;
+    font-size: 9px;
     line-height: 1;
   }
 
-  .nav__link.is-active .nav__en {
-    color: var(--cyan);
-    opacity: 0.8;
-  }
-
   .nav__label {
-    font-family: var(--font-cn);
-    font-size: 12px;
-    letter-spacing: 0.08em;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
     line-height: 1.2;
   }
 
   .header__meta {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 18px;
     flex: 0 0 auto;
   }
 
-  .header__status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--ink-faint);
+  .header__issue {
+    color: var(--muted);
     font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.14em;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
   }
 
-  .header__icon {
+  .header__github {
     display: grid;
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     place-items: center;
-    color: var(--ink-muted);
-    transition: color 0.3s ease, transform 0.3s var(--ease);
+    border: 1px solid transparent;
+    color: var(--ink);
+    transition: border-color 0.25s ease, background-color 0.25s ease;
   }
 
-  .header__icon:hover {
-    color: var(--cyan);
-    transform: translateY(-2px);
+  .header__github:hover {
+    border-color: var(--ink);
+    background: var(--acid);
   }
 
-  .header__icon svg {
-    width: 17px;
-    height: 17px;
+  .header__github svg {
+    width: 16px;
+    height: 16px;
   }
 
   .menu-toggle {
     display: none;
-    position: relative;
     width: 36px;
     height: 36px;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    gap: 6px;
-    color: var(--ink);
+    gap: 5px;
+    border: 1px solid var(--ink);
+    background: var(--paper-3);
   }
 
   .menu-toggle span:not(.sr-only) {
     display: block;
-    width: 20px;
+    width: 17px;
     height: 1px;
-    background: currentColor;
-    transition: transform 0.35s var(--ease), width 0.35s var(--ease);
+    background: var(--ink);
+    transition: width 0.25s ease;
   }
 
-  .menu-toggle span:nth-of-type(2) {
-    width: 13px;
-    margin-left: 7px;
+  .menu-toggle span:nth-of-type(3) {
+    width: 11px;
+    margin-left: 6px;
   }
 
-  .menu-toggle:hover span:nth-of-type(2) {
-    width: 20px;
+  .menu-toggle:hover span:nth-of-type(3) {
+    width: 17px;
     margin-left: 0;
   }
 
-  /* Mobile menu */
   .mobile-menu {
     position: fixed;
     inset: 0;
-    z-index: var(--z-menu);
+    z-index: 90;
     display: flex;
     flex-direction: column;
-    padding: 20px 0 32px;
-    background:
-      radial-gradient(70% 60% at 80% 10%, rgba(46, 196, 182, 0.12), transparent 70%),
-      rgba(3, 6, 11, 0.97);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    padding: 18px 0 28px;
+    background: var(--paper);
+    background-image: radial-gradient(rgba(16, 16, 14, 0.13) 0.65px, transparent 0.65px);
+    background-size: 16px 16px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-12px);
-    transition:
-      opacity 0.4s var(--ease),
-      visibility 0.4s,
-      transform 0.4s var(--ease);
+    transform: translateY(-8px);
+    transition: opacity 0.3s var(--ease), visibility 0.3s, transform 0.3s var(--ease);
   }
 
   .mobile-menu.is-open {
@@ -319,22 +274,24 @@ function isActive(path) {
     align-items: center;
     justify-content: space-between;
     height: var(--nav-h);
+    border-bottom: 1px solid var(--ink);
   }
 
   .mobile-menu__close {
     position: relative;
-    width: 44px;
-    height: 44px;
-    color: var(--ink);
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--ink);
+    background: var(--acid);
   }
 
   .mobile-menu__close span {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 24px;
+    width: 18px;
     height: 1px;
-    background: currentColor;
+    background: var(--ink);
   }
 
   .mobile-menu__close span:first-child {
@@ -348,89 +305,82 @@ function isActive(path) {
   .mobile-menu__nav {
     display: flex;
     flex-direction: column;
-    margin-top: auto;
-    margin-bottom: auto;
+    margin-block: auto;
   }
 
   .mobile-menu__link {
     display: grid;
     grid-template-columns: 34px 1fr auto;
     align-items: baseline;
-    gap: 12px;
-    padding: 15px 0;
+    gap: 10px;
+    padding: 14px 0;
     border-bottom: 1px solid var(--line);
-    color: var(--ink-muted);
-    transition: color 0.3s ease, padding-left 0.4s var(--ease);
+    color: var(--ink-2);
+    transition: background-color 0.25s ease, padding-left 0.3s var(--ease);
   }
 
   .mobile-menu__link:hover,
   .mobile-menu__link.is-active {
     padding-left: 8px;
+    background: var(--acid);
     color: var(--ink);
   }
 
   .mobile-menu__index {
-    color: var(--cyan);
+    color: var(--faint);
     font-family: var(--font-mono);
     font-size: 9px;
-    opacity: 0.65;
   }
 
   .mobile-menu__label {
-    font-family: var(--font-cn);
-    font-size: clamp(32px, 10vw, 52px);
-    letter-spacing: -0.03em;
-    line-height: 1.1;
+    font-family: var(--font-serif);
+    font-size: clamp(38px, 11vw, 58px);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
   }
 
   .mobile-menu__en {
-    color: var(--ink-faint);
+    color: var(--muted);
     font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.14em;
+    font-size: 9px;
+    letter-spacing: 0.08em;
   }
 
   .mobile-menu__bottom {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 24px;
-    color: var(--ink-muted);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    line-height: 1.8;
+    gap: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--ink);
   }
 
-  .mobile-menu__bottom span {
-    color: var(--ink-faint);
+  .mobile-menu__bottom p {
+    line-height: 1.7;
   }
 
-  .mobile-menu__bottom a {
-    color: var(--cyan);
-  }
-
-  @media (max-width: 1120px) {
+  @media (max-width: 1080px) {
     .nav {
       display: none;
     }
+
     .menu-toggle {
       display: flex;
     }
   }
 
-  @media (max-width: 700px) {
-    .header__status {
+  @media (max-width: 640px) {
+    .header__issue {
       display: none;
     }
-    .header__meta {
-      gap: 10px;
-    }
+
     .brand__sub {
       display: none;
     }
+
     .brand__name {
-      font-size: 16px;
+      font-size: 18px;
     }
   }
 </style>

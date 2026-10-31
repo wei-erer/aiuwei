@@ -1,6 +1,6 @@
 ---
 import { href } from '../data/site';
-import { formatDate } from '../lib/content';
+import { formatDate, readingTime } from '../lib/content';
 
 interface Props {
   post: any;
@@ -8,21 +8,18 @@ interface Props {
 }
 
 const { post, index = 0 } = Astro.props;
-const date = formatDate(post.data.pubDate);
-
 const number = String(index + 1).padStart(2, '0');
+const date = formatDate(post.data.pubDate);
+const read = readingTime(post.raw ?? '');
 ---
 
 <a class="post-row" href={href(`writing/${post.slug}/`)}>
   <span class="post-row__index">{number}</span>
-  <span class="post-row__main">
+  <span class="post-row__body">
     <span class="post-row__meta">
       <time datetime={post.data.pubDate.toISOString()}>{date}</time>
-      {post.data.tags.length > 0 && (
-        <span class="post-row__tags">
-          {post.data.tags.slice(0, 2).map((tag) => <span>{tag}</span>)}
-        </span>
-      )}
+      <span>{read}</span>
+      {post.data.tags.slice(0, 3).map((tag) => <span>{tag}</span>)}
     </span>
     <span class="post-row__title">{post.data.title}</span>
     {post.data.description && <span class="post-row__desc">{post.data.description}</span>}
@@ -32,29 +29,32 @@ const number = String(index + 1).padStart(2, '0');
 
 <style>
   .post-row {
-    position: relative;
     display: grid;
-    grid-template-columns: 38px minmax(0, 1fr) 24px;
-    gap: 18px;
+    grid-template-columns: 44px minmax(0, 1fr) 28px;
+    gap: 16px;
     align-items: start;
-    padding: 24px 0;
-    border-bottom: 1px solid var(--line);
-    transition: padding-left 0.45s var(--ease), border-color 0.3s ease;
+    padding: 22px 14px;
+    border-bottom: 1px solid var(--ink);
+    transition: background-color 0.25s ease, padding-left 0.3s var(--ease);
+  }
+
+  .post-row:first-child {
+    border-top: 1px solid var(--ink);
   }
 
   .post-row:hover {
-    padding-left: 8px;
-    border-color: var(--line-strong);
+    padding-left: 22px;
+    background: var(--acid);
   }
 
   .post-row__index {
-    color: var(--cyan);
+    color: var(--faint);
     font-family: var(--font-mono);
-    font-size: 9px;
-    opacity: 0.55;
+    font-size: 11px;
+    line-height: 1.8;
   }
 
-  .post-row__main {
+  .post-row__body {
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -65,64 +65,60 @@ const number = String(index + 1).padStart(2, '0');
     align-items: center;
     flex-wrap: wrap;
     gap: 12px;
-    color: var(--ink-faint);
+    color: var(--muted);
     font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.1em;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
   }
 
-  .post-row__tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .post-row__tags span {
-    color: var(--cyan);
-    opacity: 0.6;
+  .post-row__meta span:not(:first-child):not(:nth-child(2)) {
+    padding: 1px 5px;
+    border: 1px solid var(--ink);
+    background: var(--paper-3);
+    color: var(--ink);
+    font-size: 9px;
   }
 
   .post-row__title {
     color: var(--ink);
-    font-family: var(--font-cn);
-    font-size: clamp(18px, 2vw, 24px);
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1.4;
-    transition: color 0.3s ease;
-  }
-
-  .post-row:hover .post-row__title {
-    color: var(--cyan);
+    font-family: var(--font-serif);
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.25;
   }
 
   .post-row__desc {
     max-width: 62ch;
-    color: var(--ink-muted);
-    font-family: var(--font-cn);
-    font-size: 13px;
+    color: var(--muted);
+    font-size: 14px;
     line-height: 1.8;
   }
 
   .post-row__arrow {
-    color: var(--ink-faint);
-    font-family: var(--font-mono);
-    font-size: 13px;
-    transition: color 0.3s ease, transform 0.3s var(--ease);
+    font-size: 20px;
+    line-height: 1.4;
+    transition: transform 0.25s var(--ease);
   }
 
   .post-row:hover .post-row__arrow {
-    color: var(--cyan);
     transform: translate(3px, -3px);
   }
 
   @media (max-width: 560px) {
     .post-row {
-      grid-template-columns: 24px minmax(0, 1fr);
-      gap: 12px;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 10px;
+      padding-inline: 4px;
     }
+
     .post-row__arrow {
       display: none;
+    }
+
+    .post-row__title {
+      font-size: 25px;
     }
   }
 </style>
