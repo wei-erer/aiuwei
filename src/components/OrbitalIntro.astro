@@ -2,6 +2,7 @@
   <canvas class="orbital-intro__canvas" data-intro-canvas aria-hidden="true"></canvas>
   <div class="orbital-intro__vignette" aria-hidden="true"></div>
   <div class="orbital-intro__grain" aria-hidden="true"></div>
+  <div class="orbital-intro__flash" data-intro-flash aria-hidden="true"></div>
 
   <div class="orbital-intro__top">
     <span class="label">DEEP SPACE OBSERVATORY / 2026</span>
@@ -28,7 +29,7 @@
 </div>
 
 <script>
-  import '../scripts/orbital-intro.js';
+  import '../scripts/orbital-intro-3d.js';
 </script>
 
 <style>
@@ -51,9 +52,21 @@
     display: none;
   }
 
+  .orbital-intro--fallback {
+    background:
+      radial-gradient(ellipse 58% 70% at 74% 46%, rgba(20, 94, 140, 0.5), transparent 70%),
+      radial-gradient(ellipse 50% 50% at 80% 90%, rgba(4, 37, 58, 0.9), transparent 72%),
+      #02050a;
+  }
+
+  .orbital-intro--fallback .orbital-intro__canvas {
+    display: none;
+  }
+
   .orbital-intro__canvas,
   .orbital-intro__vignette,
-  .orbital-intro__grain {
+  .orbital-intro__grain,
+  .orbital-intro__flash {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -62,6 +75,13 @@
 
   .orbital-intro__canvas {
     z-index: 0;
+  }
+
+  .orbital-intro__flash {
+    z-index: 8;
+    pointer-events: none;
+    opacity: 0;
+    background: #eef9ff;
   }
 
   .orbital-intro__vignette {
